@@ -1,7 +1,24 @@
 @IsTest
 public without sharing class TH_WorkTrigger_Test {
+        
     /**
-     * Before each insert a reccord in agf__ADM_Work__c.
+     * Before each method Test and after the setup we need to find a reccord to test in Test DataBase.
+     * method to call in each test to load a reccord.
+     * TO USE ONLY IN THIS CLASS!
+     */
+    static agf__ADM_Work__c getWorkReccordHonney(){
+        agf__ADM_Work__c workReccordHoney =[ SELECT Id, 
+                                                    agf__Created_On_Date__c, 
+                                                    Date_Status_New_Starts__c , 
+                                                    agf__Status__c, 
+                                                    Date_Status_New_Ends__c
+                                             FROM agf__ADM_Work__c
+                                             WHERE agf__Subject__c ='honey'
+                                            ];
+        return workReccordHoney;
+    }
+    /**
+     * Before each method Test insert a reccord in agf__ADM_Work__c.
      * setup method
      */
     @testSetup
@@ -44,26 +61,51 @@ public without sharing class TH_WorkTrigger_Test {
         insert workReccordsList;        
     }
     /**
-     * TODO
      * Test if Date_Status_New_Starts__c is filled with date/time now when I insert a reccord in agf__ADM_Work__c.
      */
     @isTest
     static void checkIfWorkDateStatusNewStartFilledBeforeInsert() {
         //get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoney =[ SELECT Id, agf__Created_On_Date__c, Date_Status_New_Starts__c 
-                                                FROM agf__ADM_Work__c
-                                                WHERE agf__Subject__c ='honey'
-                                            ];
+        agf__ADM_Work__c workReccordHoney = getWorkReccordHonney();
+        // convert DateTime into Date cause agf__Created_On_Date__c is a formula and registers time 00:00:00. ( not on real time !)
+        DateTime expectedDateTime = workReccordHoney.agf__Created_On_Date__c;
+        DateTime dateTimeOFWorkReccord = workReccordHoney.Date_Status_New_Starts__c;
+        Date expectedDate = Date.newInstance(expectedDateTime.year(), expectedDateTime.month(), expectedDateTime.day());
+        Date dateTotest = Date.newInstance(dateTimeOFWorkReccord.year(), dateTimeOFWorkReccord.month(), dateTimeOFWorkReccord.day());
         //check if agf__Created_On_Date__c equals Date_Status_New_Starts__c
-        System.assertEquals(agf__ADM_Work__c.agf__Created_On_Date__c, 
-                                agf__ADM_Work__c.Date_Status_New_Starts__c, 
-                                'On the sObject Work the field Date Status New Start has not been correctly filled by the Trigger.');
-
+        System.assertEquals(expectedDate, 
+                            dateTotest, 
+                            'On the sObject Work the field Date Status New Starts has not been correctly filled by the Trigger.'
+                            );
     }
 
      /**
-      * TODO
-     * Test if Date_Status_New_Ends__c is filled with date/time now when I update the field agf__Status__c on agf__ADM_Work__c reccord.
+     * TODO
+     * Test if Date_Status_New_Ends__c is filled with date/time now when the field agf__Status__c is updated on agf__ADM_Work__c reccord.
      */
+    @isTest
+    static void checkIfWorkDateStatusNewEndsFilledAfterUpdate() {
+        // get reccord of agf__ADM_Work__c
+        agf__ADM_Work__c workReccordHoney = getWorkReccordHonney();
+        // Set new value in field agf__Status__c
+        workReccordHoney.agf__Status__c = 'To Fix';
+        // update field agf__Status__c on reccord workReccordHoney
+        test.startTest();
+		update 	workReccordHoney;
+        test.stopTest();
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordHonney();
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm:ss');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_New_Ends__c.format('yyyy/MM/dd hh:mm:ss');
+        // check if dateTimeNow equals Date_Status_New_Ends__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status New Ends has not been correctly filled by the Trigger.'
+                            );
+
+    }
 
 }
