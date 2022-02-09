@@ -80,7 +80,7 @@ public without sharing class TH_WorkTrigger_Test {
     }
 
      /**
-     * TODO
+     *
      * Test if Date_Status_New_Ends__c is filled with date/time now when the field agf__Status__c is updated on agf__ADM_Work__c reccord.
      */
     @isTest
@@ -98,8 +98,11 @@ public without sharing class TH_WorkTrigger_Test {
         DateTime dateTimeNow = DateTime.now();
         // Make sure the two DatTime are the same
         // convert DateTime into String in a specified format to ensure they are equal.
-        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm:ss');
-        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_New_Ends__c.format('yyyy/MM/dd hh:mm:ss');
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_New_Ends__c.format('yyyy/MM/dd hh:mm');
+        System.System.debug('String Date of now - '+expectedDate);
+        System.System.debug('String Date of reccord - '+dateTimeOFWorkReccord);
+        System.System.debug('Reccord - '+workReccordHoneyAfterUpdate);
         // check if dateTimeNow equals Date_Status_New_Ends__c
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
