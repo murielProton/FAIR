@@ -1,3 +1,12 @@
+/** *******************************************************************************
+ * @Author : Muriel Proton
+ * @Company : Modis
+ * This class tests the folowing classes : TH_WorkTrigger, I_TriggerHandler, WorkTrigger.Trigger
+ * This class is used in class : 
+ * @Interface : 
+ * @Setup method : getWorkReccordHonney(), setup()
+ * 
+ ******************************************************************************* */
 @IsTest
 public without sharing class TH_WorkTrigger_Test {
         
@@ -5,6 +14,10 @@ public without sharing class TH_WorkTrigger_Test {
      * Before each method Test and after the setup we need to find a reccord to test in Test DataBase.
      * method to call in each test to load a reccord.
      * TO USE ONLY IN THIS CLASS!
+     * Called by :  checkIfWorkDateStatusNewStartFilledBeforeInsert()
+     *              checkIfWorkDateStatusNewEndsFilledAfterUpdate()
+     * @Parametters : None
+     * @Returns : agf__ADM_Work__c
      */
     static agf__ADM_Work__c getWorkReccordHonney(){
         agf__ADM_Work__c workReccordHoney =[ SELECT Id, 
@@ -20,6 +33,10 @@ public without sharing class TH_WorkTrigger_Test {
     /**
      * Before each method Test insert a reccord in agf__ADM_Work__c.
      * setup method
+     * Called before : All method of this class
+     * NB : if you create a methode that doesn't need this setup, you must implement this methode in an other class.
+     * @Parametters : None
+     * @Returns : VOID
      */
     @testSetup
     static void setup() {
@@ -61,17 +78,22 @@ public without sharing class TH_WorkTrigger_Test {
         insert workReccordsList;        
     }
     /**
-     * Test if Date_Status_New_Starts__c is filled with date/time now when I insert a reccord in agf__ADM_Work__c.
+     * Tests if Date_Status_New_Starts__c is filled with date/time now when I insert a reccord in agf__ADM_Work__c.
+     * Called by :
+     * @Parametters : None
+     * @Returns : VOID
      */
     @isTest
     static void checkIfWorkDateStatusNewStartFilledBeforeInsert() {
         //get reccord of agf__ADM_Work__c
         agf__ADM_Work__c workReccordHoney = getWorkReccordHonney();
+        test.startTest();
         // convert DateTime into Date cause agf__Created_On_Date__c is a formula and registers time 00:00:00. ( not on real time !)
         DateTime expectedDateTime = workReccordHoney.agf__Created_On_Date__c;
         DateTime dateTimeOFWorkReccord = workReccordHoney.Date_Status_New_Starts__c;
         Date expectedDate = Date.newInstance(expectedDateTime.year(), expectedDateTime.month(), expectedDateTime.day());
         Date dateTotest = Date.newInstance(dateTimeOFWorkReccord.year(), dateTimeOFWorkReccord.month(), dateTimeOFWorkReccord.day());
+        test.stopTest();
         //check if agf__Created_On_Date__c equals Date_Status_New_Starts__c
         System.assertEquals(expectedDate, 
                             dateTotest, 
@@ -81,7 +103,7 @@ public without sharing class TH_WorkTrigger_Test {
 
      /**
      *
-     * Test if Date_Status_New_Ends__c is filled with date/time now when the field agf__Status__c is updated on agf__ADM_Work__c reccord.
+     * Tests if Date_Status_New_Ends__c is filled with date/time now when the field agf__Status__c is updated on agf__ADM_Work__c reccord.
      */
     @isTest
     static void checkIfWorkDateStatusNewEndsFilledAfterUpdate() {
@@ -100,9 +122,6 @@ public without sharing class TH_WorkTrigger_Test {
         // convert DateTime into String in a specified format to ensure they are equal.
         String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
         String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_New_Ends__c.format('yyyy/MM/dd hh:mm');
-        System.System.debug('String Date of now - '+expectedDate);
-        System.System.debug('String Date of reccord - '+dateTimeOFWorkReccord);
-        System.System.debug('Reccord - '+workReccordHoneyAfterUpdate);
         // check if dateTimeNow equals Date_Status_New_Ends__c
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
