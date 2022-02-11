@@ -1,3 +1,14 @@
+/** *******************************************************************************
+ * @Author : Kevin O'Hara
+ * @Company : 
+ * Adapted and commented by Muriel Proton from Modis
+ * This class tests the folowing classe(s) : I_TriggerHandler
+ * This class is used in class : 
+ * @Interface : I_TriggerHandler
+ * @Setup method : from line 14 to 25 
+ * @Setup class and inner class : TestHandler
+ * 
+ ******************************************************************************* */
 @isTest
 private class I_TriggerHandler_Test {
 
@@ -13,12 +24,19 @@ private class I_TriggerHandler_Test {
     handler.isTriggerExecuting = true;
   }
 
-  /***************************************
+  /*********************************************************************************************************
    * unit tests
-   ***************************************/
+   ********************************************************************************************************/
 
-  // contexts tests
+  //The folowing methodes check the context.---------------------------------------------------------------
 
+  // 
+  /**
+  * This method cheks that the last method called was beforeInsertMode(), when beforeInsertMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testBeforeInsert() {
     beforeInsertMode();
@@ -26,6 +44,12 @@ private class I_TriggerHandler_Test {
     System.assertEquals('beforeInsert', lastMethodCalled, 'last method should be beforeInsert');
   }
 
+  /**
+  * This method cheks that the last method called was beforeUpdate(), when beforeUpdateMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testBeforeUpdate() {
     beforeUpdateMode();
@@ -33,6 +57,12 @@ private class I_TriggerHandler_Test {
     System.assertEquals('beforeUpdate', lastMethodCalled, 'last method should be beforeUpdate');
   }
 
+  /**
+  * This method cheks that the last method called was beforeDelete(), when beforeDeleteMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testBeforeDelete() {
     beforeDeleteMode();
@@ -40,6 +70,12 @@ private class I_TriggerHandler_Test {
     System.assertEquals('beforeDelete', lastMethodCalled, 'last method should be beforeDelete');
   }
 
+  /**
+  * This method cheks that the last method called was afterInsert(), when afterInsertMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testAfterInsert() {
     afterInsertMode();
@@ -47,6 +83,12 @@ private class I_TriggerHandler_Test {
     System.assertEquals('afterInsert', lastMethodCalled, 'last method should be afterInsert');
   }
 
+  /**
+  * This method cheks that the last method called was afterUpdate(), when afterUpdateMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testAfterUpdate() {
     afterUpdateMode();
@@ -54,6 +96,12 @@ private class I_TriggerHandler_Test {
     System.assertEquals('afterUpdate', lastMethodCalled, 'last method should be afterUpdate');
   }
 
+  /**
+  * This method cheks that the last method called was afterDelete(), when afterDeleteMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testAfterDelete() {
     afterDeleteMode();
@@ -61,31 +109,49 @@ private class I_TriggerHandler_Test {
     System.assertEquals('afterDelete', lastMethodCalled, 'last method should be afterDelete');
   }
 
+  /**
+  * This method cheks that the last method called was afterUndelete(), when afterUndeleteMode() is called.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testAfterUndelete() {
     afterUndeleteMode();
     handler.run();
     System.assertEquals('afterUndelete', lastMethodCalled, 'last method should be afterUndelete');
   }
-
+  /**
+  * This method cheks if the exception was properly thrown.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest 
   static void testNonTriggerContext() {
     try{
       handler.run();
+      // check if the exception was thrown.
       System.assert(false, 'the handler ran but should have thrown');
     } catch(I_TriggerHandler.I_TriggerHandlerException te) {
+      //check for the right message.
       System.assertEquals(TRIGGER_CONTEXT_ERROR, te.getMessage(), 'the exception message should match');
     } catch(Exception e) {
+      // if it was not the expected message please throw an exception.
       System.assert(false, 'the exception thrown was not expected: ' + e.getTypeName() + ': ' + e.getMessage());
     }
   }
 
-  // test bypass api
-
+  // The folowing methodes test bypass api---------------------------------------------------------------------------
+  /**
+  * 
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testBypassAPI() {
     afterUpdateMode();
-
     // test a bypass and run handler
     I_TriggerHandler.bypass('TestHandler');
     handler.run();
@@ -115,8 +181,13 @@ private class I_TriggerHandler_Test {
     resetTest();
   }
 
-  // instance method tests
-
+  // instance method tests-----------------------------------------------------------------------------------
+  /**
+  * Tests if LoopCount is working correctly.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testLoopCount() {
     beforeInsertMode();
@@ -158,7 +229,12 @@ private class I_TriggerHandler_Test {
       System.assert(false, 'the exception thrown was not expected: ' + e.getTypeName() + ': ' + e.getMessage());
     }
   }
-
+  /**
+  * Tests if LoopCount is working correctly.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest
   static void testLoopCountClass() {
     I_TriggerHandler.LoopCount lc = new I_TriggerHandler.LoopCount();
@@ -181,16 +257,21 @@ private class I_TriggerHandler_Test {
     System.assertEquals(true, lc.exceeded(), 'should not be exceeded with count of 6');
   }
 
-  // private method tests
-
+  /**
+  * Tests if getHandlerName() returns the right name.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
   @isTest 
   static void testGetHandlerName() {
     System.assertEquals('TestHandler', handler.getHandlerName(), 'handler name should match class name');
   }
 
-  // test virtual methods
+  // This test methode fails the sfdx command : deploy this source to org.
+  // Abract classes cannot be constructed:I_TriggerHandler(195:26)
   
- /* @isTest
+ /*@isTest
   static void testVirtualMethods() {
     I_TriggerHandler h = new I_TriggerHandler();
     h.beforeInsert();
@@ -202,46 +283,89 @@ private class I_TriggerHandler_Test {
     h.afterUndelete();
   }*/
 
-  /***************************************
-   * testing utilities
-   ***************************************/
-
+  /*********************************************************************************************************
+   * testing utilities - To use only within this class
+   *********************************************************************************************************/
+  /**
+  * ressets the variable lastMethodCalled.
+  * In this class called by : testLoopCount(), testBypassAPI(),
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void resetTest() {
     lastMethodCalled = null;
   }
 
-  // modes for testing
-
+  /**
+  * ensures the test to be in context before insert.
+  * In this class called by : testBeforeInsert()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void beforeInsertMode() {
     handler.setTriggerContext('before insert', true);
   }
-
+  /**
+  * ensures the test to be in context before update.
+  * In this class called by : testBeforeUpdate()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void beforeUpdateMode() {
     handler.setTriggerContext('before update', true);
   }
-
+  /**
+  * ensures the test to be in context before delete.
+  * In this class called by : testBeforeDelete()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void beforeDeleteMode() {
     handler.setTriggerContext('before delete', true);
   }
-
+  /**
+  * ensures the test to be in context after insert.
+  * In this class called by : testAfterInsert()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void afterInsertMode() {
     handler.setTriggerContext('after insert', true);
   }
-
+  /**
+  * ensures the test to be in context after update.
+  * In this class called by : testAfterUpdate()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void afterUpdateMode() {
     handler.setTriggerContext('after update', true);
   }
-
+  /**
+  * ensures the test to be in context after delete.
+  * In this class called by : testAfterDelete()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void afterDeleteMode() {
     handler.setTriggerContext('after delete', true);
   }
-
+  /**
+  * ensures the test to be in context after undelete.
+  * In this class called by : testAfterUndelete()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private static void afterUndeleteMode() {
     handler.setTriggerContext('after undelete', true);
   }
 
-  // test implementation of the I_TriggerHandler
-
+  /**
+  * test implementation of the I_TriggerHandler, this is a setup methode for the tests.
+  * In this class called by : testAfterUndelete()
+  * @Parametters : None
+  * @Returns : VOID
+  */
   private class TestHandler extends I_TriggerHandler {
 
     public override void beforeInsert() {

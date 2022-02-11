@@ -1,11 +1,16 @@
 /** *******************************************************************************
- * @Author : 
+ * @Author : Kevin O'Hara
  * @Company : 
+ * Adapted and commented by Muriel Proton from Modis
  * This interface holds the code witch set how a Trigger will act.
  * This class is used by all triggers
+ * @Overiden by : TH_WorkTrigger
  * @Interface : 
- * @Constructor : 
- * @Parametters : 
+ * @Constructor : I_TriggerHandler()
+ * @Parametters :
+ * @Inner class : LoopCount
+ * @Exception class : I_TriggerHandlerException (native interface Exception)
+ * Setup for test class : TriggerContext
  ******************************************************************************* */
 public abstract class I_TriggerHandler{
 
@@ -26,8 +31,13 @@ public abstract class I_TriggerHandler{
       loopCountMap = new Map<String, LoopCount>();
       bypassedHandlers = new Set<String>();
     }
-    
-    // constructor
+
+    /**
+     * This is the CONSTRUCTOR method.
+     * Called by : 
+     * @Parametters : None
+     * @Returns : the context of the trigger.
+     */
     public I_TriggerHandler() {
       this.setTriggerContext();
     }
@@ -36,7 +46,12 @@ public abstract class I_TriggerHandler{
      * public instance methods
      ***************************************/
   
-    // main method that will be called during execution
+    /**
+     * This is the main method.
+     * Called by : WorkTrigger
+     * @Parametters : None
+     * @Returns : the context of the trigger.
+     */
     public void run() {
   
       if(!validateRun()) {
@@ -70,7 +85,12 @@ public abstract class I_TriggerHandler{
         }
       }
     }
-  
+    /**
+     * This method sets the maximum of times a Trigger can enter a loop.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Void
+     */
     public void setMaxLoopCount(Integer max) {
       String handlerName = getHandlerName();
       if(!I_TriggerHandler.loopCountMap.containsKey(handlerName)) {
@@ -79,7 +99,12 @@ public abstract class I_TriggerHandler{
         I_TriggerHandler.loopCountMap.get(handlerName).setMax(max);
       }
     }
-  
+        /**
+     * This method resets the maximum of times a Trigger can enter a loop.
+     * Called by : 
+     * @Parametters : None
+     * @Returns : Void
+     */
     public void clearMaxLoopCount() {
       this.setMaxLoopCount(-1);
     }
@@ -87,32 +112,63 @@ public abstract class I_TriggerHandler{
     /***************************************
      * public static methods
      ***************************************/
-  
+    //bypass methods
+        /**
+     * This method .
+     * Called by : 
+     * @Parametters : None
+     * @Returns : Void
+     */
     public static void bypass(String handlerName) {
       I_TriggerHandler.bypassedHandlers.add(handlerName);
     }
-  
+      /**
+     * This method .
+     * Called by : 
+     * @Parametters : None
+     * @Returns : Void
+     */
     public static void clearBypass(String handlerName) {
       I_TriggerHandler.bypassedHandlers.remove(handlerName);
     }
-  
+      /**
+     * This method .
+     * Called by : 
+     * @Parametters : None
+     * @Returns : Void
+     */
     public static Boolean isBypassed(String handlerName) {
       return I_TriggerHandler.bypassedHandlers.contains(handlerName);
     }
-  
+    /**
+     * This method .
+     * Called by : 
+     * @Parametters : None
+     * @Returns : Void
+     */
     public static void clearAllBypasses() {
       I_TriggerHandler.bypassedHandlers.clear();
     }
   
     /***************************************
-     * private instancemethods
+     * TESTS METHODS ! private instancemethods
      ***************************************/
-  
+    /**
+     * This method setup the test methode. It sets trigger context.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Void
+     */
     @TestVisible
     private void setTriggerContext() {
       this.setTriggerContext(null, false);
     }
-  
+      /**
+     * This method setup trigger context of the test methode. It sets trigger context.
+     * Called by : 
+     * @Parametters : String, Boolean
+     * @Returns : Void
+     */
     @TestVisible
     private void setTriggerContext(String ctx, Boolean testMode) {
       if(!Trigger.isExecuting && !testMode) {
@@ -146,7 +202,12 @@ public abstract class I_TriggerHandler{
       }
     }
   
-    // increment the loop count
+    /**
+     * This method increments the loop count.
+     * Called by : 
+     * @Parametters : String, Boolean
+     * @Returns : Void
+     */
     @TestVisible
     private void addToLoopCount() {
       String handlerName = getHandlerName();
@@ -159,7 +220,12 @@ public abstract class I_TriggerHandler{
       }
     }
   
-    // make sure this trigger should continue to run
+    /**
+     * This method makes sure this trigger should continue to run.
+     * Called by : 
+     * @Parametters :
+     * @Returns : Void
+     */
     @TestVisible
     private Boolean validateRun() {
       if(!this.isTriggerExecuting || this.context == null) {
@@ -167,7 +233,12 @@ public abstract class I_TriggerHandler{
       }
       return !I_TriggerHandler.bypassedHandlers.contains(getHandlerName());
     }
-  
+      /**
+     * This method returns the name of the handler.
+     * Called by : 
+     * @Parametters :
+     * @Returns : Void
+     */
     @TestVisible
     private String getHandlerName() {
       return String.valueOf(this).substring(0,String.valueOf(this).indexOf(':'));
@@ -197,12 +268,24 @@ public abstract class I_TriggerHandler{
      * inner classes
      ***************************************/
   
-    // inner class for managing the loop count per handler
+    /**
+     * This inner class detains all methodes conserning LoopCounts.
+     * Called by : 
+     * @Interface : 
+     * @Constructor :LoopCount() 
+     * @Parametters :
+     *
+     */
     @TestVisible
     private class LoopCount {
       private Integer max;
       private Integer count;
-  
+        /**
+     * CONSTRUCTOR
+     * Called by : 
+     * @Parametters :
+     * @Returns : Void
+     */
       public LoopCount() {
         this.max = 5;
         this.count = 0;
@@ -235,7 +318,14 @@ public abstract class I_TriggerHandler{
       }
     }
   
-    // possible trigger contexts
+    /**
+     * This inner class contains constants conserning context.
+     * Called by : 
+     * @Interface : 
+     * @Constructor :
+     * @Parametters :
+     *
+     */
     @TestVisible
     private enum TriggerContext {
       BEFORE_INSERT, BEFORE_UPDATE, BEFORE_DELETE,
@@ -243,7 +333,14 @@ public abstract class I_TriggerHandler{
       AFTER_UNDELETE
     }
   
-    // exception class
+    /**
+     * This inner Class is the exception class for this class.
+     * Called by : 
+     * @Interface : 
+     * @Constructor :
+     * @Parametters :
+     *
+     */
     public class I_TriggerHandlerException extends Exception {}
   
   }
