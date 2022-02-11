@@ -1,14 +1,14 @@
 @isTest
-private class TriggerHandler_Test {
+private class I_TriggerHandler_Test {
 
   private static final String TRIGGER_CONTEXT_ERROR = 'Trigger handler called outside of Trigger execution';
 
   private static String lastMethodCalled;
 
-  private static TriggerHandler_Test.TestHandler handler;
+  private static I_TriggerHandler_Test.TestHandler handler;
 
   static {
-    handler = new TriggerHandler_Test.TestHandler();
+    handler = new I_TriggerHandler_Test.TestHandler();
     // override its internal trigger detection
     handler.isTriggerExecuting = true;
   }
@@ -73,7 +73,7 @@ private class TriggerHandler_Test {
     try{
       handler.run();
       System.assert(false, 'the handler ran but should have thrown');
-    } catch(TriggerHandler.TriggerHandlerException te) {
+    } catch(I_TriggerHandler.I_TriggerHandlerException te) {
       System.assertEquals(TRIGGER_CONTEXT_ERROR, te.getMessage(), 'the exception message should match');
     } catch(Exception e) {
       System.assert(false, 'the exception thrown was not expected: ' + e.getTypeName() + ': ' + e.getMessage());
@@ -87,31 +87,31 @@ private class TriggerHandler_Test {
     afterUpdateMode();
 
     // test a bypass and run handler
-    TriggerHandler.bypass('TestHandler');
+    I_TriggerHandler.bypass('TestHandler');
     handler.run();
     System.assertEquals(null, lastMethodCalled, 'last method should be null when bypassed');
-    System.assertEquals(true, TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
+    System.assertEquals(true, I_TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
     resetTest();
 
     // clear that bypass and run handler
-    TriggerHandler.clearBypass('TestHandler');
+    I_TriggerHandler.clearBypass('TestHandler');
     handler.run();
     System.assertEquals('afterUpdate', lastMethodCalled, 'last method called should be afterUpdate');
-    System.assertEquals(false, TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
+    System.assertEquals(false, I_TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
     resetTest();
 
     // test a re-bypass and run handler
-    TriggerHandler.bypass('TestHandler');
+    I_TriggerHandler.bypass('TestHandler');
     handler.run();
     System.assertEquals(null, lastMethodCalled, 'last method should be null when bypassed');
-    System.assertEquals(true, TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
+    System.assertEquals(true, I_TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
     resetTest();
 
     // clear all bypasses and run handler
-    TriggerHandler.clearAllBypasses();
+    I_TriggerHandler.clearAllBypasses();
     handler.run();
     System.assertEquals('afterUpdate', lastMethodCalled, 'last method called should be afterUpdate');
-    System.assertEquals(false, TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
+    System.assertEquals(false, I_TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
     resetTest();
   }
 
@@ -135,7 +135,7 @@ private class TriggerHandler_Test {
       // try running it. This should exceed the limit.
       handler.run();
       System.assert(false, 'the handler should throw on the 3rd run when maxloopcount is 3');
-    } catch(TriggerHandler.TriggerHandlerException te) {
+    } catch(I_TriggerHandler.I_TriggerHandlerException te) {
       // we're expecting to get here
       System.assertEquals(null, lastMethodCalled, 'last method should be null');
     } catch(Exception e) {  
@@ -152,7 +152,7 @@ private class TriggerHandler_Test {
       // re-run the handler. We shouldn't throw now.
       handler.run();
       System.assertEquals('beforeInsert', lastMethodCalled, 'last method should be beforeInsert');
-    } catch(TriggerHandler.TriggerHandlerException te) {
+    } catch(I_TriggerHandler.I_TriggerHandlerException te) {
       System.assert(false, 'running the handler after clearing the loop count should not throw');
     } catch(Exception e) {  
       System.assert(false, 'the exception thrown was not expected: ' + e.getTypeName() + ': ' + e.getMessage());
@@ -161,7 +161,7 @@ private class TriggerHandler_Test {
 
   @isTest
   static void testLoopCountClass() {
-    TriggerHandler.LoopCount lc = new TriggerHandler.LoopCount();
+    I_TriggerHandler.LoopCount lc = new I_TriggerHandler.LoopCount();
     System.assertEquals(5, lc.getMax(), 'max should be five on init');
     System.assertEquals(0, lc.getCount(), 'count should be zero on init');
 
@@ -190,9 +190,9 @@ private class TriggerHandler_Test {
 
   // test virtual methods
   
-  @isTest
+ /* @isTest
   static void testVirtualMethods() {
-    TriggerHandler h = new TriggerHandler();
+    I_TriggerHandler h = new I_TriggerHandler();
     h.beforeInsert();
     h.beforeUpdate();
     h.beforeDelete();
@@ -200,7 +200,7 @@ private class TriggerHandler_Test {
     h.afterUpdate();
     h.afterDelete();
     h.afterUndelete();
-  }
+  }*/
 
   /***************************************
    * testing utilities
@@ -240,36 +240,36 @@ private class TriggerHandler_Test {
     handler.setTriggerContext('after undelete', true);
   }
 
-  // test implementation of the TriggerHandler
+  // test implementation of the I_TriggerHandler
 
-  private class TestHandler extends TriggerHandler {
+  private class TestHandler extends I_TriggerHandler {
 
     public override void beforeInsert() {
-      TriggerHandler_Test.lastMethodCalled = 'beforeInsert';
+      I_TriggerHandler_Test.lastMethodCalled = 'beforeInsert';
     }
 
     public override void  beforeUpdate() {
-      TriggerHandler_Test.lastMethodCalled = 'beforeUpdate';
+      I_TriggerHandler_Test.lastMethodCalled = 'beforeUpdate';
     }
 
     public override void beforeDelete() {
-      TriggerHandler_Test.lastMethodCalled = 'beforeDelete';
+      I_TriggerHandler_Test.lastMethodCalled = 'beforeDelete';
     }
 
     public override void afterInsert() {
-      TriggerHandler_Test.lastMethodCalled = 'afterInsert';
+      I_TriggerHandler_Test.lastMethodCalled = 'afterInsert';
     }
 
     public override void afterUpdate() {
-      TriggerHandler_Test.lastMethodCalled = 'afterUpdate';
+      I_TriggerHandler_Test.lastMethodCalled = 'afterUpdate';
     }
 
     public override void afterDelete() {
-      TriggerHandler_Test.lastMethodCalled = 'afterDelete';
+      I_TriggerHandler_Test.lastMethodCalled = 'afterDelete';
     }
 
     public override void afterUndelete() {
-      TriggerHandler_Test.lastMethodCalled = 'afterUndelete';
+      I_TriggerHandler_Test.lastMethodCalled = 'afterUndelete';
     }
 
   }
