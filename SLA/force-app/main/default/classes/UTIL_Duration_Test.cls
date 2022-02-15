@@ -24,9 +24,17 @@ public with sharing class UTIL_Duration_Test {
     UTIL_Duration utilDurationForTest = new UTIL_Duration(dateTimeStart, dateTimeEnd);
     Integer realDurationToTest =  utilDurationForTest.calculateTimeInMS();
     Integer expectedDurationInMS = 1000;
-    System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of milliseconds.');
-
     Test.stopTest();
+    System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of milliseconds.');
+  }
 
+  @isTest
+  public static void testCalculateTimeInSeconds(){
+    Test.startTest();
+    Integer realDurationToTest =  UTIL_Duration.calculateTimeInSeconds(1230);
+    Integer expectedDurationInMS = 1000;
+    Test.stopTest();
+    System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of seconds.');
+    
   }
 }

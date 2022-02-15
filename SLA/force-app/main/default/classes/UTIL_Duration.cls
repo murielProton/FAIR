@@ -24,7 +24,7 @@ public with sharing class UTIL_Duration {
         this.endDateTime = endDateTime;
     }
     /**
-     * This method computes a duration in Millisecond.
+     * This method computes a duration in Milliseconds.
      * It needs the constructor to compute !
      * Called by : TH_WorkTrigger in method beforeUpdate()
      * @Parametters : None
@@ -37,6 +37,16 @@ public with sharing class UTIL_Duration {
         Integer endDateTime = longEndDateTime.intValue();
         Integer durationMS = endDateTime - startDateTime;
         return durationMS;
+    }
+    /**
+     * This method computes a duration in seconds.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Integer
+     */
+    public static Integer calculateTimeInSeconds(Integer timeInMilliseconds){
+        Integer timeInSeconds = timeInMilliseconds / 1000;
+        return timeInSeconds;
     }
 
 }
