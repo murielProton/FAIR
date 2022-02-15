@@ -48,5 +48,14 @@ public with sharing class UTIL_Duration {
         Integer timeInSeconds = timeInMilliseconds / 1000;
         return timeInSeconds;
     }
-
+    /**
+     * This method computes a duration in minutes.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Integer
+     */
+    public static Integer calculateTimeInMinutes(Integer timeInMilliseconds){
+        Integer timeInMinutes = timeInMilliseconds / 60000;
+        return timeInMinutes;
+    }
 }
