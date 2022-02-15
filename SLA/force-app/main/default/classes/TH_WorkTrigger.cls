@@ -32,9 +32,7 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                 // set field Date_Status_New_Ends__c to now   
                 if (oldWork.agf__Status__c == 'New' && newWork.agf__Status__c != 'New') {
                     newWork.Date_Status_New_Ends__c = Datetime.now();
-                }
-                // set Duration_MS_Status_New__c with a duration in Milliseconds (Decimal)
-                if( newWork.Date_Status_New_Ends__c != null){
+                    // set Duration_MS_Status_New__c with a duration in Milliseconds (Decimal)
                     Util_Duration utilDuration = new Util_Duration(newWork.Date_Status_New_Starts__c,newWork.Date_Status_New_Ends__c);
                     newWork.Duration_MS_Status_New__c = utilDuration.calculateTimeInMS();
                 }
