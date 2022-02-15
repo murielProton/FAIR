@@ -79,13 +79,13 @@ public without sharing class TH_WorkTrigger_Test {
     static void checkIfWorkDateStatusNewStartFilledBeforeInsert() {
         //get reccord of agf__ADM_Work__c
         agf__ADM_Work__c workReccordHoney = getWorkReccordHonney();
-        test.startTest();
+        Test.startTest();
         // convert DateTime into Date cause agf__Created_On_Date__c is a formula and registers time 00:00:00. ( not on real time !)
         DateTime expectedDateTime = workReccordHoney.agf__Created_On_Date__c;
         DateTime dateTimeOFWorkReccord = workReccordHoney.Date_Status_New_Starts__c;
         Date expectedDate = Date.newInstance(expectedDateTime.year(), expectedDateTime.month(), expectedDateTime.day());
         Date dateTotest = Date.newInstance(dateTimeOFWorkReccord.year(), dateTimeOFWorkReccord.month(), dateTimeOFWorkReccord.day());
-        test.stopTest();
+        Test.stopTest();
         //check if agf__Created_On_Date__c equals Date_Status_New_Starts__c
         System.assertEquals(expectedDate, 
                             dateTotest, 
@@ -104,9 +104,9 @@ public without sharing class TH_WorkTrigger_Test {
         // Set new value in field agf__Status__c
         workReccordHoney.agf__Status__c = 'To Fix';
         // update field agf__Status__c on reccord workReccordHoney
-        test.startTest();
+        Test.startTest();
 		update 	workReccordHoney;
-        test.stopTest();
+        Test.stopTest();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordHonney();
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
