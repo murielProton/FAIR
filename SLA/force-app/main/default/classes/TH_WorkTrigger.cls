@@ -28,10 +28,12 @@ public class TH_WorkTrigger extends I_TriggerHandler {
      */
     public override void beforeUpdate() {
             for (agf__ADM_Work__c newWork :  (List<agf__ADM_Work__c>)Trigger.new) {
-                agf__ADM_Work__c oldWork = (agf__ADM_Work__c)Trigger.oldMap.get(newWork.Id);               
+                agf__ADM_Work__c oldWork = (agf__ADM_Work__c)Trigger.oldMap.get(newWork.Id);
+                // set field Date_Status_New_Ends__c to now   
                 if (oldWork.agf__Status__c == 'New' && newWork.agf__Status__c != 'New') {
                     newWork.Date_Status_New_Ends__c = Datetime.now();
                 }
+                // set Duration_MS_Status_New__c with a duration in Milliseconds (Decimal)
                 if( newWork.Date_Status_New_Ends__c != null){
                     Util_Duration utilDuration = new Util_Duration(newWork.Date_Status_New_Starts__c,newWork.Date_Status_New_Ends__c);
                     newWork.Duration_MS_Status_New__c = utilDuration.calculateTimeInMS();
