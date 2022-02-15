@@ -5,10 +5,10 @@ public with sharing class UTIL_Duration {
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
-    public Long calculateTimeInMS(){
-        Long longStartDateTime = startDateTime.getTime();
-        Long longEndDateTime = endDateTime.getTime();
-        Long durationMS = longEndDateTime - longStartDateTime;
+    public Decimal calculateTimeInMS(){
+        Decimal longStartDateTime = startDateTime.getTime();
+        Decimal longEndDateTime = endDateTime.getTime();
+        Decimal durationMS = longEndDateTime - longStartDateTime;
         return durationMS;
     }
 }
