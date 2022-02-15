@@ -22,8 +22,8 @@ public with sharing class UTIL_Duration_Test {
     DateTime dateTimeStart = Datetime.newInstance(2022, 2, 15);
     DateTime dateTimeEnd = dateTimeStart.addSeconds(1);
     UTIL_Duration utilDurationForTest = new UTIL_Duration(dateTimeStart, dateTimeEnd);
-    Decimal realDurationToTest =  utilDurationForTest.calculateTimeInMS();
-    Decimal expectedDurationInMS = 1000;
+    Integer realDurationToTest =  utilDurationForTest.calculateTimeInMS();
+    Integer expectedDurationInMS = 1000;
     System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of milliseconds.');
 
     Test.stopTest();

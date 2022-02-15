@@ -28,12 +28,15 @@ public with sharing class UTIL_Duration {
      * It needs the constructor to compute !
      * Called by : TH_WorkTrigger in method beforeUpdate()
      * @Parametters : None
-     * @Returns : Decimal
+     * @Returns : Integer
      */
-    public Decimal calculateTimeInMS(){
-        Decimal longStartDateTime = startDateTime.getTime();
-        Decimal longEndDateTime = endDateTime.getTime();
-        Decimal durationMS = longEndDateTime - longStartDateTime;
+    public Integer calculateTimeInMS(){
+        Long longStartDateTime = startDateTime.getTime();
+        Long longEndDateTime = endDateTime.getTime();
+        Integer startDateTime = longStartDateTime.intValue();
+        Integer endDateTime = longEndDateTime.intValue();
+        Integer durationMS = endDateTime - startDateTime;
         return durationMS;
     }
+
 }
