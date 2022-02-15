@@ -58,4 +58,24 @@ public with sharing class UTIL_Duration {
         Integer timeInMinutes = timeInMilliseconds / 60000;
         return timeInMinutes;
     }
+    /**
+     * This method computes a duration in hours.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Integer
+     */
+    public static Integer calculateTimeInHours(Integer timeInMilliseconds){
+        Integer timeInHours = timeInMilliseconds / 3600000;
+        return timeInHours;
+    }
+    /**
+     * This method computes a duration in days.
+     * Called by : 
+     * @Parametters : Integer
+     * @Returns : Integer
+     */
+    public static Integer calculateTimeInDays(Integer timeInMilliseconds){
+        Integer timeInDays = timeInMilliseconds / 86400000;
+        return timeInDays;
+    }
 }
