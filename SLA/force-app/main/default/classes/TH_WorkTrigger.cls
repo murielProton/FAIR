@@ -31,6 +31,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                 agf__ADM_Work__c oldWork = (agf__ADM_Work__c)Trigger.oldMap.get(newWork.Id);               
                 if (oldWork.agf__Status__c == 'New' && newWork.agf__Status__c != 'New') {
                     newWork.Date_Status_New_Ends__c =Datetime.now();
+                    Util_Duration utilDuration = new Util_Duration(newWork.Date_Status_New_Starts__c,newWork.Date_Status_New_Ends__c);
+                    newWork.Duration_MS_Status_New__c = utilDuration.calculateTimeInMS();
                     
                 }
    
