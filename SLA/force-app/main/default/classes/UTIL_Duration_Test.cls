@@ -129,25 +129,43 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSInferiorToOneSecond(){
+    System.debug('--------- TEST 1 millisecondes ------------- ');
     Long nubmberOfMSToTest = long.valueOf('900');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('moins de 1 secondes.', realStringToTest, 'The string is not right for an input set to less than 1 second.');
+    System.assertEquals('under a second.', realStringToTest, 'The string is not right for an input set to less than 1 second.');
   }
   /**
   * This methode tests generateAStringFromMS.
-  * If the parametters injected are inferior to a second will it return the right String ?
+  * If the parametters injected are superior to a second will it return the right String ?
   * Called by :
   * @Parametters : None
   * @Returns : VOID
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneSecond(){
+    System.debug('--------- Test 2 secondes ------------- ');
     Long nubmberOfMSToTest = long.valueOf('1200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 seconde(s).', realStringToTest, 'The string is not right for an input set to more than 1 second.');
+    System.assertEquals('1 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 second.');
+  }
+    /**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are superior to a minute will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testGenerateAStringFromMSSuperiorToOneMinute(){
+    System.debug('--------- Test 3 minutes ------------- ');
+    Long nubmberOfMSToTest = long.valueOf('61200');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('1 minute(s), 1 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 minute.');
   }
 }
