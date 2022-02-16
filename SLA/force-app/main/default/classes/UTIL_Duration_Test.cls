@@ -168,4 +168,20 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals('1 minute(s), 1 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 minute.');
   }
+      /**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are superior to an hour will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testGenerateAStringFromMSSuperiorToOneHour(){
+    System.debug('--------- Test 4 hours ------------- ');
+    Long nubmberOfMSToTest = long.valueOf('3661200');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('1 hour(s), 1 minute(s), 1 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 hour.');
+  }
 }
