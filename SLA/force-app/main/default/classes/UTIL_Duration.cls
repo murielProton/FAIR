@@ -125,14 +125,15 @@ public with sharing class UTIL_Duration {
             //2- if the duration in milliseconds is superior to a second.
             if(timeInMilliseconds > 1000){
                 Long numberOfSeconds = calculateTimeInSeconds(timeInMilliseconds);
-                durationInString = durationInString;
+                durationInString = numberOfSeconds + ' seconde(s)'+ durationInString + '.';
             }
              /*if(){
                 
             }*/
+            return durationInString;
         }else{
             return null;
         }
-        return durationInString;
+        
     }
 }
