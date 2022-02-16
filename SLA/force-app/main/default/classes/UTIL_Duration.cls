@@ -108,4 +108,31 @@ public with sharing class UTIL_Duration {
         Long timeInYears = timeInMilliseconds / numberOfMSInAYear;
         return timeInYears;
     }
+    /** 
+     * This method will return a String from the number of milliseconds it recives.
+     * Called by : 
+     * @Parametters : Long
+     * @Returns : String 
+     */
+    public static String generateAStringFromMS(Long timeInMilliseconds){
+        String durationInString = '';
+        if (timeInMilliseconds!=null){
+            //1- if the duration in milliseconds is inferior to a second.
+            // AND DONE. NOTHING ELSE TO DO.
+            if(timeInMilliseconds < 1000){
+                return durationInString + 'moins de ' + 1 + ' secondes.';
+            }
+            //2- if the duration in milliseconds is superior to a second.
+            if(timeInMilliseconds > 1000){
+                Long numberOfSeconds = calculateTimeInSeconds(timeInMilliseconds);
+                durationInString = durationInString;
+            }
+             /*if(){
+                
+            }*/
+        }else{
+            return null;
+        }
+        return durationInString;
+    }
 }

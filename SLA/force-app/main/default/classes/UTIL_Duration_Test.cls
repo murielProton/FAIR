@@ -106,7 +106,7 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of months.');
   }
-    /**
+  /**
   * This method cheks if calculateTimeInMonths() returns the right number of years.
   * Called by :
   * @Parametters : None
@@ -119,5 +119,20 @@ public with sharing class UTIL_Duration_Test {
     Long realDurationToTest = UTIL_Duration.calculateTimeInYears(nubmberOfMSToTest);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of years.');
+  }
+/**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are inferior to a second will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testGenerateAStringFromMSInferiorToOneSecond(){
+    Long nubmberOfMSToTest = long.valueOf('900');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('moins de 1 secondes.', realStringToTest, 'The string is not right for an input set to less thant 1 second.');
   }
 }
