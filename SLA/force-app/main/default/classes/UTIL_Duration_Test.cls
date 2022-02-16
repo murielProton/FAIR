@@ -92,5 +92,18 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of weeks.');
   }
-
+  /**
+  * This method cheks if calculateTimeInMonths() returns the right number of months.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testCalculateTimeInMonths(){
+    Long nubmberOfMSToTest = long.valueOf('2630691230');
+    Test.startTest();
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInMonths(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals(1, realDurationToTest, 'It is not the right number of months.');
+  }
 }
