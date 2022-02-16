@@ -28,54 +28,73 @@ public with sharing class UTIL_Duration {
      * It needs the constructor to compute !
      * Called by : TH_WorkTrigger in method beforeUpdate()
      * @Parametters : None
-     * @Returns : Integer
+     * @Returns : Long
      */
-    public Integer calculateTimeInMS(){
+    public Long calculateTimeInMS(){
         Long longStartDateTime = startDateTime.getTime();
         Long longEndDateTime = endDateTime.getTime();
-        Integer startDateTime = longStartDateTime.intValue();
-        Integer endDateTime = longEndDateTime.intValue();
-        Integer durationMS = endDateTime - startDateTime;
+        Long durationMS = longEndDateTime - longStartDateTime;
         return durationMS;
     }
     /**
      * This method computes a duration in seconds.
      * Called by : 
-     * @Parametters : Integer
-     * @Returns : Integer
+     * @Parametters : Long
+     * @Returns : Long
      */
-    public static Integer calculateTimeInSeconds(Integer timeInMilliseconds){
-        Integer timeInSeconds = timeInMilliseconds / 1000;
+    public static Long calculateTimeInSeconds(Long timeInMilliseconds){
+        Long timeInSeconds = timeInMilliseconds / 1000;
         return timeInSeconds;
     }
     /**
      * This method computes a duration in minutes.
      * Called by : 
-     * @Parametters : Integer
-     * @Returns : Integer
+     * @Parametters : Long
+     * @Returns : Long
      */
-    public static Integer calculateTimeInMinutes(Integer timeInMilliseconds){
-        Integer timeInMinutes = timeInMilliseconds / 60000;
+    public static Long calculateTimeInMinutes(Long timeInMilliseconds){
+        Long timeInMinutes = timeInMilliseconds / 60000;
         return timeInMinutes;
     }
     /**
      * This method computes a duration in hours.
      * Called by : 
-     * @Parametters : Integer
-     * @Returns : Integer
+     * @Parametters : Long
+     * @Returns : Long
      */
-    public static Integer calculateTimeInHours(Integer timeInMilliseconds){
-        Integer timeInHours = timeInMilliseconds / 3600000;
+    public static Long calculateTimeInHours(Long timeInMilliseconds){
+        Long timeInHours = timeInMilliseconds / 3600000;
         return timeInHours;
     }
     /**
      * This method computes a duration in days.
      * Called by : 
-     * @Parametters : Integer
-     * @Returns : Integer
+     * @Parametters : Long
+     * @Returns : Long
      */
-    public static Integer calculateTimeInDays(Integer timeInMilliseconds){
-        Integer timeInDays = timeInMilliseconds / 86400000;
+    public static Long calculateTimeInDays(Long timeInMilliseconds){
+        Long timeInDays = timeInMilliseconds / 86400000;
         return timeInDays;
+    }
+    /**
+     * This method computes a duration in weeks.
+     * Called by : 
+     * @Parametters : Long
+     * @Returns : Long
+     */
+    public static Long calculateTimeInWeeks(Long timeInMilliseconds){
+        Long timeInWeeks = timeInMilliseconds / 604800000;
+        return timeInWeeks;
+    }
+    /**
+     * This method computes a duration in months.
+     * Called by : 
+     * @Parametters : Long
+     * @Returns : Long
+     */
+    public static Long calculateTimeInMonths(Long timeInMilliseconds){
+        Long numberOfMSInAMonth = Long.valueOf('2629800000');
+        Long timeInMonths = timeInMilliseconds / numberOfMSInAMonth;
+        return timeInMonths;
     }
 }

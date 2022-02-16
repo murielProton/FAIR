@@ -22,8 +22,8 @@ public with sharing class UTIL_Duration_Test {
     DateTime dateTimeStart = Datetime.newInstance(2022, 2, 15);
     DateTime dateTimeEnd = dateTimeStart.addSeconds(1);
     UTIL_Duration utilDurationForTest = new UTIL_Duration(dateTimeStart, dateTimeEnd);
-    Integer realDurationToTest =  utilDurationForTest.calculateTimeInMS();
-    Integer expectedDurationInMS = 1000;
+    Long realDurationToTest =  utilDurationForTest.calculateTimeInMS();
+    Long expectedDurationInMS = 1000;
     Test.stopTest();
     System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of milliseconds.');
   }
@@ -36,7 +36,7 @@ public with sharing class UTIL_Duration_Test {
   @isTest
   public static void testCalculateTimeInSeconds(){
     Test.startTest();
-    Integer realDurationToTest =  UTIL_Duration.calculateTimeInSeconds(1230);
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInSeconds(1230);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of seconds.');
   }
@@ -49,12 +49,12 @@ public with sharing class UTIL_Duration_Test {
   @isTest
   public static void testCalculateTimeInMinutes(){
     Test.startTest();
-    Integer realDurationToTest =  UTIL_Duration.calculateTimeInMinutes(61230);
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInMinutes(61230);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of minutes.');
   }
   /**
-  * This method cheks if calculateTimeInMinutes() returns the right number of hours.
+  * This method cheks if calculateTimeInHours() returns the right number of hours.
   * Called by :
   * @Parametters : None
   * @Returns : VOID
@@ -62,12 +62,12 @@ public with sharing class UTIL_Duration_Test {
   @isTest
   public static void testCalculateTimeInHours(){
     Test.startTest();
-    Integer realDurationToTest =  UTIL_Duration.calculateTimeInHours(3691230);
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInHours(3691230);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of hours.');
   }
-    /**
-  * This method cheks if calculateTimeInMinutes() returns the right number of days.
+  /**
+  * This method cheks if calculateTimeInDays() returns the right number of days.
   * Called by :
   * @Parametters : None
   * @Returns : VOID
@@ -75,8 +75,22 @@ public with sharing class UTIL_Duration_Test {
   @isTest
   public static void testCalculateTimeInDays(){
     Test.startTest();
-    Integer realDurationToTest =  UTIL_Duration.calculateTimeInHours(87691230);
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInDays(87691230);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of days.');
   }
+  /**
+  * This method cheks if calculateTimeInWeeks() returns the right number of weeks.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testCalculateTimeInWeeks(){
+    Test.startTest();
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInWeeks(687691230);
+    Test.stopTest();
+    System.assertEquals(1, realDurationToTest, 'It is not the right number of weeks.');
+  }
+
 }

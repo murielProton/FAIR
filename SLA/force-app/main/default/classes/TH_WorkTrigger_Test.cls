@@ -138,7 +138,7 @@ public without sharing class TH_WorkTrigger_Test {
         Test.stopTest();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordHonney();
         // get real field Duration_MS_Status_New__c
-        Decimal realDuration = workReccordHoneyAfterUpdate.Duration_MS_Status_New__c;
+        Long realDuration = (Long)workReccordHoneyAfterUpdate.Duration_MS_Status_New__c;
         // convert field Duration_MS_Status_New__c so it can be tested
         String realDurationToTest = String.valueOf(realDuration);
         // check if Duration_MS_Status_New__c is a number
