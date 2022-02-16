@@ -102,8 +102,22 @@ public with sharing class UTIL_Duration_Test {
   public static void testCalculateTimeInMonths(){
     Long nubmberOfMSToTest = long.valueOf('2630691230');
     Test.startTest();
-    Long realDurationToTest =  UTIL_Duration.calculateTimeInMonths(nubmberOfMSToTest);
+    Long realDurationToTest = UTIL_Duration.calculateTimeInMonths(nubmberOfMSToTest);
     Test.stopTest();
     System.assertEquals(1, realDurationToTest, 'It is not the right number of months.');
+  }
+    /**
+  * This method cheks if calculateTimeInMonths() returns the right number of years.
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testCalculateTimeInYears(){
+    Long nubmberOfMSToTest = long.valueOf('32630691230');
+    Test.startTest();
+    Long realDurationToTest = UTIL_Duration.calculateTimeInYears(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals(1, realDurationToTest, 'It is not the right number of years.');
   }
 }

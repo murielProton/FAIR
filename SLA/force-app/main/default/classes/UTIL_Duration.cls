@@ -97,4 +97,15 @@ public with sharing class UTIL_Duration {
         Long timeInMonths = timeInMilliseconds / numberOfMSInAMonth;
         return timeInMonths;
     }
+    /**
+     * This method computes a duration in years.
+     * Called by : 
+     * @Parametters : Long
+     * @Returns : Long
+     */
+    public static Long calculateTimeInYears(Long timeInMilliseconds){
+        Long numberOfMSInAYear = Long.valueOf('31536000000');
+        Long timeInYears = timeInMilliseconds / numberOfMSInAYear;
+        return timeInYears;
+    }
 }
