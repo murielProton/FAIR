@@ -193,11 +193,61 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneDay(){
-    System.debug('--------- Test 4 hours ------------- ');
+    System.debug('--------- Test 5 Days ------------- ');
     Long nubmberOfMSToTest = long.valueOf('86661200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
     System.assertEquals('1 day(s), 4 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 day.');
+  }
+  /**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are equal to a week will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  */
+  @isTest
+  public static void testGenerateAStringFromMSSuperiorToAWeek(){
+    System.debug('--------- Test 6 Weeks ------------- ');
+    Long nubmberOfMSToTest = long.valueOf('615910000');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('1 weeks(s), 3 hour(s), 5 minute(s), 10 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 week.');
+  }
+  /**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are superior to a month will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  * ! DO NOT PASS TODO Find what to do ?
+  */
+  @isTest
+  public static void testGenerateAStringFromMSSuperiorToOneMonth(){
+    System.debug('--------- Test 7 Days ------------- ');
+    Long nubmberOfMSToTest = long.valueOf('2830461200');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('1 month(s), 2 day(s), 7 hour(s), 44 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 month.');
+  }
+    /**
+  * This methode tests generateAStringFromMS.
+  * If the parametters injected are superior to a year will it return the right String ?
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  * ! DO NOT PASS TODO Find what to do ?
+  */
+  @isTest
+  public static void testGenerateAStringFromMSSuperiorToOneYear(){
+    System.debug('--------- Test 8 Days ------------- ');
+    Long nubmberOfMSToTest = long.valueOf('32647111111');
+    Test.startTest();
+    String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
+    Test.stopTest();
+    System.assertEquals('1 year(s), 1 week(s), 5 day(s), 20 hour(s), 38 minute(s), 31 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 year.');
   }
 }

@@ -132,12 +132,26 @@ public with sharing class UTIL_Duration {
                 return 'under a second.';
             }
             // Warning Conditions order is important here ! ORDER DESC
+            //----- WARNING I need to reduce cognitive complexity
+            // 8- if the rounded duration in milliseconds is superior to a year.
+            if(roundedMS >= numberOfMSInOneYear){
+                Long numberOfYears = calculateTimeInWeeks(roundedMS);
+                roundedMS = roundedMS - (numberOfYears * numberOfMSInOneYear);
+                durationInString = durationInString + numberOfYears + ' year(s), ';
+            }
+            // 7- if the rounded duration in milliseconds is superior to a month.
+            if(roundedMS >= numberOfMSInOneMonth && roundedMS < numberOfMSInOneYear){
+                Long numberOfMonths = calculateTimeInWeeks(roundedMS);
+                roundedMS = roundedMS - (numberOfMonths * numberOfMSInOneMonth);
+                durationInString = durationInString + numberOfMonths + ' month(s), ';
+            }
             // 6- if the rounded duration in milliseconds is superior to a week.
-            if(roundedMS >= numberOfMSInOneWeek){
+            if(roundedMS >= numberOfMSInOneWeek && roundedMS < numberOfMSInOneMonth){
                 Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
                 roundedMS = roundedMS - (numberOfWeeks * numberOfMSInOneWeek);
                 durationInString = durationInString + numberOfWeeks + ' weeks(s), ';
             }
+            //-----
             // 5- if the rounded duration in milliseconds is superior to a day.
             if(roundedMS >= numberOfMSInOneDay){
                 Long numberOfDays = calculateTimeInDays(roundedMS);
