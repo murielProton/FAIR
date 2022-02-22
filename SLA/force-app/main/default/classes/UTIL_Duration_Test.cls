@@ -10,6 +10,7 @@
  ******************************************************************************* */
 @isTest
 public with sharing class UTIL_Duration_Test {
+  //THE CONSTANTS OF THIS CLASS are stored in class UTIL_Duration
   /**
   * This method cheks if calculateTimeInMS() returns the right number of Milliseconds.
   * Called by :
@@ -23,9 +24,8 @@ public with sharing class UTIL_Duration_Test {
     DateTime dateTimeEnd = dateTimeStart.addSeconds(1);
     UTIL_Duration utilDurationForTest = new UTIL_Duration(dateTimeStart, dateTimeEnd);
     Long realDurationToTest =  utilDurationForTest.calculateTimeInMS();
-    Long expectedDurationInMS = 1000;
     Test.stopTest();
-    System.assertEquals(expectedDurationInMS, realDurationToTest, 'It is not the right number of milliseconds.');
+    System.assertEquals(UTIL_Duration.NUMBER_OF_MS_IN_ONE_SECOND, realDurationToTest, 'It is not the right number of milliseconds.');
   }
   /**
   * This method cheks if calculateTimeInSeconds() returns the right number of seconds.
@@ -129,7 +129,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSInferiorToOneSecond(){
-    System.debug('--------- TEST 1 millisecondes ------------- ');
     Long nubmberOfMSToTest = long.valueOf('900');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -145,7 +144,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneSecond(){
-    System.debug('--------- Test 2 secondes ------------- ');
     Long nubmberOfMSToTest = long.valueOf('1200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -161,7 +159,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneMinute(){
-    System.debug('--------- Test 3 minutes ------------- ');
     Long nubmberOfMSToTest = long.valueOf('61200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -177,7 +174,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneHour(){
-    System.debug('--------- Test 4 hours ------------- ');
     Long nubmberOfMSToTest = long.valueOf('3661200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -193,7 +189,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneDay(){
-    System.debug('--------- Test 5 Days ------------- ');
     Long nubmberOfMSToTest = long.valueOf('86661200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -209,7 +204,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToAWeek(){
-    System.debug('--------- Test 6 Weeks ------------- ');
     Long nubmberOfMSToTest = long.valueOf('615910000');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -226,7 +220,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneMonth(){
-    System.debug('--------- Test 7 Days ------------- ');
     Long nubmberOfMSToTest = long.valueOf('2830461200');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
@@ -243,7 +236,6 @@ public with sharing class UTIL_Duration_Test {
   */
   @isTest
   public static void testGenerateAStringFromMSSuperiorToOneYear(){
-    System.debug('--------- Test 8 Days ------------- ');
     Long nubmberOfMSToTest = long.valueOf('32647111111');
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);

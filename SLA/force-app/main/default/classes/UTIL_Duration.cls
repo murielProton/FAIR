@@ -10,6 +10,15 @@
  * 
  ******************************************************************************* */
 public with sharing class UTIL_Duration {
+    //COSNTANT Used in this class or in UTIL_Duration_Test
+    public static final Long NUMBER_OF_MS_IN_ONE_SECOND = 1000;
+    public static final Long NUMBER_OF_MS_IN_ONE_MINUTE = 60000;
+    public static final Long NUMBER_OF_MS_IN_ONE_HOUR = 3600000;
+    public static final Long NUMBER_OF_MS_IN_ONE_DAY = 86400000;
+    public static final Long NUMBER_OF_MS_IN_ONE_WEEK = 604800000;
+    public static final Long NUMBER_OF_MS_IN_ONE_MONTH = Long.valueOf('2629800000');
+    public static final Long NUMBER_OF_MS_IN_ONE_YEAR = Long.valueOf('31536000000');
+
     DateTime startDateTime;
     DateTime endDateTime;
     /**
@@ -43,7 +52,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInSeconds(Long timeInMilliseconds){
-        Long timeInSeconds = timeInMilliseconds / 1000;
+        Long timeInSeconds = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_SECOND;
         return timeInSeconds;
     }
     /**
@@ -53,7 +62,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInMinutes(Long timeInMilliseconds){
-        Long timeInMinutes = timeInMilliseconds / 60000;
+        Long timeInMinutes = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_MINUTE;
         return timeInMinutes;
     }
     /**
@@ -63,7 +72,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInHours(Long timeInMilliseconds){
-        Long timeInHours = timeInMilliseconds / 3600000;
+        Long timeInHours = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_HOUR;
         return timeInHours;
     }
     /**
@@ -73,7 +82,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInDays(Long timeInMilliseconds){
-        Long timeInDays = timeInMilliseconds / 86400000;
+        Long timeInDays = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_DAY;
         return timeInDays;
     }
     /**
@@ -83,7 +92,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInWeeks(Long timeInMilliseconds){
-        Long timeInWeeks = timeInMilliseconds / 604800000;
+        Long timeInWeeks = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WEEK;
         return timeInWeeks;
     }
     /**
@@ -93,7 +102,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInMonths(Long timeInMilliseconds){
-        Long numberOfMSInAMonth = Long.valueOf('2629800000');
+        Long numberOfMSInAMonth = NUMBER_OF_MS_IN_ONE_MONTH;
         Long timeInMonths = timeInMilliseconds / numberOfMSInAMonth;
         return timeInMonths;
     }
@@ -104,7 +113,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInYears(Long timeInMilliseconds){
-        Long numberOfMSInAYear = Long.valueOf('31536000000');
+        Long numberOfMSInAYear = NUMBER_OF_MS_IN_ONE_YEAR;
         Long timeInYears = timeInMilliseconds / numberOfMSInAYear;
         return timeInYears;
     }
@@ -116,65 +125,58 @@ public with sharing class UTIL_Duration {
      */
     public static String generateAStringFromMS(Long timeInMilliseconds){
         String durationInString = '';
-        Long numberOfMSInOneSecond = 1000;
-        Long numberOfMSInOneMinute = 60000;
-        Long numberOfMSInOneHour = 3600000;
-        Long numberOfMSInOneDay = 86400000;
-        Long numberOfMSInOneWeek = 604800000;
-        Long numberOfMSInOneMonth = Long.valueOf('2629800000');
-        Long numberOfMSInOneYear = Long.valueOf('31536000000');
-
+       
         if (timeInMilliseconds != null){
             Long roundedMS = timeInMilliseconds;
             //1- if the duration in milliseconds is inferior to a second.
             // AND DONE. NOTHING ELSE TO DO.
-            if(roundedMS < numberOfMSInOneSecond){
+            if(roundedMS < NUMBER_OF_MS_IN_ONE_SECOND){
                 return 'under a second.';
             }
             // Warning Conditions order is important here ! ORDER DESC
             //----- WARNING I need to reduce cognitive complexity
             // 8- if the rounded duration in milliseconds is superior to a year.
-            if(roundedMS >= numberOfMSInOneYear){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_YEAR){
                 Long numberOfYears = calculateTimeInYears(roundedMS);
-                roundedMS = roundedMS - (numberOfYears * numberOfMSInOneYear);
+                roundedMS = roundedMS - (numberOfYears * NUMBER_OF_MS_IN_ONE_YEAR);
                 durationInString = durationInString + numberOfYears + ' year(s), ';
             }
             // 7- if the rounded duration in milliseconds is superior to a month.
-            if(roundedMS >= numberOfMSInOneMonth){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_MONTH){
                 Long numberOfMonths = calculateTimeInMonths(roundedMS);
-                roundedMS = roundedMS - (numberOfMonths * numberOfMSInOneMonth);
+                roundedMS = roundedMS - (numberOfMonths * NUMBER_OF_MS_IN_ONE_MONTH);
                 durationInString = durationInString + numberOfMonths + ' month(s), ';
             }
             // 6- if the rounded duration in milliseconds is superior to a week.
-            if(roundedMS >= numberOfMSInOneWeek){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_WEEK){
                 Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
-                roundedMS = roundedMS - (numberOfWeeks * numberOfMSInOneWeek);
+                roundedMS = roundedMS - (numberOfWeeks * NUMBER_OF_MS_IN_ONE_WEEK);
                 durationInString = durationInString + numberOfWeeks + ' week(s), ';
             }
             //-----
             // 5- if the rounded duration in milliseconds is superior to a day.
-            if(roundedMS >= numberOfMSInOneDay){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_DAY){
                 Long numberOfDays = calculateTimeInDays(roundedMS);
-                roundedMS = roundedMS - (numberOfDays * numberOfMSInOneDay);
+                roundedMS = roundedMS - (numberOfDays * NUMBER_OF_MS_IN_ONE_DAY);
                 durationInString = durationInString + numberOfDays + ' day(s), ';
             }
             // 4- if the rounded duration in milliseconds is superior to a hour.
-            if(roundedMS >= numberOfMSInOneHour){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_HOUR){
                 Long numberOfHours = calculateTimeInHours(roundedMS);
-                roundedMS = roundedMS - (numberOfHours * numberOfMSInOneHour);
+                roundedMS = roundedMS - (numberOfHours * NUMBER_OF_MS_IN_ONE_HOUR);
                 durationInString = durationInString + numberOfHours + ' hour(s), ';
             }
             // 3- if the rounded duration in milliseconds is superior to a minute.
-            if(roundedMS >= numberOfMSInOneMinute){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_MINUTE){
                 Long numberOfMinutes = calculateTimeInMinutes(roundedMS);
-                roundedMS = roundedMS - (numberOfMinutes * numberOfMSInOneMinute);
+                roundedMS = roundedMS - (numberOfMinutes * NUMBER_OF_MS_IN_ONE_MINUTE);
                 durationInString = durationInString + numberOfMinutes + ' minute(s), ' ;
             }
             //2- if the rounded duration in milliseconds is superior to a second.
-            if(roundedMS >= numberOfMSInOneSecond){
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_SECOND){
                 Long numberOfSeconds = calculateTimeInSeconds(roundedMS);
                 durationInString = durationInString + numberOfSeconds + ' second(s)';
-                roundedMS = roundedMS - (numberOfSeconds * numberOfMSInOneSecond);
+                roundedMS = roundedMS - (numberOfSeconds * NUMBER_OF_MS_IN_ONE_SECOND);
             }
             System.debug('fin ->' + durationInString+'}');
             return durationInString;
