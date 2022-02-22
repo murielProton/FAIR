@@ -25,7 +25,8 @@ public without sharing class TH_WorkTrigger_Test {
                                                     Date_Status_New_Starts__c , 
                                                     agf__Status__c, 
                                                     Date_Status_New_Ends__c,
-                                                    Duration_MS_Status_New__c 
+                                                    Duration_MS_Status_New__c,
+                                                    Duration_String_Status_New__c
                                              FROM agf__ADM_Work__c
                                              WHERE agf__Subject__c ='honey'
                                             ];
@@ -143,6 +144,26 @@ public without sharing class TH_WorkTrigger_Test {
         String realDurationToTest = String.valueOf(realDuration);
         // check if Duration_MS_Status_New__c is a number
         System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_New__c is not a number.');
+    }
+        /**
+     *
+     * Tests if Duration_String_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusNewIsFilledAfterUpdate() {
+        // get reccord of agf__ADM_Work__c
+        agf__ADM_Work__c workReccordHoney = getWorkReccordHonney();
+        // Set new value in field agf__Status__c and Date_Status_New_Ends__c
+        workReccordHoney.agf__Status__c = 'To Fix';
+        // update field agf__Status__c on reccord workReccordHoney
+        Test.startTest();
+		update 	workReccordHoney;
+        Test.stopTest();
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordHonney();
+        // get real field Duration_String_Status_New__c
+        String realStringDuration = workReccordHoneyAfterUpdate.Duration_String_Status_New__c;
+        // check if Duration_String_Status_New__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_New__c is not a string.');
     }
 
 }
