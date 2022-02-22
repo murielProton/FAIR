@@ -131,25 +131,33 @@ public with sharing class UTIL_Duration {
             if(roundedMS < numberOfMSInOneSecond){
                 return 'under a second.';
             }
+            // Warning Conditions order is important here ! ORDER DESC
+            // 6- if the rounded duration in milliseconds is superior to a week.
+            if(roundedMS >= numberOfMSInOneWeek){
+                Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
+                roundedMS = roundedMS - (numberOfWeeks * numberOfMSInOneWeek);
+                durationInString = durationInString + numberOfWeeks + ' weeks(s), ';
+            }
+            // 5- if the rounded duration in milliseconds is superior to a day.
+            if(roundedMS >= numberOfMSInOneDay){
+                Long numberOfDays = calculateTimeInDays(roundedMS);
+                roundedMS = roundedMS - (numberOfDays * numberOfMSInOneDay);
+                durationInString = durationInString + numberOfDays + ' day(s), ';
+            }
             // 4- if the rounded duration in milliseconds is superior to a hour.
             if(roundedMS >= numberOfMSInOneHour){
-                System.debug('début étape 4 roundedMS -> ' + roundedMS);
                 Long numberOfHours = calculateTimeInHours(roundedMS);
                 roundedMS = roundedMS - (numberOfHours * numberOfMSInOneHour);
                 durationInString = durationInString + numberOfHours + ' hour(s), ';
-                System.debug('étape 4 roundedMS -> ' + roundedMS);
             }
             // 3- if the rounded duration in milliseconds is superior to a minute.
             if(roundedMS >= numberOfMSInOneMinute){
-                System.debug('début étape 3 roundedMS -> ' + roundedMS);
                 Long numberOfMinutes = calculateTimeInMinutes(roundedMS);
                 roundedMS = roundedMS - (numberOfMinutes * numberOfMSInOneMinute);
                 durationInString = durationInString + numberOfMinutes + ' minute(s), ' ;
-                System.debug('étape 3 roundedMS -> ' + roundedMS);
             }
             //2- if the rounded duration in milliseconds is superior to a second.
             if(roundedMS >= numberOfMSInOneSecond){
-                System.debug('début étape 2');
                 Long numberOfSeconds = calculateTimeInSeconds(roundedMS);
                 durationInString = durationInString + numberOfSeconds + ' second(s)';
                 roundedMS = roundedMS - (numberOfSeconds * numberOfMSInOneSecond);
