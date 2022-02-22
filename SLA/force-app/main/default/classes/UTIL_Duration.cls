@@ -124,7 +124,7 @@ public with sharing class UTIL_Duration {
         Long numberOfMSInOneMonth = Long.valueOf('2629800000');
         Long numberOfMSInOneYear = Long.valueOf('31536000000');
 
-        if (timeInMilliseconds!=null){
+        if (timeInMilliseconds != null){
             Long roundedMS = timeInMilliseconds;
             //1- if the duration in milliseconds is inferior to a second.
             // AND DONE. NOTHING ELSE TO DO.
@@ -135,21 +135,21 @@ public with sharing class UTIL_Duration {
             //----- WARNING I need to reduce cognitive complexity
             // 8- if the rounded duration in milliseconds is superior to a year.
             if(roundedMS >= numberOfMSInOneYear){
-                Long numberOfYears = calculateTimeInWeeks(roundedMS);
+                Long numberOfYears = calculateTimeInYears(roundedMS);
                 roundedMS = roundedMS - (numberOfYears * numberOfMSInOneYear);
                 durationInString = durationInString + numberOfYears + ' year(s), ';
             }
             // 7- if the rounded duration in milliseconds is superior to a month.
-            if(roundedMS >= numberOfMSInOneMonth && roundedMS < numberOfMSInOneYear){
-                Long numberOfMonths = calculateTimeInWeeks(roundedMS);
+            if(roundedMS >= numberOfMSInOneMonth){
+                Long numberOfMonths = calculateTimeInMonths(roundedMS);
                 roundedMS = roundedMS - (numberOfMonths * numberOfMSInOneMonth);
                 durationInString = durationInString + numberOfMonths + ' month(s), ';
             }
             // 6- if the rounded duration in milliseconds is superior to a week.
-            if(roundedMS >= numberOfMSInOneWeek && roundedMS < numberOfMSInOneMonth){
+            if(roundedMS >= numberOfMSInOneWeek){
                 Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
                 roundedMS = roundedMS - (numberOfWeeks * numberOfMSInOneWeek);
-                durationInString = durationInString + numberOfWeeks + ' weeks(s), ';
+                durationInString = durationInString + numberOfWeeks + ' week(s), ';
             }
             //-----
             // 5- if the rounded duration in milliseconds is superior to a day.

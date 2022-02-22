@@ -214,7 +214,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 weeks(s), 3 hour(s), 5 minute(s), 10 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 week.');
+    System.assertEquals('1 week(s), 3 hour(s), 5 minute(s), 10 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 week.');
   }
   /**
   * This methode tests generateAStringFromMS.
