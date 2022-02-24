@@ -128,51 +128,49 @@ public with sharing class UTIL_Duration {
        
         if (timeInMilliseconds != null){
             Long roundedMS = timeInMilliseconds;
-            //1- if the duration in milliseconds is inferior to a second.
+            // if the duration in milliseconds is inferior to a second.
             // AND DONE. NOTHING ELSE TO DO.
             if(roundedMS < NUMBER_OF_MS_IN_ONE_SECOND){
                 return 'under a second.';
             }
             // Warning Conditions order is important here ! ORDER DESC
-            //----- WARNING I need to reduce cognitive complexity
-            // 8- if the rounded duration in milliseconds is superior to a year.
+            // if the rounded duration in milliseconds is superior to a year.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_YEAR){
                 Long numberOfYears = calculateTimeInYears(roundedMS);
                 roundedMS = roundedMS - (numberOfYears * NUMBER_OF_MS_IN_ONE_YEAR);
                 durationInString = durationInString + numberOfYears + ' year(s), ';
             }
-            // 7- if the rounded duration in milliseconds is superior to a month.
+            // if the rounded duration in milliseconds is superior to a month.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_MONTH){
                 Long numberOfMonths = calculateTimeInMonths(roundedMS);
                 roundedMS = roundedMS - (numberOfMonths * NUMBER_OF_MS_IN_ONE_MONTH);
                 durationInString = durationInString + numberOfMonths + ' month(s), ';
             }
-            // 6- if the rounded duration in milliseconds is superior to a week.
+            // if the rounded duration in milliseconds is superior to a week.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_WEEK){
                 Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
                 roundedMS = roundedMS - (numberOfWeeks * NUMBER_OF_MS_IN_ONE_WEEK);
                 durationInString = durationInString + numberOfWeeks + ' week(s), ';
             }
-            //-----
-            // 5- if the rounded duration in milliseconds is superior to a day.
+            // if the rounded duration in milliseconds is superior to a day.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_DAY){
                 Long numberOfDays = calculateTimeInDays(roundedMS);
                 roundedMS = roundedMS - (numberOfDays * NUMBER_OF_MS_IN_ONE_DAY);
                 durationInString = durationInString + numberOfDays + ' day(s), ';
             }
-            // 4- if the rounded duration in milliseconds is superior to a hour.
+            // if the rounded duration in milliseconds is superior to a hour.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_HOUR){
                 Long numberOfHours = calculateTimeInHours(roundedMS);
                 roundedMS = roundedMS - (numberOfHours * NUMBER_OF_MS_IN_ONE_HOUR);
                 durationInString = durationInString + numberOfHours + ' hour(s), ';
             }
-            // 3- if the rounded duration in milliseconds is superior to a minute.
+            // if the rounded duration in milliseconds is superior to a minute.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_MINUTE){
                 Long numberOfMinutes = calculateTimeInMinutes(roundedMS);
                 roundedMS = roundedMS - (numberOfMinutes * NUMBER_OF_MS_IN_ONE_MINUTE);
                 durationInString = durationInString + numberOfMinutes + ' minute(s), ' ;
             }
-            //2- if the rounded duration in milliseconds is superior to a second.
+            // if the rounded duration in milliseconds is superior to a second.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_SECOND){
                 Long numberOfSeconds = calculateTimeInSeconds(roundedMS);
                 durationInString = durationInString + numberOfSeconds + ' second(s)';
