@@ -90,6 +90,36 @@ public without sharing class TH_WorkTrigger_Test {
         }
     }
     /**
+     * Setup methode for agf__Status__c = 'To Fix'
+     * Called by :  checkIfWorkDurationStringStatusNewIsFilledAfterUpdate
+     *              checkIfWorkDateStatusNewEndsFilledAfterUpdate
+     *              checkIfWorkDurationMSStatusNewIsFilledAfterUpdate
+     *              checkIfWorkDateStatusToFixStartsFilledAfterUpdate
+     * @Parametters : None
+     * @Returns : VOID
+     */
+    static void setupTestWhenStatusIsToFix(){
+         // get reccord of agf__ADM_Work__c
+         agf__ADM_Work__c workReccordHoney = getWorkReccord('honey');
+         // Set new value in field agf__Status__c
+         workReccordHoney.agf__Status__c = 'To Fix';
+         // update field agf__Status__c on reccord workReccordHoney
+         Test.startTest();
+         update 	workReccordHoney;
+         Test.stopTest();
+    }
+    static void setupTestWhenStatusIsDEVInProgress(){
+        // get reccord of agf__ADM_Work__c
+        agf__ADM_Work__c workReccordHoneyToFix = getWorkReccord('to fix honey');
+        System.debug(workReccordHoneyToFix);
+        // Set new value in field agf__Status__c
+        workReccordHoneyToFix.agf__Status__c = 'DEV – In Progress';
+        // update field agf__Status__c on reccord workReccordHoneyToFix
+        Test.startTest();
+        update 	workReccordHoneyToFix;
+        Test.stopTest();
+}
+    /**
      * Tests if Date_Status_New_Starts__c is filled with date/time now when I insert a reccord in agf__ADM_Work__c.
      * Called by :
      * @Parametters : None
@@ -119,14 +149,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDateStatusNewEndsFilledAfterUpdate() {
-        // get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoney = getWorkReccord('honey');
-        // Set new value in field agf__Status__c
-        workReccordHoney.agf__Status__c = 'To Fix';
-        // update field agf__Status__c on reccord workReccordHoney
-        Test.startTest();
-		update 	workReccordHoney;
-        Test.stopTest();
+        setupTestWhenStatusIsToFix();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('honey');
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
@@ -148,14 +171,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDurationMSStatusNewIsFilledAfterUpdate() {
-        // get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoney = getWorkReccord('honey');
-        // Set new value in field agf__Status__c and Date_Status_New_Ends__c
-        workReccordHoney.agf__Status__c = 'To Fix';
-        // update field agf__Status__c on reccord workReccordHoney
-        Test.startTest();
-		update 	workReccordHoney;
-        Test.stopTest();
+        setupTestWhenStatusIsToFix();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('honey');
         // get real field Duration_MS_Status_New__c
         Long realDuration = (Long)workReccordHoneyAfterUpdate.Duration_MS_Status_New__c;
@@ -170,14 +186,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDurationStringStatusNewIsFilledAfterUpdate() {
-        // get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoney = getWorkReccord('honey');
-        // Set new value in field agf__Status__c and Date_Status_New_Ends__c
-        workReccordHoney.agf__Status__c = 'To Fix';
-        // update field agf__Status__c on reccord workReccordHoney
-        Test.startTest();
-		update 	workReccordHoney;
-        Test.stopTest();
+        setupTestWhenStatusIsToFix();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('honey');
         // get real field Duration_String_Status_New__c
         String realStringDuration = workReccordHoneyAfterUpdate.Duration_String_Status_New__c;
@@ -192,14 +201,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDateStatusToFixStartsFilledAfterUpdate() {
-        // get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoney = getWorkReccord('honey');
-        // Set new value in field agf__Status__c
-        workReccordHoney.agf__Status__c = 'To Fix';
-        // update field agf__Status__c on reccord workReccordHoney
-        Test.startTest();
-		update 	workReccordHoney;
-        Test.stopTest();
+        setupTestWhenStatusIsToFix();
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('honey');
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
@@ -221,17 +223,8 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDateStatusToFixEndsFilledAfterUpdate() {
-        // get reccord of agf__ADM_Work__c
-        agf__ADM_Work__c workReccordHoneyToFix = getWorkReccord('to fix honey');
-        System.debug(workReccordHoneyToFix);
-        // Set new value in field agf__Status__c
-        workReccordHoneyToFix.agf__Status__c = 'DEV – In Progress';
-        // update field agf__Status__c on reccord workReccordHoneyToFix
-        Test.startTest();
-		update 	workReccordHoneyToFix;
-        Test.stopTest();
+        setupTestWhenStatusIsDEVInProgress();
         agf__ADM_Work__c workReccordHoneyToFixAfterUpdate = getWorkReccord('to fix honey');
-        System.debug(workReccordHoneyToFixAfterUpdate);
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
         // Make sure the two DatTime are the same
