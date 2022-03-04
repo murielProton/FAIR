@@ -46,11 +46,23 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                 if (oldWork.agf__Status__c == 'Workload DONE' && newWork.agf__Status__c != 'Workload DONE'){
                     // set field newWork.Date_Status_Workload_DONE_Ends__c for the reccords of agf__ADM_Work__c
                     newWork.Date_Status_Workload_DONE_Ends__c = Datetime.now();
-                    // set field Duration_MS_Status_Workload_DONE__c with a duration in Milliseconds (Decimal)
-                    //TODO
-                    // set field Duration_String_Status_Workload_DONE__c with a duration in Milliseconds (Decimal)
-                    //TODO
                 }
+                if (oldWork.agf__Status__c != 'OK For DEV' && newWork.agf__Status__c == 'OK For DEV'){
+                    // set field Date_Status__Starts__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_OK_For_DEV_Starts__c = Datetime.now();
+                }
+                if (oldWork.agf__Status__c == 'OK For DEV' && newWork.agf__Status__c != 'OK For DEV'){
+                    // set field newWork.Date_Status_OK_For_DEV_Ends__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_OK_For_DEV_Ends__c = Datetime.now();
+                }
+                /*if (oldWork.agf__Status__c != '' && newWork.agf__Status__c == ''){
+                    // set field Date_Status__Starts__c for the reccords of agf__ADM_Work__c
+                    newWork. = Datetime.now();
+                }
+                if (oldWork.agf__Status__c == '' && newWork.agf__Status__c != ''){
+                    // set field newWork.Date_Status__Ends__c for the reccords of agf__ADM_Work__c
+                    newWork. = Datetime.now();
+                }*/
             }
 
 

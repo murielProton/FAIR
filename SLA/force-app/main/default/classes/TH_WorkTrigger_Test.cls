@@ -29,7 +29,10 @@ public without sharing class TH_WorkTrigger_Test {
                                                     Duration_String_Status_New__c, 
                                                     Date_Status_Workload_DONE_Starts__c,
                                                     Date_Status_Workload_DONE_Ends__c,
-                                                    Duration_MS_Status_Workload_DONE__c
+                                                    Duration_MS_Status_Workload_DONE__c, 
+                                                    Date_Status_OK_For_DEV_Starts__c,
+                                                    Date_Status_OK_For_DEV_Ends__c,
+                                                    Duration_MS_Status_OK_For_DEV__c
                                              FROM agf__ADM_Work__c
                                              WHERE agf__Subject__c = :subjectOnWork
                                             ];
@@ -140,7 +143,18 @@ public without sharing class TH_WorkTrigger_Test {
         Test.startTest();
         update 	workReccordmiel;
         Test.stopTest();
-}
+    }
+    static void setupTestWhenStatusIsDEVIP(){
+        // get reccord of agf__ADM_Work__c
+        agf__ADM_Work__c workReccordmiel = getWorkReccord('honig');
+        System.debug(workReccordmiel);
+        // Set new value in field agf__Status__c
+        workReccordmiel.agf__Status__c = 'DEV - In Progress';
+        // update field agf__Status__c on reccord workReccordHoney
+        Test.startTest();
+        update 	workReccordmiel;
+        Test.stopTest();
+    }
     /**
      * Tests if Date_Status_New_Starts__c is filled with date/time now when I insert a reccord in agf__ADM_Work__c.
      * Called by :
@@ -239,7 +253,7 @@ public without sharing class TH_WorkTrigger_Test {
     }
        /**
      *
-     * Tests if Date_Status__Ends__c is filled with date/time now when the field agf__Status__c is updated from ??? to any other, 
+     * Tests if Date_Status_Workload_DONE_Ends__c is filled with date/time now when the field agf__Status__c is updated from Workload Done to any other, 
      * on agf__ADM_Work__c reccord.
      */
     @isTest
@@ -256,6 +270,49 @@ public without sharing class TH_WorkTrigger_Test {
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
                             'On the sObject Work the field Date Status Workload DONE Ends has not been correctly filled by the Trigger.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if Date_Status_OK_For_DEV_Starts__c is filled with date/time now when the field agf__Status__c is updated to , 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusOkForDevStartsFilledAfterUpdate() {
+        setupTestWhenStatusIsOKForDEV();
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('miel');
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_OK_For_DEV_Starts__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_OK_For_DEV_Starts__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status OK For DEV Starts has not been correctly filled by the Trigger.'
+                            );
+    }
+        /**
+     *
+     * Tests if Date_Status_OK_For_DEV_Starts__c is filled with date/time now when the field agf__Status__c is updated to , 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusOkForDevEndsFilledAfterUpdate() {
+        setupTestWhenStatusIsDEVIP();
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord('honig');
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_OK_For_DEV_Ends__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_OK_For_DEV_Ends__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status OK For DEV Ends has not been correctly filled by the Trigger.'
                             );
 
     }
