@@ -39,13 +39,17 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // set field Duration_String_Status_New__c with a string expressing the duration
                     newWork.Duration_String_Status_New__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
-                if (oldWork.agf__Status__c != 'To Fix' && newWork.agf__Status__c == 'To Fix'){
-                    // set field Date_Status_To_Fix_Starts__c for the reccords of agf__ADM_Work__c
-                    newWork.Date_Status_To_Fix_Starts__c = Datetime.now();
+                if (oldWork.agf__Status__c != 'Workload DONE' && newWork.agf__Status__c == 'Workload DONE'){
+                    // set field Date_Status_Workload_DONE_Starts__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_Workload_DONE_Starts__c = Datetime.now();
                 }
-                if (oldWork.agf__Status__c == 'To Fix' && newWork.agf__Status__c != 'To Fix'){
-                    // set field newWork.Date_Status_New_Ends__c for the reccords of agf__ADM_Work__c
-                    newWork.Date_Status_To_Fix_Ends__c = Datetime.now();
+                if (oldWork.agf__Status__c == 'Workload DONE' && newWork.agf__Status__c != 'Workload DONE'){
+                    // set field newWork.Date_Status_Workload_DONE_Ends__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_Workload_DONE_Ends__c = Datetime.now();
+                    // set field Duration_MS_Status_Workload_DONE__c with a duration in Milliseconds (Decimal)
+                    //TODO
+                    // set field Duration_String_Status_Workload_DONE__c with a duration in Milliseconds (Decimal)
+                    //TODO
                 }
             }
 
