@@ -35,7 +35,11 @@ public without sharing class TH_WorkTrigger_Test {
                                                     Duration_MS_Status_OK_For_DEV__c,
                                                     Date_Status_DEV_IP_Starts__c,
                                                     Date_Status_DEV_IP_Ends__c,
-                                                    Duration_MS_Status_DEV_IP__c
+                                                    Duration_MS_Status_DEV_IP__c,
+                                                    Date_Status_DEV_TBT_Starts__c,
+                                                    Date_Status_DEV_TBT_Ends__c,
+                                                    Duration_MS_Status_DEV_TBT__c,
+                                                    Duration_MS_Status_DEV_TBD_UAT__c
                                              FROM agf__ADM_Work__c
                                              WHERE agf__Subject__c = :subjectOnWork
                                             ];
@@ -106,12 +110,22 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildReccord.Id,
             agf__Priority__c = 'P0'
         );
+        // creating a reccord on sObject agf__ADM_Work__c Status OK For DEV
+        agf__ADM_Work__c workReccordDevInProgressFengMi = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'feng mi',
+            agf__Status__c = 'DEV - To Be Tested',
+            agf__Product_Tag__c = productTagReccord.Id,
+            agf__Found_in_Build__c = buildReccord.Id,
+            agf__Priority__c = 'P0'
+        );
         // TODO creating a reccord on sObject agf__ADM_Work__c Status ???
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workReccordNewHoney);
         workRecordsList.add(workReccordWorkloadMiel);
         workRecordsList.add(workReccordOKForDevHonig);
         workRecordsList.add(workReccordDevInProgressAsala);
+         workRecordsList.add(workReccordDevInProgressFengMi);
         //TODO add new reccord with other status than new
         for(agf__ADM_Work__c curentRecord : workRecordsList ){
             insert curentRecord;
@@ -356,6 +370,51 @@ public without sharing class TH_WorkTrigger_Test {
                             dateTimeOFWorkReccord, 
                             'On the sObject Work the field Date Status DEV - In Progress Ends has not been correctly filled by the Trigger.'
                             );
-
+    }
+    /**
+     *
+     * Tests if Date_Status_DEV_TBT_Starts__c is filled with date/time now when the field agf__Status__c is updated to DEV - To Be Tested, 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusDEVTBTStartsFilledAfterUpdate() {
+        String nameOfRecording = 'asala';
+        String statusValue = 'DEV - To Be Tested';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_DEV_TBT_Starts__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals	Date_Status_DEV_TBT_Starts__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status DEV - To Be Tested Starts has not been correctly filled by the Trigger.'
+                            );
+    }
+    /**
+     *
+     * Tests if Date_Status_DEV_TBT_Ends__c is filled with date/time now when the field agf__Status__c is updated to any other, 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusDEVTBTEndsFilledAfterUpdate() {
+        String nameOfRecording = 'feng mi';
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_DEV_TBT_Ends__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals	Date_Status_DEV_TBT_Ends__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status DEV - In Progress Ends has not been correctly filled by the Trigger.'
+                            );
     }
 }

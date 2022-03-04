@@ -63,6 +63,14 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // set field Date_Status_DEV_IP_Ends__c for the reccords of agf__ADM_Work__c
                     newWork.Date_Status_DEV_IP_Ends__c = Datetime.now();
                 }
+                if (oldWork.agf__Status__c != 'DEV - To Be Tested' && newWork.agf__Status__c == 'DEV - To Be Tested'){
+                    // set field Date_Status_DEV_TBT_Starts__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_DEV_TBT_Starts__c = Datetime.now();
+                }
+                if (oldWork.agf__Status__c == 'DEV - To Be Tested' && newWork.agf__Status__c != 'DEV - To Be Tested'){
+                    // set field Date_Status_DEV_TBT_Ends__c for the reccords of agf__ADM_Work__c
+                    newWork.Date_Status_DEV_TBT_Ends__c = Datetime.now();
+                }
                 /*if (oldWork.agf__Status__c != '' && newWork.agf__Status__c == ''){
                     // set field Date_Status__Starts__c for the reccords of agf__ADM_Work__c
                     newWork. = Datetime.now();
