@@ -41,7 +41,10 @@ public without sharing class TH_WorkTrigger_Test {
                                                     Duration_MS_Status_DEV_TBT__c,
                                                     Date_Status_DEV_TBD_UAT_Starts__c,
                                                     Date_Status_DEV_TBD_UAT_Ends__c,
-                                                    Duration_MS_Status_DEV_TBD_UAT__c
+                                                    Duration_MS_Status_DEV_TBD_UAT__c,
+                                                    Date_Status_UAT_To_Fix_Starts__c,
+                                                    Date_Status_UAT_To_Fix_Ends__c,
+                                                    Duration_MS_Status_UAT_To_Fix__c
                                              FROM agf__ADM_Work__c
                                              WHERE agf__Subject__c = :subjectOnWork
                                             ];
@@ -130,6 +133,15 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildReccord.Id,
             agf__Priority__c = 'P0'
         );
+        // creating a reccord on sObject agf__ADM_Work__c Status UAT - To Fix
+        agf__ADM_Work__c workReccordDevInProgressMel = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'mel',
+            agf__Status__c = 'UAT - To Fix',
+            agf__Product_Tag__c = productTagReccord.Id,
+            agf__Found_in_Build__c = buildReccord.Id,
+            agf__Priority__c = 'P0'
+        );
         // TODO creating a reccord on sObject agf__ADM_Work__c Status ???
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workReccordNewHoney);
@@ -138,6 +150,7 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workReccordDevInProgressAsala);
         workRecordsList.add(workReccordDevInProgressFengMi);
         workRecordsList.add(workReccordDevInProgressMiele);
+        workRecordsList.add(workReccordDevInProgressMel);
         //TODO add new reccord with other status than new
         for(agf__ADM_Work__c curentRecord : workRecordsList ){
             insert curentRecord;
@@ -472,7 +485,7 @@ public without sharing class TH_WorkTrigger_Test {
         // check if dateTimeNow equals	Date_Status_DEV_TBD_UAT_Ends__c
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
-                            'On the sObject Work the field Date Status UAT - To Fix Ends has not been correctly filled by the Trigger.'
+                            'On the sObject Work the field Date Status To Be Deployed in UAT Ends has not been correctly filled by the Trigger.'
                             );
     }
     /**
@@ -495,18 +508,18 @@ public without sharing class TH_WorkTrigger_Test {
         // check if dateTimeNow equals Date_Status_UAT_To_Fix_Starts__c
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
-                            'On the sObject Work the field Date DEV - To Be Deployed in UAT Starts has not been correctly filled by the Trigger.'
+                            'On the sObject Work the field Date UAT - To Fix Starts has not been correctly filled by the Trigger.'
                             );
     }
     /**
      *
-     * Tests if Date_Status_DEV_TBD_UAT_Ends__c is filled with date/time now when the field agf__Status__c is updated to any other, 
+     * Tests if Date_Status_UAT_To_Fix_Ends__c is filled with date/time now when the field agf__Status__c is updated to any other, 
      * on agf__ADM_Work__c reccord.
      */
     @isTest
-    static void checkIfWorkDateStatusDEVTBDUATEndsFilledAfterUpdate() {
+    static void checkIfWorkDateStatusUATToFixEndsFilledAfterUpdate() {
         String nameOfRecording = 'mel';
-        String statusValue = 'UAT - To Fix';
+        String statusValue = 'UAT - To Be Deployed in PROD';
         setupTestWhenStatusIs(statusValue, nameOfRecording);
         agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccord(nameOfRecording);
         // set a DateTime to now.
@@ -514,8 +527,8 @@ public without sharing class TH_WorkTrigger_Test {
         // Make sure the two DatTime are the same
         // convert DateTime into String in a specified format to ensure they are equal.
         String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
-        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_DEV_TBD_UAT_Ends__c.format('yyyy/MM/dd hh:mm');
-        // check if dateTimeNow equals	Date_Status_DEV_TBD_UAT_Ends__c
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_UAT_To_Fix_Ends__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_UAT_To_Fix_Ends__c
         System.assertEquals(expectedDate, 
                             dateTimeOFWorkReccord, 
                             'On the sObject Work the field Date Status UAT - To Fix Ends has not been correctly filled by the Trigger.'
