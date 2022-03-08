@@ -199,6 +199,24 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildReccord.Id,
             agf__Priority__c = 'P0'
         );
+        // creating a reccord on sObject agf__ADM_Work__c Status 'PROD - To Fix'
+        agf__ADM_Work__c workReccordDevInProgressKkul = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'kkul',
+            agf__Status__c = 'PROD - To Fix',
+            agf__Product_Tag__c = productTagReccord.Id,
+            agf__Found_in_Build__c = buildReccord.Id,
+            agf__Priority__c = 'P0'
+        );
+        // creating a reccord on sObject agf__ADM_Work__c Status 'Validated - To Be Deployed'
+        agf__ADM_Work__c workReccordDevInProgressTsisNaBitIzh = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'tsis na bit izh',
+            agf__Status__c = 'Validated - To Be Deployed',
+            agf__Product_Tag__c = productTagReccord.Id,
+            agf__Found_in_Build__c = buildReccord.Id,
+            agf__Priority__c = 'P0'
+        );
         // creating a record on sObject agf__ADM_Work__c Status ???
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workReccordNewHoney);
@@ -209,6 +227,8 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workReccordDevInProgressMiele);
         workRecordsList.add(workReccordDevInProgressMel);
         workRecordsList.add(workReccordDevInProgressMiere);
+        workRecordsList.add(workReccordDevInProgressKkul);
+        workRecordsList.add(workReccordDevInProgressTsisNaBitIzh);
         //Insert a list of record
         insert workRecordsList;
     }
@@ -664,5 +684,99 @@ public without sharing class TH_WorkTrigger_Test {
                             dateTimeOFWorkReccord, 
                             'On the sObject Work the field Date Status UAT - To Be Deployed in PROD Ends has not been correctly filled by the Trigger.'
                             );
+    }
+    /**
+     *
+     * Tests if Date_Status_PROD_To_Fix_Starts__c is filled with date/time now when the field agf__Status__c is updated to 'PROD - To Fix', 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusProdToFixStartsFilledAfterUpdate() {
+        String nameOfRecording = 'miere';
+        String statusValue = 'PROD - To Fix';
+        setupTestForDateStartWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordForDateStart(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_PROD_To_Fix_Starts__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_PROD_To_Fix_Starts__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date PROD - To Fix Starts has not been correctly filled by the Trigger.'
+                            );
+    }
+    /**
+     *
+     * Tests if Date_Status_PROD_To_Fix_Ends__c is filled with date/time now when the field agf__Status__c is updated to any other, 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusProdToFixEndsFilledAfterUpdate() {
+        String nameOfRecording = 'kkul';
+        String statusValue = 'Validated - To Be Deployed';
+        setupTestForDateEndWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordForDateEnd(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_PROD_To_Fix_Ends__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_PROD_To_Fix_Ends__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Status PROD - To Fix Ends has not been correctly filled by the Trigger.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if Date_Status_Validated_TBD_Starts__c is filled with date/time now when the field agf__Status__c is updated to 'Validated - To Be Deployed', 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusValidatedTBDtartsFilledAfterUpdate() {
+        String nameOfRecording = 'kkul';
+        String statusValue = 'Validated - To Be Deployed';
+        setupTestForDateStartWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordForDateStart(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_Validated_TBD_Starts__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_Validated_TBD_Starts__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Validated - To Be Deployed Starts has not been correctly filled by the Trigger.'
+                            );
+    }
+    /**
+     *
+     * Tests if Date_Status_Validated_TBD_Ends__c is filled with date/time now when the field agf__Status__c is updated to any other, 
+     * on agf__ADM_Work__c reccord.
+     */
+    @isTest
+    static void checkIfWorkDateStatusValidatedTBDEndsFilledAfterUpdate() {
+        String nameOfRecording = 'tsis na bit izh';
+        String statusValue = 'Validated';
+        setupTestForDateEndWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workReccordHoneyAfterUpdate = getWorkReccordForDateEnd(nameOfRecording);
+        // set a DateTime to now.
+        DateTime dateTimeNow = DateTime.now();
+        // Make sure the two DatTime are the same
+        // convert DateTime into String in a specified format to ensure they are equal.
+        String expectedDate = dateTimeNow.format('yyyy/MM/dd hh:mm');
+        String dateTimeOFWorkReccord = workReccordHoneyAfterUpdate.Date_Status_Validated_TBD_Ends__c.format('yyyy/MM/dd hh:mm');
+        // check if dateTimeNow equals Date_Status_Validated_TBD_Ends__c
+        System.assertEquals(expectedDate, 
+                            dateTimeOFWorkReccord, 
+                            'On the sObject Work the field Date Validated - To Be Deployed Ends has not been correctly filled by the Trigger.'
+                            );
+
     }
 }
