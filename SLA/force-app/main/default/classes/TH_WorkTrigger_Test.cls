@@ -273,38 +273,7 @@ public without sharing class TH_WorkTrigger_Test {
 
     }
 
-    /**
-     *
-     * Tests if Duration_MS_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
-     */
-    @isTest
-    static void checkIfWorkDurationMSStatusNewIsFilledAfterUpdate() {
-        String nameOfRecording = 'honey';
-        String statusValue = 'Workload DONE';
-        setupTestWhenStatusIs(statusValue, nameOfRecording);
-        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        // get real field Duration_MS_Status_New__c
-        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_New__c;
-        // convert field Duration_MS_Status_New__c so it can be tested
-        String realDurationToTest = String.valueOf(realDuration);
-        // check if Duration_MS_Status_New__c is a number
-        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_New__c is not a number.');
-    }
-        /**
-     *
-     * Tests if Duration_String_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
-     */
-    @isTest
-    static void checkIfWorkDurationStringStatusNewIsFilledAfterUpdate() {
-        String nameOfRecording = 'honey';
-        String statusValue = 'Workload DONE';
-        setupTestWhenStatusIs(statusValue, nameOfRecording);
-        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        // get real field Duration_String_Status_New__c
-        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_New__c;
-        // check if Duration_String_Status_New__c is a isAlphanumericSpace()
-        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_New__c is not a string.');
-    }
+    
     /**
      *
      * Tests if Date_Status_Workload_Done_Starts__c is filled with date/time now when the field agf__Status__c is updated to , 
@@ -355,23 +324,6 @@ public without sharing class TH_WorkTrigger_Test {
     }
     /**
      *
-     * Tests if Duration_MS_Status_Workload_DONE__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
-     */
-    @isTest
-    static void checkIfWorkDurationMSStatusWorkLoadDoneIsFilledAfterUpdate() {
-        String nameOfRecording = 'miel';
-        String statusValue = 'OK For DEV';
-        setupTestWhenStatusIs(statusValue, nameOfRecording);
-        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        // get real field Duration_MS_Status_Workload_DONE__c
-        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_Workload_DONE__c;
-        // convert field Duration_MS_Status_Workload_DONE__c so it can be tested
-        String realDurationToTest = String.valueOf(realDuration);
-        // check if Duration_MS_Status_Workload_DONE__c is a number
-        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_Workload_DONE__c is not a number.');
-    }
-    /**
-     *
      * Tests if Date_Status_OK_For_DEV_Starts__c is filled with date/time now when the field agf__Status__c is updated to , 
      * on agf__ADM_Work__c record.
      */
@@ -415,23 +367,6 @@ public without sharing class TH_WorkTrigger_Test {
                             dateTimeOFWorkRecord, 
                             'On the sObject Work the field Date Status OK For DEV Ends has not been correctly filled by the Trigger.'
                             );
-    }
-    /**
-     *
-     * Tests if Duration_MS_Status_OK_For_DEV__c is filled with a Long when the Date_Status_OK_For_DEV_Ends__c is updated on agf__ADM_Work__c record.
-     */
-    @isTest
-    static void checkIfWorkDurationMSStatusDEVInProgressIsFilledAfterUpdate() {
-        String nameOfRecording = 'honig';
-        String statusValue = 'DEV - In Progress';
-        setupTestWhenStatusIs(statusValue, nameOfRecording);
-        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        // get real field Duration_MS_Status_OK_For_DEV__c
-        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_OK_For_DEV__c;
-        // convert field Duration_MS_Status_OK_For_DEV__c so it can be tested
-        String realDurationToTest = String.valueOf(realDuration);
-        // check if Duration_MS_Status_OK_For_DEV__c is a number
-        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_OK_For_DEV__c is not a number.');
     }
     /**
      *
@@ -526,6 +461,7 @@ public without sharing class TH_WorkTrigger_Test {
                             'On the sObject Work the field Date Status DEV - In Progress Ends has not been correctly filled by the Trigger.'
                             );
     }
+
     /**
      *
      * Tests if Date_Status_DEV_TBD_UAT_Starts__c is filled with date/time now when the field agf__Status__c is updated to DEV - To Be Deployed in UAT, 
@@ -757,5 +693,141 @@ public without sharing class TH_WorkTrigger_Test {
                             'On the sObject Work the field Date Validated - To Be Deployed Ends has not been correctly filled by the Trigger.'
                             );
 
+    }
+    //----------------------------------------------------- CHECK Duration_MS_Status_**-------------------------------------------------
+    /**
+     *
+     * Tests if Duration_MS_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusNewIsFilledAfterUpdate() {
+        String nameOfRecording = 'honey';
+        String statusValue = 'Workload DONE';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_New__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_New__c;
+        // convert field Duration_MS_Status_New__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_New__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_New__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_Workload_DONE__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusWorkLoadDoneIsFilledAfterUpdate() {
+        String nameOfRecording = 'miel';
+        String statusValue = 'OK For DEV';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_Workload_DONE__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_Workload_DONE__c;
+        // convert field Duration_MS_Status_Workload_DONE__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_Workload_DONE__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_Workload_DONE__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_OK_For_DEV__c is filled with a Long when the Date_Status_OK_For_DEV_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusOKForDEVIsFilledAfterUpdate() {
+        String nameOfRecording = 'honig';
+        String statusValue = 'DEV - In Progress';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_OK_For_DEV__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_OK_For_DEV__c;
+        // convert field Duration_MS_Status_OK_For_DEV__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_OK_For_DEV__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_OK_For_DEV__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_DEV_IP__c is filled with a Long when the Date_Status_DEV_IP_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusDEVInProgressIsFilledAfterUpdate() {
+        String nameOfRecording = 'asala';
+        String statusValue = 'DEV - To Be Tested';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_DEV_IP__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_DEV_IP__c;
+        // convert field Duration_MS_Status_DEV_IP__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_DEV_IP__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_DEV_IP__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_DEV_TBT__c is filled with a Long when the Date_Status_DEV_TBT_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusDEVToBeTestedIsFilledAfterUpdate() {
+        String nameOfRecording = 'feng mi';
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_DEV_TBT__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_DEV_TBT__c;
+        // convert field Duration_MS_Status_DEV_TBT__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_DEV_TBT__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_DEV_TBT__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_DEV_TBD_UAT__c is filled with a Long when the Date_Status_**_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusDEVToBeDeployedUATIsFilledAfterUpdate() {
+        String nameOfRecording = 'miele';
+        String statusValue = 'UAT - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_DEV_TBD_UAT__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_DEV_TBD_UAT__c;
+        // convert field Duration_MS_Status_DEV_TBD_UAT__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_DEV_TBD_UAT__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_DEV_TBD_UAT__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_UAT_To_Fix__c is filled with a Long when the Date_Status_**_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusUATToFixIsFilledAfterUpdate() {
+        String nameOfRecording = 'mel';
+        String statusValue = 'UAT - To Be Deployed in PROD';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_UAT_To_Fix__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_UAT_To_Fix__c;
+        // convert field Duration_MS_Status_UAT_To_Fix__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_UAT_To_Fix__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_UAT_To_Fix__c is not a number.');
+    }
+//----------------------------------------------------- CHECK Duration_String_Status_**-------------------------------------------------
+    /**
+     *
+     * Tests if Duration_String_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusNewIsFilledAfterUpdate() {
+        String nameOfRecording = 'honey';
+        String statusValue = 'Workload DONE';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_New__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_New__c;
+        // check if Duration_String_Status_New__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_New__c is not a string.');
     }
 }
