@@ -225,7 +225,7 @@ public without sharing class TH_WorkTrigger_Test {
          update workRecordHoney;
          Test.stopTest();
     }
-    //----------------------------------------------------- CHECK Date_Status_**_Starts__c-------------------------------------------------
+    //----------------------------------------------------- CHECK Date_Status_***_Starts__c-------------------------------------------------
     /**
      * Tests if Date_Status_New_Starts__c is filled with date/time now when I insert a record in agf__ADM_Work__c.
      * Called by :
@@ -458,7 +458,7 @@ public without sharing class TH_WorkTrigger_Test {
                             'On the sObject Work the field Date Validated - To Be Deployed Starts has not been correctly filled by the Trigger.'
                             );
     }
-//----------------------------------------------------- CHECK Date_Status_**_Ends__c-------------------------------------------------
+//----------------------------------------------------- CHECK Date_Status_***_Ends__c-------------------------------------------------
      /**
      *
      * Tests if Date_Status_New_Ends__c is filled with date/time now when the field agf__Status__c is updated on agf__ADM_Work__c record.
@@ -697,7 +697,7 @@ public without sharing class TH_WorkTrigger_Test {
                             );
 
     }
-    //----------------------------------------------------- CHECK Duration_MS_Status_**-------------------------------------------------
+    //----------------------------------------------------- CHECK Duration_MS_Status_***-------------------------------------------------
     /**
      *
      * Tests if Duration_MS_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
@@ -785,7 +785,7 @@ public without sharing class TH_WorkTrigger_Test {
     }
     /**
      *
-     * Tests if Duration_MS_Status_DEV_TBD_UAT__c is filled with a Long when the Date_Status_**_Ends__c is updated on agf__ADM_Work__c record.
+     * Tests if Duration_MS_Status_DEV_TBD_UAT__c is filled with a Long when the Date_Status_***_Ends__c is updated on agf__ADM_Work__c record.
      */
     @isTest
     static void checkIfWorkDurationMSStatusDEVToBeDeployedUATIsFilledAfterUpdate() {
@@ -802,7 +802,7 @@ public without sharing class TH_WorkTrigger_Test {
     }
     /**
      *
-     * Tests if Duration_MS_Status_UAT_To_Fix__c is filled with a Long when the Date_Status_**_Ends__c is updated on agf__ADM_Work__c record.
+     * Tests if Duration_MS_Status_UAT_To_Fix__c is filled with a Long when the Date_Status_***_Ends__c is updated on agf__ADM_Work__c record.
      */
     @isTest
     static void checkIfWorkDurationMSStatusUATToFixIsFilledAfterUpdate() {
@@ -817,7 +817,58 @@ public without sharing class TH_WorkTrigger_Test {
         // check if Duration_MS_Status_UAT_To_Fix__c is a number
         System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_UAT_To_Fix__c is not a number.');
     }
-//----------------------------------------------------- CHECK Duration_String_Status_**-------------------------------------------------
+    /**
+     *
+     * Tests if Duration_MS_Status_UAT_TBD_PROD__c is filled with a Long when the Date_Status_***_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusUATTBDPRODIsFilledAfterUpdate() {
+        String nameOfRecording = 'miere';
+        String statusValue = 'PROD - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_UAT_TBD_PROD__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_UAT_TBD_PROD__c;
+        // convert field Duration_MS_Status_UAT_TBD_PROD__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_UAT_TBD_PROD__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_UAT_TBD_PROD__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_PROD_To_Fix__c is filled with a Long when the Date_Status_***_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusPRODToFixIsFilledAfterUpdate() {
+        String nameOfRecording = 'kkul';
+        String statusValue = 'Validated - To Be Deployed';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_PROD_To_Fix__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_PROD_To_Fix__c;
+        // convert field Duration_MS_Status_PROD_To_Fix__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_PROD_To_Fix__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_PROD_To_Fix__c is not a number.');
+    }
+    /**
+     *
+     * Tests if Duration_MS_Status_Validated_TBD__c is filled with a Long when the Date_Status_***_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationMSStatusValidatedTBDIsFilledAfterUpdate() {
+        String nameOfRecording = 'tsis na bit izh';
+        String statusValue = 'Validated';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_MS_Status_Validated_TBD__c
+        Long realDuration = (Long)workRecordHoneyAfterUpdate.Duration_MS_Status_Validated_TBD__c;
+        // convert field Duration_MS_Status_Validated_TBD__c so it can be tested
+        String realDurationToTest = String.valueOf(realDuration);
+        // check if Duration_MS_Status_Validated_TBD__c is a number
+        System.assert(realDurationToTest.isNumeric(),'Duration_MS_Status_Validated_TBD__c is not a number.');
+    }
+//----------------------------------------------------- CHECK Duration_String_Status_***-------------------------------------------------
     /**
      *
      * Tests if Duration_String_Status_New__c is filled with a Long when the Date_Status_New_Ends__c is updated on agf__ADM_Work__c record.
