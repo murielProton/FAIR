@@ -14,6 +14,7 @@ public with sharing class UTIL_Duration {
     public static final Long NUMBER_OF_MS_IN_ONE_SECOND = 1000;
     public static final Long NUMBER_OF_MS_IN_ONE_MINUTE = 60000;
     public static final Long NUMBER_OF_MS_IN_ONE_HOUR = 3600000;
+    public static final Long NUMBER_OF_MS_IN_ONE_WORK_DAY = 30600000;
     public static final Long NUMBER_OF_MS_IN_ONE_DAY = 86400000;
     public static final Long NUMBER_OF_MS_IN_ONE_WEEK = 604800000;
     public static final Long NUMBER_OF_MS_IN_ONE_MONTH = Long.valueOf('2629800000');
@@ -180,7 +181,65 @@ public with sharing class UTIL_Duration {
             return durationInString;
         }else{
             return null;
-        }
-        
+        } 
     }
+    public static String getBusinessHourID(){
+        BusinessHours businessHour = [SELECT mondaystarttime, 
+                                mondayendtime,
+                                tuesdaystarttime,
+                                tuesdayendtime,
+                                wednesdaystarttime,
+                                wednesdayendtime,
+                                thursdaystarttime,
+                                thursdayendtime,
+                                fridaystarttime,
+                                fridayendtime,
+                                saturdaystarttime,
+                                saturdayendtime,
+                                sundaystarttime,
+                                sundayendtime
+                                FROM businesshours 
+                            LIMIT 1];
+        System.debug('businessHour Id - '+businessHour.Id);
+        return businessHour.Id;
+    }
+
+    /** 
+     * This method will return a lenght of time or duration milliseconds.
+     * It will calculate this duration within buisness hours.
+     * It requieres a CONSTRUCTOR.
+     * Called by : calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS()
+     * @Parametters : Long
+     * @Returns : Long 
+     */
+    public Long calculateNumberOfBuisnessHoursSpentInMS(){
+        String businessHoursId = getBusinessHourID();
+        Long durationOfBusinessHoursSpent = BusinessHours.diff(businessHoursId, startDateTime, endDateTime);
+        System.debug('durationOfBusinessHoursSpent - '+durationOfBusinessHoursSpent);
+        return durationOfBusinessHoursSpent;
+    }
+    /** 
+     * TODO
+     * This method will return a lenght of time or duration milliseconds.
+     * It will calculate this duration within buisness hours exluding holidays.
+     * It requieres a CONSTRUCTOR.
+     * Called by : calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS()
+     * @Parametters : Long
+     * @Returns : Long 
+     */
+    /*public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
+
+    }*/
+    /** 
+     * TODO
+     * This method will return a lenght of time or duration milliseconds.
+     * It will calculate this duration within buisness hours exluding holidays.
+     * It requieres a CONSTRUCTOR.
+     * Called by : 
+     * @Parametters : Long
+     * @Returns : Long 
+     */
+    /*public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
+
+    }*/
 }

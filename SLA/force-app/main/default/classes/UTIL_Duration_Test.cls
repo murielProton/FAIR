@@ -242,4 +242,46 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals('1 year(s), 1 week(s), 5 day(s), 20 hour(s), 38 minute(s), 31 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 year.');
   }
+  /**
+  * This methode tests calculateNumberOfBuisnessHoursSpentInMS.
+  * If the start date and end date take in a weekend will it return 172800000 MS ?
+  * As the tested method doese not exlcude holidays it will return 48h. 
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  * 
+  */
+  @isTest
+  public static void testCalculateNumberOfBuisnessHoursSpentInMSOnAWeekend(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 2, 4, 18, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 2, 7, 9, 00, 00);
+    Long expectedDuration = 172800000;
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realDuration = utilDuration.calculateNumberOfBuisnessHoursSpentInMS();
+    Test.stopTest();
+    System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBuisnessHoursSpentInMS is not right.');
+  }
+  /**
+  * This methode tests calculateNumberOfBuisnessHoursSpentInMS.
+  * If the start date and end date are within 48h range will it return 30600000 MS ?
+  * As the tested method doese not exlcude holidays it will return 48h. 
+  * Called by :
+  * @Parametters : None
+  * @Returns : VOID
+  * 
+  */
+  @isTest
+  public static void testCalculateNumberOfBuisnessHoursSpentInMSOnWorkDay(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 28, 09, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 28, 17, 30, 00);
+    Long expectedDuration = 30600000;
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realDuration = utilDuration.calculateNumberOfBuisnessHoursSpentInMS();
+    Test.stopTest();
+    System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBuisnessHoursSpentInMS is not right.');
+  }
 }
