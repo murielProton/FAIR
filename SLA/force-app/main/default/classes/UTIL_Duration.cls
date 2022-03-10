@@ -219,17 +219,69 @@ public with sharing class UTIL_Duration {
         return durationOfBusinessHoursSpent;
     }
     /** 
-     * TODO
-     * This method will return a lenght of time or duration milliseconds.
-     * It will calculate this duration within buisness hours exluding holidays.
-     * It requieres a CONSTRUCTOR.
+     * This method will return the list of holidays.
+     * This method is not tested.
      * Called by : calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS()
-     * @Parametters : Long
+     * @Parametters : NONE
+     * @Returns : List<Holiday> 
+     */
+    public static List<Holiday> getListOfHolidays(){
+        List<Holiday> holidayList = new List<Holiday>();
+        //Fetch all holiday list from the organization- you can check this from
+        holidayList=[ SELECT StartTimeInMinutes, 
+                                Name, 
+                                ActivityDate 
+                        FROM Holiday
+                        ];
+        return holidayList;
+    }
+    /** 
+     * This method will return a boolean.
+     * It if the date is contained by the list of Holidays it will return true.
+     * WARNING some holiday will have activity dates that have a start and an end point. This method will not work in that case.
+     * Called by : 
+     * @Parametters : Date, List<Holiday>
+     * @Returns : bolean 
+     */
+    public static boolean isThisDayAHoliday(Date thisDay, List<Holiday> listOfHolidays){
+        for(Holiday curentHoliday : listOfHolidays){
+            Date dateOfThisHoliday = curentHoliday.ActivityDate;
+            if(dateOfThisHoliday == thisDay){
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * This method will return a number of days between start and end date that are not holidays.
+     * It requieres a CONSTRUCTOR.
+     * Called by : 
+     * @Parametters : 
      * @Returns : Long 
      */
-    /*public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
+    public Long calculateNumberOfDaysExcludingHolidays(){
+        Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
+        Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
+        Integer numberOfDaysBetweenStartAndEndDate = startDate.daysBetween(endDate);
+        System.debug('numberOfDaysBetweenStartAndEndDate = '+numberOfDaysBetweenStartAndEndDate);
+        List<Holiday> listOfHolidays = getListOfHolidays();
+        Long numberOfBuisnessDaysExcludingHolidays=0;
+        System.debug('liste '+listOfHolidays);
+        for(Integer i=0 ; i <= numberOfDaysBetweenStartAndEndDate ; i++){
+            System.debug('je suis dans la boucle for de calculer nombre de jour sans les vacances.');
+            Date dateToTest = startDate.addDays(i);
+            System.debug('dateToTest '+dateToTest );
+            if(isThisDayAHoliday(dateToTest, listOfHolidays)==false){
+                System.debug('je suis dans le if.');
+                numberOfBuisnessDaysExcludingHolidays = numberOfBuisnessDaysExcludingHolidays + 1;
+                System.debug('numberOfBuisnessDaysExcludingHolidays = '+ numberOfBuisnessDaysExcludingHolidays);
+            }else{
+                continue;
+            }
+        }
+        return numberOfBuisnessDaysExcludingHolidays;
 
-    }*/
+    }
     /** 
      * TODO
      * This method will return a lenght of time or duration milliseconds.
@@ -239,7 +291,11 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long 
      */
-    /*public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
+    public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
+        Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
+        Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
+        Long numberOfMSWithinBusinessHoursExcludingHolidays;
+        return numberOfMSWithinBusinessHoursExcludingHolidays;
 
-    }*/
+    }
 }

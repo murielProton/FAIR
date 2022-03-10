@@ -284,4 +284,43 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBuisnessHoursSpentInMS is not right.');
   }
+  /**
+   * This method tests isThisDayAHoliday(Date thisDay, List<Holiday> listOfHolidays)
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testIsThisDayAHoliday(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    Date thisDay = Date.newInstance(2022, 7, 14);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    Test.startTest();
+    boolean isItAHoliday;
+    isItAHoliday = UTIL_Duration.isThisDayAHoliday(thisDay, listOfHolidays);
+    Test.stopTest();
+    System.assertEquals(true, isItAHoliday);
+  }
+  /**
+   * This method tests calculateNumberOfDaysExcludingHolidays().
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfDaysExcludingHolidays(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 7, 11, 09, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 7, 17, 17, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOfDays = utilDuration.calculateNumberOfDaysExcludingHolidays();
+    System.debug('realNumberOfDays = ' + realNumberOfDays);
+    Test.stopTest();
+    System.assertEquals(4, realNumberOfDays);
+  }
+
+ 
 }
