@@ -206,13 +206,13 @@ public with sharing class UTIL_Duration {
 
     /** 
      * This method will return a lenght of time or duration milliseconds.
-     * It will calculate this duration within buisness hours.
+     * It will calculate this duration within business hours.
      * It requieres a CONSTRUCTOR.
-     * Called by : calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS()
+     * Called by : calculateNumberOfBusinessHoursExcludingHolidaysSpentInMS()
      * @Parametters : Long
      * @Returns : Long 
      */
-    public Long calculateNumberOfBuisnessHoursSpentInMS(){
+    public Long calculateNumberOfBusinessHoursSpentInMS(){
         String businessHoursId = getBusinessHourID();
         Long durationOfBusinessHoursSpent = BusinessHours.diff(businessHoursId, startDateTime, endDateTime);
         System.debug('durationOfBusinessHoursSpent - '+durationOfBusinessHoursSpent);
@@ -221,29 +221,43 @@ public with sharing class UTIL_Duration {
     /** 
      * This method will return the list of holidays.
      * This method is not tested.
-     * Called by : calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS()
+     * Called by : calculateNumberOfBusinessHoursExcludingHolidaysSpentInMS()
      * @Parametters : NONE
      * @Returns : List<Holiday> 
      */
     public static List<Holiday> getListOfHolidays(){
         List<Holiday> holidayList = new List<Holiday>();
         //Fetch all holiday list from the organization- you can check this from
-        holidayList=[ SELECT StartTimeInMinutes, 
-                                Name, 
-                                ActivityDate 
+        holidayList=[ SELECT ActivityDate, 
+                             Description, 
+                             EndTimeInMinutes,
+                             IsAllDay,
+                             IsRecurrence,
+                             Name,
+                             RecurrenceDayOfMonth,
+                             RecurrenceDayOfWeekMask,
+                             RecurrenceEndDateOnly,
+                             RecurrenceInstance,
+                             RecurrenceInterval,
+                             RecurrenceMonthOfYear,
+                             RecurrenceStartDate,
+                             RecurrenceType,
+                             StartTimeInMinutes
                         FROM Holiday
-                        ];
+                        LIMIT 20];
         return holidayList;
     }
     /** 
      * This method will return a boolean.
      * It if the date is contained by the list of Holidays it will return true.
      * WARNING some holiday will have activity dates that have a start and an end point. This method will not work in that case.
-     * Called by : 
-     * @Parametters : Date, List<Holiday>
+     * Called by : calculateNumberOfDaysExcludingHolidaysAndWeekends()
+     * @Parametters : DateTime
      * @Returns : bolean 
      */
-    public static boolean isThisDayAHoliday(Date thisDay, List<Holiday> listOfHolidays){
+    public static boolean isThisDayAHoliday(DateTime dateToConvert){
+        Date thisDay = Date.newInstance(dateToConvert.year(), dateToConvert.month(), dateToConvert.day());
+        List<Holiday> listOfHolidays = getListOfHolidays();
         for(Holiday curentHoliday : listOfHolidays){
             Date dateOfThisHoliday = curentHoliday.ActivityDate;
             if(dateOfThisHoliday == thisDay){
@@ -252,50 +266,126 @@ public with sharing class UTIL_Duration {
         }
         return false;
     }
+    /** 
+     * This method will return a boolean.
+     * It if the date is a Saturday or a Sunday it will return true.
+     * WARNING some holiday will have activity dates that have a start and an end point. This method will not work in that case.
+     * Called by : calculateNumberOfDaysExcludingHolidaysAndWeekends()
+     * @Parametters : Date, List<Holiday>
+     * @Returns : bolean 
+     */
+    public static boolean isThisDayAWeekend(DateTime dateTimeToSetToWeekDay){
+        boolean valueToReturn = null;
+        String dayOfWeek = dateTimeToSetToWeekDay.format('EEEE');
+        if(dayOfWeek == 'Saturday'|| dayOfWeek == 'Sunday'){
+            valueToReturn = true;
+            return true;
+        }
+        valueToReturn = false;
+        return false;
+    }
     /**
-     * This method will return a number of days between start and end date that are not holidays.
+     * TODO : the system still does not heed the fact that I have implemented weekends.
+     * This method will return a number of days between start and end date that are not holidays or Weekends.
      * It requieres a CONSTRUCTOR.
      * Called by : 
      * @Parametters : 
      * @Returns : Long 
      */
-    public Long calculateNumberOfDaysExcludingHolidays(){
+    public Long calculateNumberOfDaysExcludingHolidaysAndWeekends(){
         Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
         Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
         Integer numberOfDaysBetweenStartAndEndDate = startDate.daysBetween(endDate);
-        System.debug('numberOfDaysBetweenStartAndEndDate = '+numberOfDaysBetweenStartAndEndDate);
-        List<Holiday> listOfHolidays = getListOfHolidays();
-        Long numberOfBuisnessDaysExcludingHolidays=0;
-        System.debug('liste '+listOfHolidays);
-        for(Integer i=0 ; i <= numberOfDaysBetweenStartAndEndDate ; i++){
-            System.debug('je suis dans la boucle for de calculer nombre de jour sans les vacances.');
+        Long numberOfBusinessDaysExcludingHolidays=0;
+        for(Integer i=0 ; i <= numberOfDaysBetweenStartAndEndDate ; i++){ 
             Date dateToTest = startDate.addDays(i);
-            System.debug('dateToTest '+dateToTest );
-            if(isThisDayAHoliday(dateToTest, listOfHolidays)==false){
-                System.debug('je suis dans le if.');
-                numberOfBuisnessDaysExcludingHolidays = numberOfBuisnessDaysExcludingHolidays + 1;
-                System.debug('numberOfBuisnessDaysExcludingHolidays = '+ numberOfBuisnessDaysExcludingHolidays);
-            }else{
+            isThisDayAWeekend(dateToTest);
+            if(isThisDayAHoliday(dateToTest) || isThisDayAWeekend(dateToTest)){
                 continue;
+            }else{
+                numberOfBusinessDaysExcludingHolidays = numberOfBusinessDaysExcludingHolidays + 1;
             }
         }
-        return numberOfBuisnessDaysExcludingHolidays;
-
+        return numberOfBusinessDaysExcludingHolidays;
     }
     /** 
-     * TODO
+     * This method will return a number of MS between the TIME of the two dates.
+     * Called by : 
+     * @Parametters :
+     * @Returns : Long
+     */
+    public Long calculateNumberMSToFactorise(){
+        Long aproximationOfNumberOfDaysInMS = calculateNumberOfBusinesDaysExcludingHolidaysAndWeekendsInMS();
+        Time startTime = startDateTime.time();
+        Time endTime = endDateTime.time();
+        Long startTimeHours = (Long)startTime.hour();
+        Long startTimeMinutes = (Long)startTime.minute();
+        Long startTimeSeconds = (Long)startTime.second();
+        Long startTimeMS = (Long)startTime.millisecond();
+        Long endTimeHours = (Long)endTime.hour();
+        Long endTimeMinutes = (Long)endTime.minute();
+        Long endTimeSeconds = (Long)endTime.second();
+        Long endTimeMS = (Long)endTime.millisecond();
+        Long millisecondsToReturn = null;
+        
+        if(isThisDayAHoliday(startDateTime) || isThisDayAWeekend(startDateTime)){
+            //TODO IF startDateTime is a holiday or a weekend
+        }else if(isThisDayAHoliday(endDateTime) || isThisDayAWeekend(endDateTime)){
+            //TODO IF endDateTime is a holiday or a weekend
+        }else{
+            //TODO if startDateTime And endDateTime are both not a holiday or a weekend
+            if(startTime > endTime){
+                // return 'superior';
+             }
+             else if(startTime < endTime){
+                // return 'inferior';
+             }else{
+               //  return 'equal';
+             }
+            
+        }
+        return millisecondsToReturn;
+    }
+    /** 
+     * This method will return THE TOTAL number of MS between two dates excluding Holidays and WeekEnds.
+     * Called by : 
+     * @Parametters :
+     * @Returns : String
+     */
+    public Long calculateFinalTotalOfMS(){
+        Long aproximationOfNumberOfDaysInMS = calculateNumberOfBusinesDaysExcludingHolidaysAndWeekendsInMS();
+        Time startTime = startDateTime.time();
+        Time endTime = endDateTime.time();
+        Long startTimeHours = (Long)startTime.hour();
+        Long startTimeMinutes = (Long)startTime.minute();
+        Long startTimeSeconds = (Long)startTime.second();
+        Long startTimeMS = (Long)startTime.millisecond();
+        Long endTimeHours = (Long)endTime.hour();
+        Long endTimeMinutes = (Long)endTime.minute();
+        Long endTimeSeconds = (Long)endTime.second();
+        Long endTimeMS = (Long)endTime.millisecond();
+        Long finalTotalNumberOfMS;
+        if(startTime > endTime){
+           // return 'superior';
+        }
+        else if(startTime < endTime){
+           // return 'inferior';
+        }else{
+          //  return 'equal';
+        }
+        return finalTotalNumberOfMS;
+    }
+    /** 
      * This method will return a lenght of time or duration milliseconds.
-     * It will calculate this duration within buisness hours exluding holidays.
-     * It requieres a CONSTRUCTOR.
+     * It will calculate this duration within business hours exluding holidays and weekends.
+     * This lengths of time is calculated in days.
      * Called by : 
      * @Parametters : Long
      * @Returns : Long 
      */
-    public Long calculateNumberOfBuisnessHoursExcludingHolidaysSpentInMS(){
-        Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
-        Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
-        Long numberOfMSWithinBusinessHoursExcludingHolidays;
-        return numberOfMSWithinBusinessHoursExcludingHolidays;
-
+    public Long calculateNumberOfBusinesDaysExcludingHolidaysAndWeekendsInMS(){
+        Long numberOfDays = calculateNumberOfDaysExcludingHolidaysAndWeekends();
+        Long numberOfMSWithinBusinessHoursExcludingHolidaysAndWeekend = numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY;
+        return numberOfMSWithinBusinessHoursExcludingHolidaysAndWeekend;
     }
 }
