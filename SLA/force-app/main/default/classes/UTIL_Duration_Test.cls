@@ -22,8 +22,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     DateTime dateTimeStart = Datetime.newInstance(2022, 2, 15);
     DateTime dateTimeEnd = dateTimeStart.addSeconds(1);
-    UTIL_Duration utilDurationForTest = new UTIL_Duration(dateTimeStart, dateTimeEnd);
-    Long realDurationToTest =  utilDurationForTest.calculateTimeInMS();
+    Long realDurationToTest =  UTIL_Duration.calculateTimeInMS(dateTimeStart, dateTimeEnd);
     Test.stopTest();
     System.assertEquals(UTIL_Duration.NUMBER_OF_MS_IN_ONE_SECOND, realDurationToTest, 'It is not the right number of milliseconds.');
   }
@@ -353,7 +352,7 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(true, testTrue);
   }
   /**
-   * This method tests isStartTimeBeforeNineOClock
+   * This method tests isDateTimeBeforeNineOClock
    * It requieres a CONSTRUCTOR.
    * Called by : 
    * @Parametters : 
@@ -366,12 +365,12 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 10, 0, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    boolean testBeforeNine = utilDuration.isStartTimeBeforeNineOClock();
+    boolean testBeforeNine = utilDuration.isDateTimeBeforeNineOClock(startDateTime);
     Test.stopTest();
     System.assertEquals(true, testBeforeNine);
   }
   /**
-   * This method tests isEndTimeBeforeFiveThirty()
+   * This method tests isDateTimeBeforeFiveThirty()
    * It requieres a CONSTRUCTOR.
    * Called by : 
    * @Parametters : 
@@ -384,7 +383,7 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 17, 40, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    boolean testAfterFiveThirty = utilDuration.isEndTimeBeforeFiveThirty();
+    boolean testAfterFiveThirty = utilDuration.isDateTimeBeforeFiveThirty(endDateTime);
     Test.stopTest();
     System.assertEquals(false, testAfterFiveThirty);
   }
@@ -492,22 +491,103 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(expectedNumberOfMS, realNumberOfMS);
   }
   /**
-   * TODO
-   * This method tests startTimeToEndTimeIs().
+   * 
+   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * The date is within working hours.
    * Called by : 
    * @Parametters : 
    * @Returns : 
    */
- /* @isTest
-  public static void testCalculateNumberMSToFactorise(){
+  @isTest
+  public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsWithinBusinessHours(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime startDateTime = DateTime.newInstance(2022, 1, 1, 09, 00, 00);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 09, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realString = utilDuration.calculateNumberMSToFactorise();
-    //System.debug('realString - ' + realString);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
     Test.stopTest();
-    //System.assertEquals('inferior', realString);
-  }*/
+    Long expectedNumberOfMS = long.valueOf('28800000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * The date is NOT within working hours, it is earlier.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsEarlierThanNine(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 7, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('30600000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+    /**
+   * 
+   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * The date is NOT within working hours, it is a holiday.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsHoliday(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 7, 14, 7, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * The date is NOT within working hours. It is after 17h30, but it is a day of business.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsAferFiveThirty(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * The date is NOT within working hours. It is weekend, a Saturday.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsASaturday(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
 }
