@@ -256,11 +256,12 @@ public with sharing class UTIL_Duration_Test {
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 2, 4, 18, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 2, 7, 9, 00, 00);
-    Long expectedDuration = 172800000;
+    Long expectedDuration = 0;
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
     Long realDuration = utilDuration.calculateNumberOfBusinessHoursSpentInMS();
     Test.stopTest();
+    System.debug('testCalculateNumberOfBusinessHoursSpentInMSOnAWeekend = ' +realDuration);
     System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBusinessHoursSpentInMS is not right.');
   }
   /**
@@ -298,7 +299,7 @@ public with sharing class UTIL_Duration_Test {
     List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
     Test.startTest();
     boolean isItAHoliday;
-    isItAHoliday = UTIL_Duration.isThisDayAHoliday(thisDay);
+    isItAHoliday = UTIL_Duration.isThisDayAHoliday(thisDay, listOfHolidays);
     Test.stopTest();
     System.assertEquals(true, isItAHoliday);
   }
@@ -325,8 +326,105 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(true, isItAWeekEnd2);
     System.assertEquals(true, isItAWeekEnd3);
   }
+    /**
+   * This method tests isThisDayABusinessDay(DateTime, List<BusinessHours>)
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testIsThisDayABusinessDay(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime dateTimeToTestTooEarly = Datetime.newInstance(2022, 3, 16, 8, 0, 0);
+    DateTime dateTimeToTestTooLate = Datetime.newInstance(2022, 3, 16, 19, 0, 0);
+    DateTime dateTimeToTestSaturday = Datetime.newInstance(2022, 3, 5, 8, 0, 0);
+    DateTime dateTimeToTestTrue = Datetime.newInstance(2022, 3, 16, 10, 0, 0);
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    Test.startTest();
+    boolean testTooEarly = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTooEarly,businessHoursID);
+    boolean testTooLate = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTooLate,businessHoursID);
+    boolean testSaturday = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestSaturday,businessHoursID);
+    boolean testTrue = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTrue,businessHoursID);
+    Test.stopTest();
+    System.assertEquals(false, testTooEarly);
+    System.assertEquals(false, testTooLate);
+    System.assertEquals(false, testSaturday);
+    System.assertEquals(true, testTrue);
+  }
   /**
-   * This method tests calculateNumberOfDaysExcludingHolidaysAndWeekends().
+   * This method tests isStartTimeBeforeNineOClock
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testIsStartTimeBeforeNineOClock(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
+    DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 10, 0, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    boolean testBeforeNine = utilDuration.isStartTimeBeforeNineOClock();
+    Test.stopTest();
+    System.assertEquals(true, testBeforeNine);
+  }
+  /**
+   * This method tests isEndTimeBeforeFiveThirty()
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testIsEndTimeBeforeFiveThirty(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
+    DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 17, 40, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    boolean testAfterFiveThirty = utilDuration.isEndTimeBeforeFiveThirty();
+    Test.stopTest();
+    System.assertEquals(false, testAfterFiveThirty);
+  }
+  /**
+   * This method tests doesStartDateEqualEndDate()
+   * It requieres a CONSTRUCTOR.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testDoesStartDateEqualEndDate(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
+    DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 17, 40, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    boolean testAreTheyEqual = utilDuration.doesStartDateEqualEndDate();
+    Test.stopTest();
+    System.assertEquals(true, testAreTheyEqual);
+  }
+  /**
+   * This method testsisTimeBetweenNineAndFiveThirty(DateTime dateToTest)
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testIsTimeWithinBusinessHours(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime dateToTest = Datetime.newInstance(2022, 3, 14, 10, 30, 5);
+    System.debug('dateToTest '+ dateToTest );
+    Test.startTest();
+    boolean testIsItWithinBusinessHours = UTIL_Duration.isTimeWithinBusinessHours(dateToTest);
+    System.debug('testAfterFiveThirty '+ testIsItWithinBusinessHours );
+    Test.stopTest();
+    System.assertEquals(true, testIsItWithinBusinessHours);
+  }
+  /**
+   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends().
    * TODO : the system still does not heed the fact that I have implemented weekends.
    * It requieres a CONSTRUCTOR.
    * Called by : 
@@ -334,13 +432,13 @@ public with sharing class UTIL_Duration_Test {
    * @Returns : 
    */
   @isTest
-  public static void testCalculateNumberOfDaysExcludingHolidaysAndWeekendsForAWeekInJuly(){
+  public static void testcalculateNumberOfFullDaysExcludingHolidaysAndWeekendsForAWeekInJuly(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 7, 11, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 7, 17, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfDays = utilDuration.calculateNumberOfDaysExcludingHolidaysAndWeekends();
+    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends();
     // for now 6 instead of 4
     System.debug('realNumberOfDays in july = ' + realNumberOfDays);
     Test.stopTest();
@@ -348,25 +446,28 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(expectedNumber, realNumberOfDays);
   }
   /**
-   * This method tests calculateNumberOfDaysExcludingHolidaysAndWeekends().
+   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends().
    * I need to verify that in a year this method takes notice of ALL the 11 holidays set in my org.
    * It requieres a CONSTRUCTOR.
    * Called by : 
    * @Parametters : 
    * @Returns : 
+   * TODO MAKE IT WORK
    */
   @isTest
-  public static void testcalculateNumberOfDaysExcludingHolidaysAndWeekendsForAYear(){
-    System.debug('I m testing calculateNumberOfDaysExcludingHolidaysAndWeekends');
+  public static void testcalculateNumberOfFullDaysExcludingHolidaysAndWeekendsForAYear(){
+    System.debug('I m testing calculateNumberOfFullDaysExcludingHolidaysAndWeekends');
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 1, 1, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    System.debug('endDateTime = '+endDateTime);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfDays = utilDuration.calculateNumberOfDaysExcludingHolidaysAndWeekends();
+    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends();
     System.debug('realNumberOfDays in a year = ' + realNumberOfDays);
     Test.stopTest();
     Long expectedNumber = 253;
+    System.debug('expectedNumber = ' + expectedNumber);
     System.assertEquals(expectedNumber, realNumberOfDays);
   }
   
@@ -375,15 +476,16 @@ public with sharing class UTIL_Duration_Test {
    * Called by : 
    * @Parametters : 
    * @Returns : 
+   * TODO MAKE IT WORK
    */
   @isTest
-  public static void testCalculateNumberOfBusinesDaysExcludingHolidaysAndWeekendsInMS(){
+  public static void testCalculateNumberOfFullBusinesDaysExcludingHolidaysAndWeekendsInMS(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 1, 1, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfMS = utilDuration.calculateNumberOfBusinesDaysExcludingHolidaysAndWeekendsInMS();
+    Long realNumberOfMS = utilDuration.calculateNumberOfFullBusinesDaysExcludingHolidaysAndWeekendsInMS();
     System.debug('realNumberOfMS in a year = ' + realNumberOfMS);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('7741800000');
