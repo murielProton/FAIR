@@ -42,9 +42,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : None
      * @Returns : Long
      */
-    public Long calculateTimeInMS(){
-        Long longStartDateTime = startDateTime.getTime();
-        Long longEndDateTime = endDateTime.getTime();
+    public static Long calculateTimeInMS(DateTime aDateTimeToStart, DateTime aDateTimeToEnd ){
+        Long longStartDateTime = aDateTimeToStart.getTime();
+        Long longEndDateTime = aDateTimeToEnd.getTime();
         Long durationMS = longEndDateTime - longStartDateTime;
         return durationMS;
     }
@@ -179,7 +179,7 @@ public with sharing class UTIL_Duration {
                 durationInString = durationInString + numberOfSeconds + ' second(s)';
                 roundedMS = roundedMS - (numberOfSeconds * NUMBER_OF_MS_IN_ONE_SECOND);
             }
-            System.debug('fin ->' + durationInString+'}');
+            //System.debug('fin ->' + durationInString+'}');
             return durationInString;
         }else{
             return null;
@@ -264,8 +264,8 @@ public with sharing class UTIL_Duration {
      * @Parametters : DateTime, List<BusinessHours>
      * @Returns : bolean 
      */
-    public static boolean isThisDayABusinessDay(DateTime dateTimeToTest, BusinessHours BusinessHoursID){
-        if(BusinessHours.isWithin(BusinessHoursID.id, dateTimeToTest)){
+    public static boolean isThisDayABusinessDay(DateTime dateTimeToTest, BusinessHours businessHoursID){
+        if(BusinessHours.isWithin(businessHoursID.id, dateTimeToTest)){
             return true;
         }
         return false;
@@ -300,7 +300,7 @@ public with sharing class UTIL_Duration {
         Integer startTimeMinutes = dateToTest.minute();
         Integer startTimeSeconds = dateToTest.second();
         Integer startTimeMS = dateToTest.millisecond();
-        Time timeToTest = Time.newInstance(startTimeHours, startTimeMinutes, startTimeMinutes, startTimeMS);
+        Time timeToTest = Time.newInstance(startTimeHours, startTimeMinutes, startTimeSeconds, startTimeMS);
         if(START_TIME_OF_BUSINESS_HOUR <= timeToTest && timeToTest <= END_TIME_OF_BUSINESS_HOUR){
             return true;
         }
@@ -314,16 +314,15 @@ public with sharing class UTIL_Duration {
      * @Parametters : 
      * @Returns : bolean 
      */
-    public boolean isStartTimeBeforeNineOClock(){
-        Integer startTimeHours = startDateTime.hour();
-        Integer startTimeMinutes = startDateTime.minute();
-        Integer startTimeSeconds = startDateTime.second();
-        Integer startTimeMS = startDateTime.millisecond();
-        Time timeToTest = Time.newInstance(startTimeHours, startTimeMinutes, startTimeMinutes, startTimeMS);
-        if(timeToTest < START_TIME_OF_BUSINESS_HOUR){
-            return true;
-        }
-        return false;
+    public boolean isDateTimeBeforeNineOClock(DateTime dateToTest){
+        Integer dateToTestYear = dateToTest.year();
+        Integer dateToTestMonth = dateToTest.month();
+        Integer dateToTestDay = dateToTest.day();
+        //Datetime newInstance(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)
+        DateTime thisDateTimeOfNineOClock = Datetime.newInstance(dateToTestYear, dateToTestMonth, dateToTestDay, 9, 0, 0);
+        System.debug('before 9 dateToTest = '+dateToTest); 
+        System.debug('thisDateTimeOfNineOClock = '+thisDateTimeOfNineOClock);        
+        return dateToTest < thisDateTimeOfNineOClock;
     }
     /** 
      * This method will return a boolean.
@@ -333,16 +332,15 @@ public with sharing class UTIL_Duration {
      * @Parametters : 
      * @Returns : bolean 
      */
-    public boolean isEndTimeBeforeFiveThirty(){
-        Integer startTimeHours = endDateTime.hour();
-        Integer startTimeMinutes = endDateTime.minute();
-        Integer startTimeSeconds = endDateTime.second();
-        Integer startTimeMS = endDateTime.millisecond();
-        Time timeToTest = Time.newInstance(startTimeHours, startTimeMinutes, startTimeMinutes, startTimeMS);
-        if(timeToTest < END_TIME_OF_BUSINESS_HOUR){
-            return true;
-        }
-        return false;
+    public boolean isDateTimeBeforeFiveThirty(DateTime dateToTest){
+        Integer dateToTestYear = dateToTest.year();
+        Integer dateToTestMonth = dateToTest.month();
+        Integer dateToTestDay = dateToTest.day();
+        //Datetime newInstance(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second)
+        DateTime thisDateTimeOfFiveThirty = Datetime.newInstance(dateToTestYear, dateToTestMonth, dateToTestDay, 17, 30, 0);
+        System.debug('before 17h30 dateToTest = '+dateToTest); 
+        System.debug('thisDateTimeOfFiveThirty = '+thisDateTimeOfFiveThirty);        
+        return dateToTest < thisDateTimeOfFiveThirty;
     }
     /** 
      * This method will return a boolean.
@@ -404,33 +402,45 @@ public with sharing class UTIL_Duration {
      * @Parametters :
      * @Returns : Long
      */
-    /*public Long calculateNumberOfMSOnStartDateTime(){
-
-        // is it within business hours        
-        if(){
-            //TODO IF startDateTime is a holiday or a weekend
-        }else if(){
-            //TODO IF endDateTime is a holiday or a weekend
-        }else{
-            //TODO if startDateTime And endDateTime are both not a holiday or a weekend
-            if(){
-                // return 'superior';
-             }
-             else if(){
-                // return 'inferior';
-             }else{
-               //  return 'equal';
-             }
+    public Long calculateNumberOfMSOnStartDateTime(){
+        BusinessHours businessHoursID = getBusinessHourID();
+        List<Holiday> listOfHolidays = getListOfHolidays();
+        Long millisecondsToReturn = null;
+        if(isThisDayABusinessDay(startDateTime, businessHoursID) || !isThisDayAHoliday(startDateTime, listOfHolidays)){
+            if(isDateTimeBeforeNineOClock(startDateTime)){
+                //IF this start date is before 9h.
+                //DateTime.newInstance(year, month, day, hour, minute, second);
+                startDateTime = DateTime.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day(), 9, 0, 0);
+                System.debug('It is a day of busines but before business hours.');
+            }
+            if(!isDateTimeBeforeFiveThirty(startDateTime)){
+                //IF this start date is after 17h30.
+                millisecondsToReturn = 0;
+                System.debug('it is a day of business but after business hours.');
+                return millisecondsToReturn;
+            }
+            // IF this start date is within business hours or not a Holiday.
+            //DateTime.newInstance(year, month, day, hour, minute, second);
+            DateTime aDateTimeToEnd = DateTime.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day(), 17, 30, 0);
+            millisecondsToReturn = calculateTimeInMS(startDateTime, aDateTimeToEnd );
+            System.debug('');
             
+
+        }else{
+            // IF this start date is a Holiday.
+            // IF this Start date is a Weekend.
+            millisecondsToReturn = 0;
+            System.debug('I am zero');
         }
+        System.debug('Retruning millisecondsToReturn = '+millisecondsToReturn);
         return millisecondsToReturn;
-    }*/
+    }
     /** TODO
      * This method will return THE TOTAL number of MS between two dates excluding Holidays and WeekEnds.
      * Called by : 
      * @Parametters :
      * @Returns : String
-     */
+     *//*
     public Long calculateFinalTotalOfMS(){
         Long aproximationOfNumberOfDaysInMS;
         Time startTime = startDateTime.time();
@@ -444,6 +454,9 @@ public with sharing class UTIL_Duration {
         Long endTimeSeconds = (Long)endTime.second();
         Long endTimeMS = (Long)endTime.millisecond();
         Long finalTotalNumberOfMS;
+        if(startTime == endTime){
+            // return 'superior';
+         }
         if(startTime > endTime){
            // return 'superior';
         }
@@ -453,6 +466,6 @@ public with sharing class UTIL_Duration {
           //  return 'equal';
         }
         return finalTotalNumberOfMS;
-    }
+    }*/
     
 }
