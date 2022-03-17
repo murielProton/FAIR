@@ -423,7 +423,7 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(true, testIsItWithinBusinessHours);
   }
   /**
-   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends().
+   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends(List<Holiday> listOfHolidays).
    * TODO : the system still does not heed the fact that I have implemented weekends.
    * It requieres a CONSTRUCTOR.
    * Called by : 
@@ -435,17 +435,16 @@ public with sharing class UTIL_Duration_Test {
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 7, 11, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 7, 17, 17, 30, 00);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends();
-    // for now 6 instead of 4
-    System.debug('realNumberOfDays in july = ' + realNumberOfDays);
+    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends(listOfHolidays);
     Test.stopTest();
-    Long expectedNumber = 4;
+    Long expectedNumber = 3;
     System.assertEquals(expectedNumber, realNumberOfDays);
   }
   /**
-   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends().
+   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends(List<Holiday> listOfHolidays).
    * I need to verify that in a year this method takes notice of ALL the 11 holidays set in my org.
    * It requieres a CONSTRUCTOR.
    * Called by : 
@@ -455,39 +454,83 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testcalculateNumberOfFullDaysExcludingHolidaysAndWeekendsForAYear(){
-    System.debug('I m testing calculateNumberOfFullDaysExcludingHolidaysAndWeekends');
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 1, 1, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
-    System.debug('endDateTime = '+endDateTime);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends();
-    System.debug('realNumberOfDays in a year = ' + realNumberOfDays);
+    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends(listOfHolidays);
     Test.stopTest();
+    // in 2022 the last and first day of the year are saturdays.
+    // numbers of holidays on week days = 7
+    // number of Saturdays = 53
+    // number of sundays = 52
     Long expectedNumber = 253;
-    System.debug('expectedNumber = ' + expectedNumber);
     System.assertEquals(expectedNumber, realNumberOfDays);
   }
-  
   /**
-   * This method tests calculateNumberOfBuisinessHoursExcludingHolidaysAndWeekendsSpentInMS().
+   * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends(List<Holiday> listOfHolidays).
+   * I need to verify that in a howl buisness week this method will chop off startDateTime and endDateTime.
+   * It requieres a CONSTRUCTOR.
    * Called by : 
    * @Parametters : 
    * @Returns : 
    * TODO MAKE IT WORK
    */
   @isTest
-  public static void testCalculateNumberOfFullBusinesDaysExcludingHolidaysAndWeekendsInMS(){
+  public static void testcalculateNumberOfFullDaysExcludingHolidaysAndWeekendsForAWeek(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 7, 09, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 11, 17, 30, 00);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    System.debug('endDateTime = '+endDateTime);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOfDays = utilDuration.calculateNumberOfFullDaysExcludingHolidaysAndWeekends(listOfHolidays);
+    Test.stopTest();
+    Long expectedNumber = 3;
+    System.assertEquals(expectedNumber, realNumberOfDays);
+  }
+  
+  /**
+   * This method tests calculateNumberOfBuisinessHoursExcludingHolidaysAndWeekendsSpentInMS(List<Holiday> listOfHolidays).
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDatesForAYear(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 1, 1, 09, 00, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays(); 
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfMS = utilDuration.calculateNumberOfFullBusinesDaysExcludingHolidaysAndWeekendsInMS();
+    Long realNumberOfMS = utilDuration.calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(listOfHolidays);
     System.debug('realNumberOfMS in a year = ' + realNumberOfMS);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('7741800000');
+    System.assertEquals(expectedNumberOfMS, realNumberOfMS);
+  }
+    /**
+   * This method tests calculateNumberOfBuisinessHoursExcludingHolidaysAndWeekendsSpentInMS(List<Holiday> listOfHolidays).
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDatesForAWeek(){
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 9, 26, 09, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 9, 30, 17, 30, 00);
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays(); 
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOfMS = utilDuration.calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(listOfHolidays);
+    System.debug('realNumberOfMS in a year = ' + realNumberOfMS);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('91800000');
     System.assertEquals(expectedNumberOfMS, realNumberOfMS);
   }
   /**
