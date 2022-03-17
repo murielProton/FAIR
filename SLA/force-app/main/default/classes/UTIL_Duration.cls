@@ -24,6 +24,7 @@ public with sharing class UTIL_Duration {
 
     DateTime startDateTime;
     DateTime endDateTime;
+
     /**
      * This constructor takes two dates as parametter, because it will help to build durations.
      * @CONSTRUCTOR
@@ -47,6 +48,26 @@ public with sharing class UTIL_Duration {
         Long longEndDateTime = aDateTimeToEnd.getTime();
         Long durationMS = longEndDateTime - longStartDateTime;
         return durationMS;
+    }
+    /**
+     * This method gets the legal start of the day for one date time.
+     * Called by : 
+     * @Parametters : DateTime anyDateTime
+     * @Returns : DateTime
+     */
+    public DateTime getThisDayLegalStartOfBusinessHours(DateTime anyDateTime){
+        DateTime legalStartOfBusinessHours = DateTime.newInstance(anyDateTime.year(), anyDateTime.month(), anyDateTime.day(), 9, 0, 0);
+        return legalStartOfBusinessHours;
+    }
+    /**
+     * This method gets the legal end of the day for one date time.
+     * Called by : 
+     * @Parametters : DateTime anyDateTime
+     * @Returns : DateTime
+     */
+    public DateTime getThisDayLegalEndOfBusinessHours(DateTime anyDateTime){
+        DateTime legalEndOfBusinessHours = DateTime.newInstance(anyDateTime.year(), anyDateTime.month(), anyDateTime.day(), 17, 30, 0);
+        return legalEndOfBusinessHours;
     }
     /**
      * This method computes a duration in seconds.
@@ -264,7 +285,7 @@ public with sharing class UTIL_Duration {
      * @Parametters : DateTime, List<BusinessHours>
      * @Returns : bolean 
      */
-    public static boolean isThisDayABusinessDay(DateTime dateTimeToTest, BusinessHours businessHoursID){
+    public static boolean isThisDateTimeWithinBusinessHours(DateTime dateTimeToTest, BusinessHours businessHoursID){
         if(BusinessHours.isWithin(businessHoursID.id, dateTimeToTest)){
             return true;
         }
@@ -353,6 +374,8 @@ public with sharing class UTIL_Duration {
     public boolean doesStartDateEqualEndDate(){
         Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
         Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
+        System.debug('doesStartDateEqualEndDate - startDate = '+startDate);
+        System.debug('doesStartDateEqualEndDate - endDate = '+endDate);
         if(startDate == endDate){
             return true;
         }
@@ -397,35 +420,35 @@ public with sharing class UTIL_Duration {
     }
     /**
      * This method will return a number of MS on starting date : stardDateTime.
+     * TODO put 2 parameters : BusinessHours businessHoursID = getBusinessHourID() and List<Holiday> listOfHolidays = getListOfHolidays();
      * NEEDS A CONSTRUCTOR
      * Called by : 
      * @Parametters :
      * @Returns : Long
      */
-    public Long calculateNumberOfMSOnStartDateTime(){
-        BusinessHours businessHoursID = getBusinessHourID();
-        List<Holiday> listOfHolidays = getListOfHolidays();
+    public Long calculateNumberOfMSOnStartDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID){
+
         Long millisecondsToReturn = null;
-        if(isThisDayABusinessDay(startDateTime, businessHoursID) || !isThisDayAHoliday(startDateTime, listOfHolidays)){
+        DateTime legalStartOfBusinessHours = getThisDayLegalStartOfBusinessHours(startDateTime);
+        DateTime legalEndOfBusinessHours = getThisDayLegalEndOfBusinessHours(startDateTime);
+        if(isThisDateTimeWithinBusinessHours(startDateTime, businessHoursID) || !isThisDayAHoliday(startDateTime, listOfHolidays)){
             if(isDateTimeBeforeNineOClock(startDateTime)){
                 //IF this start date is before 9h.
                 //DateTime.newInstance(year, month, day, hour, minute, second);
-                startDateTime = DateTime.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day(), 9, 0, 0);
-                System.debug('It is a day of busines but before business hours.');
+
+                System.debug('SatartDATETIME is a day of busines but before business hours.');
+                return calculateTimeInMS(legalStartOfBusinessHours, legalEndOfBusinessHours);
             }
             if(!isDateTimeBeforeFiveThirty(startDateTime)){
                 //IF this start date is after 17h30.
                 millisecondsToReturn = 0;
-                System.debug('it is a day of business but after business hours.');
+                System.debug('SatartDATETIME is a day of business but after business hours.');
                 return millisecondsToReturn;
             }
             // IF this start date is within business hours or not a Holiday.
             //DateTime.newInstance(year, month, day, hour, minute, second);
-            DateTime aDateTimeToEnd = DateTime.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day(), 17, 30, 0);
-            millisecondsToReturn = calculateTimeInMS(startDateTime, aDateTimeToEnd );
-            System.debug('');
-            
-
+            millisecondsToReturn = calculateTimeInMS(startDateTime, legalEndOfBusinessHours );
+            System.debug('SatartDATETIME is a day of business and NOT a holiday');
         }else{
             // IF this start date is a Holiday.
             // IF this Start date is a Weekend.
@@ -434,6 +457,41 @@ public with sharing class UTIL_Duration {
         }
         System.debug('Retruning millisecondsToReturn = '+millisecondsToReturn);
         return millisecondsToReturn;
+    }
+    /**
+     * This method will return a number of MS on ending date : endDateTime.
+     * NEEDS A CONSTRUCTOR
+     * Called by : 
+     * @Parametters :
+     * @Returns : Long
+     */
+    public Long calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID){
+        DateTime legalStartOfBusinessHours = getThisDayLegalStartOfBusinessHours(endDateTime);
+        DateTime legalEndOfBusinessHours = getThisDayLegalEndOfBusinessHours(endDateTime);
+        if(!isThisDateTimeWithinBusinessHours(endDateTime, businessHoursID) &&  
+                !isThisDayAHoliday(endDateTime, listOfHolidays)){
+            if (!isDateTimeBeforeFiveThirty(endDateTime)){
+                // IF this end date is after 17h30.
+                System.debug('End date time is a business day after 17h30.');
+                return calculateTimeInMS(legalStartOfBusinessHours, legalEndOfBusinessHours);
+            }
+            //IF this end date is before 9h.
+            return long.valueOf('0');
+        }else if(!isDateTimeBeforeNineOClock(endDateTime) && 
+                    isDateTimeBeforeFiveThirty(endDateTime) &&
+                    isThisDateTimeWithinBusinessHours(endDateTime, businessHoursID) &&
+                    !isThisDayAHoliday(endDateTime, listOfHolidays)){
+            //IF this end date is after 9h and before 17h30.
+            System.debug('End date time is a business day within business hours.');
+            return calculateTimeInMS(legalStartOfBusinessHours, endDateTime );
+        }
+        else{
+            // IF this end date is a Holiday.
+            // IF this end date is a Weekend.
+            //IF this end date is before 9h.
+            System.debug('calculateNumberOfMSOnEndDateTime zero');
+            return long.valueOf('0');
+        }   
     }
     /** TODO
      * This method will return THE TOTAL number of MS between two dates excluding Holidays and WeekEnds.
