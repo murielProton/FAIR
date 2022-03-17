@@ -501,28 +501,26 @@ public with sharing class UTIL_Duration {
             return long.valueOf('0');
         }   
     }
-    /** TODO
+    /** 
      * This method will return THE TOTAL number of MS between two dates excluding Holidays and WeekEnds.
+     * It also counts startDateTime and endDateTime.
      * Called by : 
      * @Parametters :
      * @Returns : String
-     *//*
+     */
     public Long calculateFinalTotalOfMS(){
-        Long aproximationOfNumberOfDaysInMS;
-        Time startTime = startDateTime.time();
-        Time endTime = endDateTime.time();
-        Long startTimeHours = (Long)startTime.hour();
-        Long startTimeMinutes = (Long)startTime.minute();
-        Long startTimeSeconds = (Long)startTime.second();
-        Long startTimeMS = (Long)startTime.millisecond();
-        Long endTimeHours = (Long)endTime.hour();
-        Long endTimeMinutes = (Long)endTime.minute();
-        Long endTimeSeconds = (Long)endTime.second();
-        Long endTimeMS = (Long)endTime.millisecond();
-        Long finalTotalNumberOfMS;
-        if(startTime == endTime){
-            // return 'superior';
-         }
+        Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
+        Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
+        List<Holiday> listOfHolidays = getListOfHolidays();
+        BusinessHours businessHoursID = getBusinessHourID();
+        Long numberOfMSInStartingDay = calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
+        Long numberOfMSInEndingDay = calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+        if(startDate == endDate){
+            if(!isThisDayAHoliday(endDateTime, listOfHolidays) ){
+                return BusinessHours.diff(businessHoursId.Id, startDateTime, endDateTime);
+            }
+                return long.valueOf('0');
+            }
         if(startTime > endTime){
            // return 'superior';
         }
@@ -532,6 +530,6 @@ public with sharing class UTIL_Duration {
           //  return 'equal';
         }
         return finalTotalNumberOfMS;
-    }*/
+    }
     
 }
