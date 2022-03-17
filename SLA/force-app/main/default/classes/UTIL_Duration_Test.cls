@@ -326,14 +326,14 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals(true, isItAWeekEnd3);
   }
     /**
-   * This method tests isThisDayABusinessDay(DateTime, List<BusinessHours>)
+   * This method tests isThisDateTimeWithinBusinessHours(DateTime, List<BusinessHours>)
    * It requieres a CONSTRUCTOR.
    * Called by : 
    * @Parametters : 
    * @Returns : 
    */
   @isTest
-  public static void testIsThisDayABusinessDay(){
+  public static void testisThisDateTimeWithinBusinessHours(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime dateTimeToTestTooEarly = Datetime.newInstance(2022, 3, 16, 8, 0, 0);
     DateTime dateTimeToTestTooLate = Datetime.newInstance(2022, 3, 16, 19, 0, 0);
@@ -341,10 +341,10 @@ public with sharing class UTIL_Duration_Test {
     DateTime dateTimeToTestTrue = Datetime.newInstance(2022, 3, 16, 10, 0, 0);
     BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     Test.startTest();
-    boolean testTooEarly = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTooEarly,businessHoursID);
-    boolean testTooLate = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTooLate,businessHoursID);
-    boolean testSaturday = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestSaturday,businessHoursID);
-    boolean testTrue = UTIL_Duration.isThisDayABusinessDay(dateTimeToTestTrue,businessHoursID);
+    boolean testTooEarly = UTIL_Duration.isThisDateTimeWithinBusinessHours(dateTimeToTestTooEarly,businessHoursID);
+    boolean testTooLate = UTIL_Duration.isThisDateTimeWithinBusinessHours(dateTimeToTestTooLate,businessHoursID);
+    boolean testSaturday = UTIL_Duration.isThisDateTimeWithinBusinessHours(dateTimeToTestSaturday,businessHoursID);
+    boolean testTrue = UTIL_Duration.isThisDateTimeWithinBusinessHours(dateTimeToTestTrue,businessHoursID);
     Test.stopTest();
     System.assertEquals(false, testTooEarly);
     System.assertEquals(false, testTooLate);
@@ -492,7 +492,7 @@ public with sharing class UTIL_Duration_Test {
   }
   /**
    * 
-   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * This method tests calculateNumberOfMSOnStartDateTime(startDateTime, endDateTime).
    * The date is within working hours.
    * Called by : 
    * @Parametters : 
@@ -500,19 +500,21 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsWithinBusinessHours(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 09, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('28800000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * This method tests calculateNumberOfMSOnStartDateTime(startDateTime, endDateTime).
    * The date is NOT within working hours, it is earlier.
    * Called by : 
    * @Parametters : 
@@ -520,19 +522,21 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsEarlierThanNine(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 7, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('30600000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
     /**
    * 
-   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * This method tests calculateNumberOfMSOnStartDateTime(startDateTime, endDateTime).
    * The date is NOT within working hours, it is a holiday.
    * Called by : 
    * @Parametters : 
@@ -540,19 +544,21 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsHoliday(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 7, 14, 7, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * This method tests calculateNumberOfMSOnStartDateTime(startDateTime, endDateTime).
    * The date is NOT within working hours. It is after 17h30, but it is a day of business.
    * Called by : 
    * @Parametters : 
@@ -560,19 +566,21 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsAferFiveThirty(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 18, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateNumberOfMSOnStartDateTime()().
+   * This method tests calculateNumberOfMSOnStartDateTime(startDateTime, endDateTime).
    * The date is NOT within working hours. It is weekend, a Saturday.
    * Called by : 
    * @Parametters : 
@@ -580,14 +588,125 @@ public with sharing class UTIL_Duration_Test {
    */
   @isTest
   public static void testCalculateNumberOfMSOnStartDateTimeWhenStartDayIsASaturday(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime();
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * The date is NOT within working hours. It is a holiday.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnEndDateTimeWhenHoliday(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 7, 14, 12, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * The date is within working hours. It is not holiday, but it is before 9h.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnEndDateTimeWhenWithinWorkingHoursBeforeNine(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 21, 7, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * The date is within working hours. It is not holiday, but it is after 17h30.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnEndDateTimeWhenWithinWorkingHoursAfterFiveThirty(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 21, 19, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('30600000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * This method tests calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * The date is within working hours. It is not holiday, but a saturday.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnEndDateTimeWhenSaturday(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 15, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 19, 7, 30, 00);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateNumberOfMSOnEndDateTime(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * The date is within working hours. It is not holiday.
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateNumberOfMSOnEndDateTimeWhenWithinWorkingHours(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 3, 19, 18, 30, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 3, 17, 16, 20, 15);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('26415000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
 }
