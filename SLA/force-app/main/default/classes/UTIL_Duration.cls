@@ -386,20 +386,27 @@ public with sharing class UTIL_Duration {
      * This method will return a number of days between start and end date that are not holidays or Weekends.
      * It requieres a CONSTRUCTOR.
      * Called by : 
-     * @Parametters : 
+     * @Parametters : List<Holiday> listOfHolidays
      * @Returns : Long 
      */
-    public Long calculateNumberOfFullDaysExcludingHolidaysAndWeekends(){
+    public Long calculateNumberOfFullDaysExcludingHolidaysAndWeekends(List<Holiday> listOfHolidays){
         Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
         Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
-        Integer numberOfDaysBetweenStartAndEndDate = startDate.daysBetween(endDate);
+        //endDateTime is a special date, which is added after in the process. It needs a finer calculation. Therefor the -1!
+        Integer numberOfDaysBetweenStartAndEndDate = startDate.daysBetween(endDate)-1;
+        System.debug('startDate.daysBetween(endDate) = '+startDate.daysBetween(endDate));
+        System.debug('numberOfDaysBetweenStartAndEndDate = '+numberOfDaysBetweenStartAndEndDate);
         Long numberOfBusinessDaysExcludingHolidays=0;
-        List<Holiday> listOfHolidays = getListOfHolidays();
-        for(Integer i=0 ; i <= numberOfDaysBetweenStartAndEndDate ; i++){ 
+        // startDateTime is a special date, which is added after in the process. It needs a finer calculation. Therefor the i=1!
+        for(Integer i=1 ; i <= numberOfDaysBetweenStartAndEndDate ; i++){ 
             Date dateToTest = startDate.addDays(i);
+            System.debug('dateToTest '+dateToTest);
+            // here we use isThisDayAWeekend(dateToTest) and not isThisDateTimeWithinBusinessHours(DateTime dateTimeToTest, BusinessHours businessHoursID)
+            // because the first methode will allow any day of the week to pass without dealing with Time.
             if(isThisDayAHoliday(dateToTest, listOfHolidays) || isThisDayAWeekend(dateToTest)){
                 continue;
             }else{
+                System.debug('numberOfBusinessDaysExcludingHolidays '+numberOfBusinessDaysExcludingHolidays);
                 numberOfBusinessDaysExcludingHolidays = numberOfBusinessDaysExcludingHolidays + 1;
             }
         }
@@ -408,15 +415,16 @@ public with sharing class UTIL_Duration {
     /** 
      * This method will return a lenght of time or duration milliseconds.
      * It will calculate this duration within business hours exluding holidays and weekends.
-     * This lengths of time is calculated in days.
+     * This length of time does not register startDatTime and endDateTime.
+     * This length of time is calculated in milliseconds.
      * Called by : 
-     * @Parametters : Long
+     * @Parametters : List<Holiday> listOfHolidays 
      * @Returns : Long 
      */
-    public Long calculateNumberOfFullBusinesDaysExcludingHolidaysAndWeekendsInMS(){
-        Long numberOfDays = calculateNumberOfFullDaysExcludingHolidaysAndWeekends();
-        Long numberOfMSWithinBusinessHoursExcludingHolidaysAndWeekend = numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY;
-        return numberOfMSWithinBusinessHoursExcludingHolidaysAndWeekend;
+    public Long calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(List<Holiday> listOfHolidays){
+        Long numberOfDays = calculateNumberOfFullDaysExcludingHolidaysAndWeekends(listOfHolidays);
+        Long numberOfMSExcludingEndAndStartDates = numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY;
+        return numberOfMSExcludingEndAndStartDates;
     }
     /**
      * This method will return a number of MS on starting date : stardDateTime.
