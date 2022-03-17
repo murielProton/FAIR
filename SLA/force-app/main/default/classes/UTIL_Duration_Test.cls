@@ -752,4 +752,158 @@ public with sharing class UTIL_Duration_Test {
     Long expectedNumberOfMS = long.valueOf('26415000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
+  /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenStartDateIsAHoliday(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 8, 15, 9, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 8, 15, 17, 30, 15);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+    /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenStartAndEndTimeAreBeforeNine(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 7, 00, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 8, 30, 15);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenStartAndEndTimeAreAfterFiveThirty(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 17, 31, 00);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 19, 30, 15);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('0');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenStartTimeIsBeforeNine(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 8, 31, 0);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 17, 30, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('30600000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenStartTimeIsNine(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 9, 0, 0);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 17, 30, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('30600000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateMSIfStartDateEqualsEndDate(List<Holiday> listOfHolidays, BusinessHours businessHoursID)
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDateWhenEndTimeIsAfterFiveThirty(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 9, 0, 0);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 19, 30, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS()(listOfHolidays, businessHoursID);
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('30600000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
+  /**
+   * 
+   * This method tests calculateFinalTotalOfMS()
+   * IMPORTANT startDate == endDate
+   * Called by : 
+   * @Parametters : 
+   * @Returns : 
+   */
+  @isTest
+  public static void testCalculateMSIfStartDateEqualsEndDate(){
+    List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+    BusinessHours businessHoursID = UTIL_Duration.getBusinessHourID();
+    //DateTime.newInstance(year, month, day, hour, minute, second);
+    DateTime startDateTime = DateTime.newInstance(2022, 5, 4, 10, 0, 15);
+    DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 15, 30, 0);
+    Test.startTest();
+    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
+    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Test.stopTest();
+    Long expectedNumberOfMS = long.valueOf('19785000');
+    System.assertEquals(expectedNumberOfMS, realNumberOFMS);
+  }
 }
