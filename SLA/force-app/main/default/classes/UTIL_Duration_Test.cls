@@ -12,17 +12,17 @@
 public with sharing class UTIL_Duration_Test {
   //THE CONSTANTS OF THIS CLASS are stored in class UTIL_Duration
   /**
-  * This method cheks if calculateTimeInMS() returns the right number of Milliseconds.
+  * This method cheks if calculateLengthOfTimeInMSBetween() returns the right number of Milliseconds.
   * Called by :
   * @Parametters : None
   * @Returns : VOID
   */
   @isTest
-  public static void testCalculateTimeInMS(){
+  public static void testCalculateLengthOfTimeInMSBetween(){
     Test.startTest();
     DateTime dateTimeStart = Datetime.newInstance(2022, 2, 15);
     DateTime dateTimeEnd = dateTimeStart.addSeconds(1);
-    Long realDurationToTest =  UTIL_Duration.calculateTimeInMS(dateTimeStart, dateTimeEnd);
+    Long realDurationToTest =  UTIL_Duration.calculateLengthOfTimeInMSBetween(dateTimeStart, dateTimeEnd);
     Test.stopTest();
     System.assertEquals(UTIL_Duration.NUMBER_OF_MS_IN_ONE_SECOND, realDurationToTest, 'It is not the right number of milliseconds.');
   }
@@ -754,7 +754,7 @@ public with sharing class UTIL_Duration_Test {
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -769,14 +769,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 8, 15, 17, 30, 15);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
     /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -791,14 +791,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 8, 30, 15);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -813,14 +813,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 19, 30, 15);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('0');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -835,14 +835,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 17, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('30600000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -857,14 +857,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 17, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('30600000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -879,14 +879,14 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 19, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('30600000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
    * 
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate == endDate
    * Called by : 
    * @Parametters : 
@@ -901,13 +901,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 5, 4, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('19785000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * endDateTime is a holiday.
    * Called by : 
@@ -923,13 +923,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 11, 11, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('118785000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * startDateTime is a holiday.
    * Called by : 
@@ -945,13 +945,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 6, 10, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('115200000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * end time is before 9h
    * Called by : 
@@ -967,13 +967,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 7, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('118785000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * start Time is before 9h.
    * Called by : 
@@ -989,13 +989,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('145800000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * end time is after 17h30
    * Called by : 
@@ -1011,13 +1011,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 19, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('149385000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * start Time is after 17h30.
    * Called by : 
@@ -1033,13 +1033,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('115200000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * start Date is a Saturday
    * Called by : 
@@ -1055,13 +1055,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('145800000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
  /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * start Date is a Sunday
    * Called by : 
@@ -1077,13 +1077,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 15, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('145800000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * end Date is a Saturday
    * Called by : 
@@ -1099,13 +1099,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 16, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('149385000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * end Date is a Sunday
    * Called by : 
@@ -1121,13 +1121,13 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 4, 17, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('149385000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);
   }
   /**
-   * This method tests calculateFinalTotalOfMS()
+   * This method tests calculateDurationInfMS()
    * IMPORTANT startDate different endDate
    * startDateTime and endDateTime are not holidays and within working hours.
    * The stretch of time has got a weekend in it.
@@ -1144,7 +1144,7 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 10, 12, 15, 30, 0);
     Test.startTest();
     UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOFMS = utilDuration.calculateFinalTotalOfMS();
+    Long realNumberOFMS = utilDuration.calculateDurationInfMS();
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('172785000');
     System.assertEquals(expectedNumberOfMS, realNumberOFMS);

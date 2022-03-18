@@ -43,7 +43,7 @@ public with sharing class UTIL_Duration {
      * @Parametters : None
      * @Returns : Long
      */
-    public static Long calculateTimeInMS(DateTime aDateTimeToStart, DateTime aDateTimeToEnd ){
+    public static Long calculateLengthOfTimeInMSBetween(DateTime aDateTimeToStart, DateTime aDateTimeToEnd ){
         Long longStartDateTime = aDateTimeToStart.getTime();
         Long longEndDateTime = aDateTimeToEnd.getTime();
         Long durationMS = longEndDateTime - longStartDateTime;
@@ -445,7 +445,7 @@ public with sharing class UTIL_Duration {
                 //DateTime.newInstance(year, month, day, hour, minute, second);
 
                 System.debug('SatartDATETIME is a day of busines but before business hours.');
-                return calculateTimeInMS(legalStartOfBusinessHours, legalEndOfBusinessHours);
+                return calculateLengthOfTimeInMSBetween(legalStartOfBusinessHours, legalEndOfBusinessHours);
             }
             if(!isDateTimeBeforeFiveThirty(startDateTime)){
                 //IF this start date is after 17h30.
@@ -455,7 +455,7 @@ public with sharing class UTIL_Duration {
             }
             // IF this start date is within business hours or not a Holiday.
             //DateTime.newInstance(year, month, day, hour, minute, second);
-            millisecondsToReturn = calculateTimeInMS(startDateTime, legalEndOfBusinessHours );
+            millisecondsToReturn = calculateLengthOfTimeInMSBetween(startDateTime, legalEndOfBusinessHours );
             System.debug('SatartDATETIME is a day of business and NOT a holiday');
         }else{
             // IF this start date is a Holiday.
@@ -481,7 +481,7 @@ public with sharing class UTIL_Duration {
             if (!isDateTimeBeforeFiveThirty(endDateTime)){
                 // IF this end date is after 17h30.
                 System.debug('End date time is a business day after 17h30.');
-                return calculateTimeInMS(legalStartOfBusinessHours, legalEndOfBusinessHours);
+                return calculateLengthOfTimeInMSBetween(legalStartOfBusinessHours, legalEndOfBusinessHours);
             }
             //IF this end date is before 9h.
             return long.valueOf('0');
@@ -491,7 +491,7 @@ public with sharing class UTIL_Duration {
                     !isThisDayAHoliday(endDateTime, listOfHolidays)){
             //IF this end date is after 9h and before 17h30.
             System.debug('End date time is a business day within business hours.');
-            return calculateTimeInMS(legalStartOfBusinessHours, endDateTime );
+            return calculateLengthOfTimeInMSBetween(legalStartOfBusinessHours, endDateTime );
         }
         else{
             // IF this end date is a Holiday.
@@ -508,7 +508,7 @@ public with sharing class UTIL_Duration {
      * @Parametters :
      * @Returns : String
      */
-    public Long calculateFinalTotalOfMS(){
+    public Long calculateDurationInfMS(){
         Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
         Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
         List<Holiday> listOfHolidays = getListOfHolidays();
