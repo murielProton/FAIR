@@ -515,21 +515,34 @@ public with sharing class UTIL_Duration {
         BusinessHours businessHoursID = getBusinessHourID();
         Long numberOfMSInStartingDay = calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
         Long numberOfMSInEndingDay = calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
+        Long numberOfMSExcludingEndAndStartDates = calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(listOfHolidays);
         if(startDate == endDate){
             if(!isThisDayAHoliday(endDateTime, listOfHolidays) ){
+                System.debug('startDate == endDate && within business hours');
                 return BusinessHours.diff(businessHoursId.Id, startDateTime, endDateTime);
             }
+            System.debug('startDate == endDate');
                 return long.valueOf('0');
+        }else if(isThisDayAHoliday(startDateTime, listOfHolidays) || isThisDayAWeekend(startDateTime)){
+            if (isThisDayAHoliday(endDateTime, listOfHolidays) || isThisDayAWeekend(endDateTime)){
+                // startEndTime && endDateTime are holidays or weekend's days
+                System.debug('startDate && endDate are holidays');
+                return numberOfMSExcludingEndAndStartDates;
+            }else{
+                // startEndTime is a holiday or a weekend's day.
+                System.debug('startDate is a holiday BUT endDate is not a holiday.');
+                return numberOfMSExcludingEndAndStartDates + numberOfMSInEndingDay;
             }
-        if(startTime > endTime){
-           // return 'superior';
+        }else {
+            if(isThisDayAHoliday(endDateTime, listOfHolidays)|| isThisDayAWeekend(endDateTime)){
+                // startEndTime is NOT a holiday or a weekend's day BUT endDateTime would be.
+                System.debug('startDate is not a holiday but endate is');
+                return numberOfMSInStartingDay + numberOfMSExcludingEndAndStartDates;   
+            }else{
+                System.debug('BOth are NOT Holidays');
+                return numberOfMSInStartingDay + numberOfMSExcludingEndAndStartDates + numberOfMSInEndingDay;
+            }
         }
-        else if(startTime < endTime){
-           // return 'inferior';
-        }else{
-          //  return 'equal';
-        }
-        return finalTotalNumberOfMS;
     }
     
 }
