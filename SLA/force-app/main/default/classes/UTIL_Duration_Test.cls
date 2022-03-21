@@ -76,7 +76,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     Long realDurationToTest =  UTIL_Duration.calculateTimeInDays(87691230);
     Test.stopTest();
-    System.assertEquals(1, realDurationToTest, 'It is not the right number of days.');
+    System.assertEquals(2, realDurationToTest, 'It is not the right number of days.');
   }
   /**
   * This method cheks if calculateTimeInWeeks() returns the right number of weeks.
@@ -89,7 +89,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     Long realDurationToTest =  UTIL_Duration.calculateTimeInWeeks(687691230);
     Test.stopTest();
-    System.assertEquals(1, realDurationToTest, 'It is not the right number of weeks.');
+    System.assertEquals(4, realDurationToTest, 'It is not the right number of weeks.');
   }
   /**
   * This method cheks if calculateTimeInMonths() returns the right number of months.
@@ -103,7 +103,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     Long realDurationToTest = UTIL_Duration.calculateTimeInMonths(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals(1, realDurationToTest, 'It is not the right number of months.');
+    System.assertEquals(3, realDurationToTest, 'It is not the right number of months.');
   }
   /**
   * This method cheks if calculateTimeInMonths() returns the right number of years.
@@ -117,7 +117,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     Long realDurationToTest = UTIL_Duration.calculateTimeInYears(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals(1, realDurationToTest, 'It is not the right number of years.');
+    System.assertEquals(4, realDurationToTest, 'It is not the right number of years.');
   }
 /**
   * This methode tests generateAStringFromMS.
@@ -192,7 +192,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 day(s), 4 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 day.');
+    System.assertEquals('2 day(s), 7 hour(s), 4 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 day.');
   }
   /**
   * This methode tests generateAStringFromMS.
@@ -207,7 +207,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 week(s), 3 hour(s), 5 minute(s), 10 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 week.');
+    System.assertEquals('4 week(s), 1 hour(s), 5 minute(s), 10 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 week.');
   }
   /**
   * This methode tests generateAStringFromMS.
@@ -223,7 +223,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 month(s), 2 day(s), 7 hour(s), 44 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 month.');
+    System.assertEquals('4 month(s), 4 day(s), 4 hour(s), 14 minute(s), 21 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 month.');
   }
     /**
   * This methode tests generateAStringFromMS.
@@ -239,7 +239,7 @@ public with sharing class UTIL_Duration_Test {
     Test.startTest();
     String realStringToTest = UTIL_Duration.generateAStringFromMS(nubmberOfMSToTest);
     Test.stopTest();
-    System.assertEquals('1 year(s), 1 week(s), 5 day(s), 20 hour(s), 38 minute(s), 31 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 year.');
+    System.assertEquals('4 year(s), 2 month(s), 2 week(s), 7 hour(s), 38 minute(s), 31 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 year.');
   }
   /**
   * This methode tests calculateNumberOfBusinessHoursSpentInMS.

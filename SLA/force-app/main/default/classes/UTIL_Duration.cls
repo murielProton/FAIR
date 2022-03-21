@@ -16,9 +16,9 @@ public with sharing class UTIL_Duration {
     public static final Long NUMBER_OF_MS_IN_ONE_HOUR = 3600000;
     public static final Long NUMBER_OF_MS_IN_ONE_WORK_DAY = 30600000;
     public static final Long NUMBER_OF_MS_IN_ONE_DAY = 86400000;
-    public static final Long NUMBER_OF_MS_IN_ONE_WEEK = 604800000;
-    public static final Long NUMBER_OF_MS_IN_ONE_MONTH = Long.valueOf('2629800000');
-    public static final Long NUMBER_OF_MS_IN_ONE_YEAR = Long.valueOf('31536000000');
+    public static final Long NUMBER_OF_MS_IN_ONE_WEEK = 153000000;//previously it was 604800000, before we applied business hours standards.
+    public static final Long NUMBER_OF_MS_IN_ONE_MONTH = Long.valueOf('673200000');//previously it was 2629800000, before we applied business hours standards.
+    public static final Long NUMBER_OF_MS_IN_ONE_YEAR = Long.valueOf('7741800000');//previously it was 31536000000, before we applied business hours standards.
     public static final Time START_TIME_OF_BUSINESS_HOUR = Time.newInstance(9, 0, 0, 0);
     public static final Time END_TIME_OF_BUSINESS_HOUR = Time.newInstance(17, 30, 0, 0);
 
@@ -106,7 +106,7 @@ public with sharing class UTIL_Duration {
      * @Returns : Long
      */
     public static Long calculateTimeInDays(Long timeInMilliseconds){
-        Long timeInDays = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_DAY;
+        Long timeInDays = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WORK_DAY;
         return timeInDays;
     }
     /**
@@ -177,9 +177,10 @@ public with sharing class UTIL_Duration {
                 durationInString = durationInString + numberOfWeeks + ' week(s), ';
             }
             // if the rounded duration in milliseconds is superior to a day.
-            if(roundedMS >= NUMBER_OF_MS_IN_ONE_DAY){
+            //TODO Change NUMBER_OF_MS_IN_ONE_DAY for NUMBER_OF_MS_IN_ONE_WORK_DAY
+            if(roundedMS >= NUMBER_OF_MS_IN_ONE_WORK_DAY){
                 Long numberOfDays = calculateTimeInDays(roundedMS);
-                roundedMS = roundedMS - (numberOfDays * NUMBER_OF_MS_IN_ONE_DAY);
+                roundedMS = roundedMS - (numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY);
                 durationInString = durationInString + numberOfDays + ' day(s), ';
             }
             // if the rounded duration in milliseconds is superior to a hour.
