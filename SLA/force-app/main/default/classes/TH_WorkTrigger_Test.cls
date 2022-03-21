@@ -21,43 +21,49 @@ public without sharing class TH_WorkTrigger_Test {
      * @Returns : agf__ADM_Work__c
      */
     static agf__ADM_Work__c getWorkRecordWithSubjectName(String subjectOnWork){
-        agf__ADM_Work__c workRecordHoney =[ SELECT Id,
-                                                    agf__Status__c,
-                                                    agf__Created_On_Date__c, 
-                                                    Date_Status_New_Starts__c, 
-                                                    Date_Status_Workload_DONE_Starts__c,
-                                                    Date_Status_OK_For_DEV_Starts__c,
-                                                    Date_Status_DEV_IP_Starts__c,
-                                                    Date_Status_DEV_TBT_Starts__c,
-                                                    Date_Status_DEV_TBD_UAT_Starts__c,
-                                                    Date_Status_UAT_To_Fix_Starts__c,
-                                                    Date_Status_UAT_TBD_PROD_Starts__c,
-                                                    Date_Status_PROD_To_Fix_Starts__c,
-                                                    Date_Status_Validated_TBD_Starts__c,
-                                                    Date_Status_New_Ends__c,
-                                                    Date_Status_Workload_DONE_Ends__c,
-                                                    Date_Status_OK_For_DEV_Ends__c,
-                                                    Date_Status_DEV_IP_Ends__c,
-                                                    Date_Status_DEV_TBT_Ends__c,
-                                                    Date_Status_DEV_TBD_UAT_Ends__c,
-                                                    Date_Status_UAT_To_Fix_Ends__c,
-                                                    Date_Status_UAT_TBD_PROD_Ends__c,
-                                                    Date_Status_PROD_To_Fix_Ends__c,
-                                                    Date_Status_Validated_TBD_Ends__c,
-                                                    Duration_MS_Status_New__c,
-                                                    Duration_MS_Status_Workload_DONE__c, 
-                                                    Duration_MS_Status_OK_For_DEV__c,
-                                                    Duration_MS_Status_DEV_IP__c,
-                                                    Duration_MS_Status_DEV_TBT__c,
-                                                    Duration_MS_Status_DEV_TBD_UAT__c,
-                                                    Duration_MS_Status_UAT_To_Fix__c,
-                                                    Duration_MS_Status_UAT_TBD_PROD__c,
-                                                    Duration_MS_Status_PROD_To_Fix__c,
-                                                    Duration_MS_Status_Validated_TBD__c,
-                                                    Duration_String_Status_New__c
-                                             FROM agf__ADM_Work__c
-                                             WHERE agf__Subject__c = :subjectOnWork
-                                            ];
+        agf__ADM_Work__c workRecordHoney =null;
+        try{
+            workRecordHoney =[ SELECT Id,
+                                        agf__Status__c,
+                                        agf__Created_On_Date__c, 
+                                        Date_Status_New_Starts__c, 
+                                        Date_Status_Workload_DONE_Starts__c,
+                                        Date_Status_OK_For_DEV_Starts__c,
+                                        Date_Status_DEV_IP_Starts__c,
+                                        Date_Status_DEV_TBT_Starts__c,
+                                        Date_Status_DEV_TBD_UAT_Starts__c,
+                                        Date_Status_UAT_To_Fix_Starts__c,
+                                        Date_Status_UAT_TBD_PROD_Starts__c,
+                                        Date_Status_PROD_To_Fix_Starts__c,
+                                        Date_Status_Validated_TBD_Starts__c,
+                                        Date_Status_New_Ends__c,
+                                        Date_Status_Workload_DONE_Ends__c,
+                                        Date_Status_OK_For_DEV_Ends__c,
+                                        Date_Status_DEV_IP_Ends__c,
+                                        Date_Status_DEV_TBT_Ends__c,
+                                        Date_Status_DEV_TBD_UAT_Ends__c,
+                                        Date_Status_UAT_To_Fix_Ends__c,
+                                        Date_Status_UAT_TBD_PROD_Ends__c,
+                                        Date_Status_PROD_To_Fix_Ends__c,
+                                        Date_Status_Validated_TBD_Ends__c,
+                                        Duration_MS_Status_New__c,
+                                        Duration_MS_Status_Workload_DONE__c, 
+                                        Duration_MS_Status_OK_For_DEV__c,
+                                        Duration_MS_Status_DEV_IP__c,
+                                        Duration_MS_Status_DEV_TBT__c,
+                                        Duration_MS_Status_DEV_TBD_UAT__c,
+                                        Duration_MS_Status_UAT_To_Fix__c,
+                                        Duration_MS_Status_UAT_TBD_PROD__c,
+                                        Duration_MS_Status_PROD_To_Fix__c,
+                                        Duration_MS_Status_Validated_TBD__c,
+                                        Duration_String_Status_New__c
+                                FROM agf__ADM_Work__c
+                                WHERE agf__Subject__c = :subjectOnWork
+                                ];
+        
+        } catch(DMLException e){
+            System.debug('You could not get the record named : '+subjectOnWork+'.');
+        }
         return workRecordHoney;
     }
     /**
@@ -206,8 +212,12 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workRecordDevInProgressMiere);
         workRecordsList.add(workRecordDevInProgressKkul);
         workRecordsList.add(workRecordDevInProgressTsisNaBitIzh);
-        //Insert a list of record
-        insert workRecordsList;
+        try{
+            //Insert a list of record
+            insert workRecordsList;
+        }catch (ListException e){
+            System.debug('In tests run on TH_WorkTrigger, the list of records on the sObject Work was not inserted. ref : workRecordsList');
+        }
     }
     /**
      * Setup methode for agf__Status__c = '' When testing Starting Dates
