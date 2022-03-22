@@ -242,49 +242,6 @@ public with sharing class UTIL_Duration_Test {
     System.assertEquals('4 year(s), 2 month(s), 2 week(s), 7 hour(s), 38 minute(s), 31 second(s)', realStringToTest, 'The string is not right for an input set to more than 1 year.');
   }
   /**
-  * This methode tests calculateNumberOfBusinessHoursSpentInMS.
-  * If the start date and end date take in a weekend will it return 172800000 MS ?
-  * As the tested method doese not exlcude holidays it will return 48h. 
-  * Called by :
-  * @Parametters : None
-  * @Returns : VOID
-  * 
-  */
-  @isTest
-  public static void testCalculateNumberOfBusinessHoursSpentInMSOnAWeekend(){
-    //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime startDateTime = DateTime.newInstance(2022, 2, 4, 18, 00, 00);
-    DateTime endDateTime = DateTime.newInstance(2022, 2, 7, 9, 00, 00);
-    Long expectedDuration = 0;
-    Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realDuration = utilDuration.calculateNumberOfBusinessHoursSpentInMS();
-    Test.stopTest();
-    System.debug('testCalculateNumberOfBusinessHoursSpentInMSOnAWeekend = ' +realDuration);
-    System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBusinessHoursSpentInMS is not right.');
-  }
-  /**
-  * This methode tests calculateNumberOfBusinessHoursSpentInMS.
-  * If the start date and end date are within 48h range will it return 30600000 MS ?
-  * As the tested method doese not exlcude holidays it will return 48h. 
-  * Called by :
-  * @Parametters : None
-  * @Returns : VOID
-  * 
-  */
-  @isTest
-  public static void testCalculateNumberOfBusinessHoursSpentInMSOnWorkDay(){
-    //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime startDateTime = DateTime.newInstance(2022, 3, 28, 09, 00, 00);
-    DateTime endDateTime = DateTime.newInstance(2022, 3, 28, 17, 30, 00);
-    Long expectedDuration = 30600000;
-    Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realDuration = utilDuration.calculateNumberOfBusinessHoursSpentInMS();
-    Test.stopTest();
-    System.assertEquals(expectedDuration,realDuration,'The duration calculated by UTIL_Duration.testCalculateNumberOfBusinessHoursSpentInMS is not right.');
-  }
-  /**
    * This method tests isThisDayAHoliday(Date thisDay, List<Holiday> listOfHolidays)
    * It requieres a CONSTRUCTOR.
    * Called by : 
@@ -387,41 +344,7 @@ public with sharing class UTIL_Duration_Test {
     Test.stopTest();
     System.assertEquals(false, testAfterFiveThirty);
   }
-  /**
-   * This method tests doesStartDateEqualEndDate()
-   * It requieres a CONSTRUCTOR.
-   * Called by : 
-   * @Parametters : 
-   * @Returns : 
-   */
-  @isTest
-  public static void testDoesStartDateEqualEndDate(){
-    //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
-    DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 17, 40, 0);
-    Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    boolean testAreTheyEqual = utilDuration.doesStartDateEqualEndDate();
-    Test.stopTest();
-    System.assertEquals(true, testAreTheyEqual);
-  }
-  /**
-   * This method testsisTimeBetweenNineAndFiveThirty(DateTime dateToTest)
-   * Called by : 
-   * @Parametters : 
-   * @Returns : 
-   */
-  @isTest
-  public static void testIsTimeWithinBusinessHours(){
-    //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime dateToTest = Datetime.newInstance(2022, 3, 14, 10, 30, 5);
-    System.debug('dateToTest '+ dateToTest );
-    Test.startTest();
-    boolean testIsItWithinBusinessHours = UTIL_Duration.isTimeWithinBusinessHours(dateToTest);
-    System.debug('testAfterFiveThirty '+ testIsItWithinBusinessHours );
-    Test.stopTest();
-    System.assertEquals(true, testIsItWithinBusinessHours);
-  }
+  
   /**
    * This method tests calculateNumberOfFullDaysExcludingHolidaysAndWeekends(List<Holiday> listOfHolidays).
    * TODO : the system still does not heed the fact that I have implemented weekends.
