@@ -77,9 +77,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInSeconds(Long timeInMilliseconds){
-        Long timeInSeconds = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_SECOND;
-        return timeInSeconds;
+    public static Long calculateNumberOfSecondsFrom(Long timeInMilliseconds){
+        Long numberOfSeconds = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_SECOND;
+        return numberOfSeconds;
     }
     /**
      * This method computes a duration in minutes.
@@ -87,9 +87,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInMinutes(Long timeInMilliseconds){
-        Long timeInMinutes = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_MINUTE;
-        return timeInMinutes;
+    public static Long calculateNumberOfMinutesFrom(Long timeInMilliseconds){
+        Long numberOfMinutes = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_MINUTE;
+        return numberOfMinutes;
     }
     /**
      * This method computes a duration in hours.
@@ -97,9 +97,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInHours(Long timeInMilliseconds){
-        Long timeInHours = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_HOUR;
-        return timeInHours;
+    public static Long calculateNumberOfHoursFrom(Long timeInMilliseconds){
+        Long numberOfHours = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_HOUR;
+        return numberOfHours;
     }
     /**
      * This method computes a duration in days.
@@ -107,9 +107,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInDays(Long timeInMilliseconds){
-        Long timeInDays = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WORK_DAY;
-        return timeInDays;
+    public static Long calculateNumberOfDaysFrom(Long timeInMilliseconds){
+        Long numberOfDays = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WORK_DAY;
+        return numberOfDays;
     }
     /**
      * This method computes a duration in weeks.
@@ -117,9 +117,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInWeeks(Long timeInMilliseconds){
-        Long timeInWeeks = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WEEK;
-        return timeInWeeks;
+    public static Long calculateNumberOfWeeksFrom(Long timeInMilliseconds){
+        Long numberOfWeeks = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_WEEK;
+        return numberOfWeeks;
     }
     /**
      * This method computes a duration in months.
@@ -127,10 +127,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInMonths(Long timeInMilliseconds){
-        Long numberOfMSInAMonth = NUMBER_OF_MS_IN_ONE_MONTH;
-        Long timeInMonths = timeInMilliseconds / numberOfMSInAMonth;
-        return timeInMonths;
+    public static Long calculateNumberOfMonthsFrom(Long timeInMilliseconds){
+        Long numberOfMonths = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_MONTH;
+        return numberOfMonths;
     }
     /**
      * This method computes a duration in years.
@@ -138,10 +137,9 @@ public with sharing class UTIL_Duration {
      * @Parametters : Long
      * @Returns : Long
      */
-    public static Long calculateTimeInYears(Long timeInMilliseconds){
-        Long numberOfMSInAYear = NUMBER_OF_MS_IN_ONE_YEAR;
-        Long timeInYears = timeInMilliseconds / numberOfMSInAYear;
-        return timeInYears;
+    public static Long calculateNumberOfYearsFrom(Long timeInMilliseconds){
+        Long numberOfYears = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_YEAR;
+        return numberOfYears;
     }
     /** 
      * This method will return a String from the number of milliseconds it recives.
@@ -162,43 +160,43 @@ public with sharing class UTIL_Duration {
             // Warning Conditions order is important here ! ORDER DESC
             // if the rounded duration in milliseconds is superior to a year.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_YEAR){
-                Long numberOfYears = calculateTimeInYears(roundedMS);
+                Long numberOfYears = calculateNumberOfYearsFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfYears * NUMBER_OF_MS_IN_ONE_YEAR);
                 durationInString = durationInString + numberOfYears + ' year(s), ';
             }
             // if the rounded duration in milliseconds is superior to a month.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_MONTH){
-                Long numberOfMonths = calculateTimeInMonths(roundedMS);
+                Long numberOfMonths = calculateNumberOfMonthsFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfMonths * NUMBER_OF_MS_IN_ONE_MONTH);
                 durationInString = durationInString + numberOfMonths + ' month(s), ';
             }
             // if the rounded duration in milliseconds is superior to a week.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_WEEK){
-                Long numberOfWeeks = calculateTimeInWeeks(roundedMS);
+                Long numberOfWeeks = calculateNumberOfWeeksFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfWeeks * NUMBER_OF_MS_IN_ONE_WEEK);
                 durationInString = durationInString + numberOfWeeks + ' week(s), ';
             }
             // if the rounded duration in milliseconds is superior to a day.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_WORK_DAY){
-                Long numberOfDays = calculateTimeInDays(roundedMS);
+                Long numberOfDays = calculateNumberOfDaysFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY);
                 durationInString = durationInString + numberOfDays + ' day(s), ';
             }
             // if the rounded duration in milliseconds is superior to a hour.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_HOUR){
-                Long numberOfHours = calculateTimeInHours(roundedMS);
+                Long numberOfHours = calculateNumberOfHoursFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfHours * NUMBER_OF_MS_IN_ONE_HOUR);
                 durationInString = durationInString + numberOfHours + ' hour(s), ';
             }
             // if the rounded duration in milliseconds is superior to a minute.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_MINUTE){
-                Long numberOfMinutes = calculateTimeInMinutes(roundedMS);
+                Long numberOfMinutes = calculateNumberOfMinutesFrom(roundedMS);
                 roundedMS = roundedMS - (numberOfMinutes * NUMBER_OF_MS_IN_ONE_MINUTE);
                 durationInString = durationInString + numberOfMinutes + ' minute(s), ' ;
             }
             // if the rounded duration in milliseconds is superior to a second.
             if(roundedMS >= NUMBER_OF_MS_IN_ONE_SECOND){
-                Long numberOfSeconds = calculateTimeInSeconds(roundedMS);
+                Long numberOfSeconds = calculateNumberOfSecondsFrom(roundedMS);
                 durationInString = durationInString + numberOfSeconds + ' second(s)';
                 roundedMS = roundedMS - (numberOfSeconds * NUMBER_OF_MS_IN_ONE_SECOND);
             }
@@ -208,7 +206,7 @@ public with sharing class UTIL_Duration {
             return null;
         } 
     }
-    public static BusinessHours getBusinessHourID(){
+    public static BusinessHours getBusinessHours(){
         BusinessHours businessHour = [SELECT Id 
                                         FROM BusinessHours 
                                        WHERE IsDefault=true];
@@ -341,7 +339,6 @@ public with sharing class UTIL_Duration {
     }
 
     /**
-     * TODO : the system still does not heed the fact that I have implemented weekends.
      * This method will return a number of days between start and end date that are not holidays or Weekends.
      * It requieres a CONSTRUCTOR.
      * Called by : 
@@ -380,14 +377,14 @@ public with sharing class UTIL_Duration {
      * @Parametters : List<Holiday> listOfHolidays 
      * @Returns : Long 
      */
-    public Long calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(List<Holiday> listOfHolidays){
+    public Long calculateMSFromNumberOfFullBusinesDays(List<Holiday> listOfHolidays){
         Long numberOfDays = calculateNumberOfFullDaysExcludingHolidaysAndWeekends(listOfHolidays);
         Long numberOfMSExcludingEndAndStartDates = numberOfDays * NUMBER_OF_MS_IN_ONE_WORK_DAY;
         return numberOfMSExcludingEndAndStartDates;
     }
     /**
      * This method will return a number of MS on starting date : stardDateTime.
-     * TODO put 2 parameters : BusinessHours businessHoursID = getBusinessHourID() and List<Holiday> listOfHolidays = getListOfHolidays();
+     * TODO put 2 parameters : BusinessHours businessHoursID = getBusinessHours() and List<Holiday> listOfHolidays = getListOfHolidays();
      * NEEDS A CONSTRUCTOR
      * Called by : 
      * @Parametters :
@@ -468,10 +465,10 @@ public with sharing class UTIL_Duration {
         Date startDate = Date.newInstance(startDateTime.year(), startDateTime.month(), startDateTime.day());
         Date endDate = Date.newInstance(endDateTime.year(), endDateTime.month(), endDateTime.day());
         List<Holiday> listOfHolidays = getListOfHolidays();
-        BusinessHours businessHoursID = getBusinessHourID();
+        BusinessHours businessHoursID = getBusinessHours();
         Long numberOfMSInStartingDay = calculateNumberOfMSOnStartDateTime(listOfHolidays, businessHoursID);
         Long numberOfMSInEndingDay = calculateNumberOfMSOnEndDateTime(listOfHolidays, businessHoursID);
-        Long numberOfMSExcludingEndAndStartDates = calculateMSFromNumberOfFullBusinesDaysWithoutEndAndStartDates(listOfHolidays);
+        Long numberOfMSExcludingEndAndStartDates = calculateMSFromNumberOfFullBusinesDays(listOfHolidays);
         if(startDate == endDate){
             if(!isThisDayAHoliday(endDateTime, listOfHolidays) ){
                 System.debug('startDate == endDate && within business hours');
