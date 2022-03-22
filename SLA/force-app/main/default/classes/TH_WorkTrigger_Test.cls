@@ -56,7 +56,16 @@ public without sharing class TH_WorkTrigger_Test {
                                         Duration_MS_Status_UAT_TBD_PROD__c,
                                         Duration_MS_Status_PROD_To_Fix__c,
                                         Duration_MS_Status_Validated_TBD__c,
-                                        Duration_String_Status_New__c
+                                        Duration_String_Status_New__c,
+                                        Duration_String_Status_Workload_DONE__c,
+                                        Duration_String_Status_OK_For_DEV__c,
+                                        Duration_String_Status_DEV_IP__c,
+                                        Duration_String_Status_DEV_TBT__c,
+                                        Duration_String_Status_DEV_TBD_UAT__c,
+                                        Duration_String_Status_UAT_To_Fix__c,
+                                        Duration_String_Status_UAT_TBD_PROD__c,
+                                        Duration_String_Status_PROD_To_Fix__c,
+                                        Duration_String_Status_Validated_TBD__c
                                 FROM agf__ADM_Work__c
                                 WHERE agf__Subject__c = :subjectOnWork
                                 ];
@@ -893,5 +902,140 @@ public without sharing class TH_WorkTrigger_Test {
         String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_New__c;
         // check if Duration_String_Status_New__c is a isAlphanumericSpace()
         System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_New__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_Workload_DONE__c is filled with a Long when the Date_Status_Workload_DONE_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusWorkloadDoneIsFilledAfterUpdate() {
+        String nameOfRecording = 'miel';
+        String statusValue = 'OK For DEV';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_Workload_DONE__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_Workload_DONE__c;
+        // check if Duration_String_Status_Workload_DONE__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_Workload_DONE__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_OK_For_DEV__c is filled with a Long when the Date_Status_OK_For_DEV_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusOKForDevIsFilledAfterUpdate() {
+        String nameOfRecording = 'honig';
+        String statusValue = 'DEV - In Progress';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_OK_For_DEV__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_OK_For_DEV__c;
+        // check if Duration_String_Status_OK_For_DEV__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_OK_For_DEV__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_DEV_IP__c is filled with a Long when the Date_Status_DEV_IP_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusDEVInProgressIsFilledAfterUpdate() {
+        String nameOfRecording = 'asala';
+        String statusValue = 'DEV - To Be Tested';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_DEV_IP__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_DEV_IP__c;
+        // check if Duration_String_Status_DEV_IP__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_DEV_IP__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_DEV_TBT__c is filled with a Long when the Date_Status_DEV_TBT_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusDEVToBeTestedIsFilledAfterUpdate() {
+        String nameOfRecording = 'feng mi';
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_DEV_TBT__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_DEV_TBT__c;
+        // check if Duration_String_Status_DEV_TBT__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_DEV_TBT__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_DEV_TBD_UAT__c is filled with a Long when the Date_Status_DEV_TBD_UAT_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusDEVToBeDeployedInUATIsFilledAfterUpdate() {
+        String nameOfRecording = 'miele';
+        String statusValue = 'UAT - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_DEV_TBD_UAT__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_DEV_TBD_UAT__c;
+        // check if Duration_String_Status_DEV_TBD_UAT__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_DEV_TBD_UAT__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_UAT_To_Fix__c is filled with a Long when the Date_Status_UAT_To_Fix_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusUATToFixIsFilledAfterUpdate() {
+        String nameOfRecording = 'mel';
+        String statusValue = 'UAT - To Be Deployed in PROD';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_UAT_To_Fix__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_UAT_To_Fix__c;
+        // check if Duration_String_Status_UAT_To_Fix__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_UAT_To_Fix__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_UAT_TBD_PROD__c is filled with a Long when the Date_Status_UAT_TBD_PROD_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusUATTBeDeployedInPRODIsFilledAfterUpdate() {
+        String nameOfRecording = 'miere';
+        String statusValue = 'PROD - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_UAT_TBD_PROD__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_UAT_TBD_PROD__c;
+        // check if Duration_String_Status_UAT_TBD_PROD__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_UAT_TBD_PROD__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_PROD_To_Fix__c is filled with a Long when the Date_Status_PROD_To_Fix_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusPRODToFixIsFilledAfterUpdate() {
+        String nameOfRecording = 'kkul';
+        String statusValue = 'Validated - To Be Deployed';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_PROD_To_Fix__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_PROD_To_Fix__c;
+        // check if Duration_String_Status_PROD_To_Fix__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_PROD_To_Fix__c is not a string.');
+    }
+    /**
+     *
+     * Tests if Duration_String_Status_Validated_TBD__c is filled with a Long when the Date_Status_Validated_TBD_Ends__c is updated on agf__ADM_Work__c record.
+     */
+    @isTest
+    static void checkIfWorkDurationStringStatusValidatedToBeDeployedInPRODIsFilledAfterUpdate() {
+        String nameOfRecording = 'tsis na bit izh';
+        String statusValue = 'Validated';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // get real field Duration_String_Status_Validated_TBD__c
+        String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_Validated_TBD__c;
+        // check if Duration_String_Status_Validated_TBD__c is a isAlphanumericSpace()
+        System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_Validated_TBD__c is not a string.');
     }
 }
