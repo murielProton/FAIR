@@ -58,6 +58,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_Workload_DONE__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_Workload_DONE__c = timeInMS;
+                    // set field Duration_String_Status_Workload_DONE__c with a string expressing the duration
+                    newWork.Duration_String_Status_Workload_DONE__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'OK For DEV' && newWork.agf__Status__c == 'OK For DEV'){
                     // set field Date_Status__Starts__c for the records of agf__ADM_Work__c
@@ -71,6 +73,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_OK_For_DEV__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_OK_For_DEV__c = timeInMS;
+                    // set field Duration_String_Status_OK_For_DEV__c with a string expressing the duration
+                    newWork.Duration_String_Status_OK_For_DEV__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 
                 if (oldWork.agf__Status__c != 'DEV - In Progress' && newWork.agf__Status__c == 'DEV - In Progress'){
@@ -85,6 +89,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_DEV_IP__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_DEV_IP__c = timeInMS;
+                    // set field Duration_String_Status_DEV_IP__c with a string expressing the duration
+                    newWork.Duration_String_Status_DEV_IP__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'DEV - To Be Tested' && newWork.agf__Status__c == 'DEV - To Be Tested'){
                     // set field Date_Status_DEV_TBT_Starts__c for the records of agf__ADM_Work__c
@@ -97,7 +103,9 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     Util_Duration duration = new Util_Duration(newWork.Date_Status_DEV_TBT_Starts__c, newWork.Date_Status_DEV_TBT_Ends__c);
                     // calulate and set field Duration_MS_Status_DEV_TBT__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
-                    newWork.Duration_MS_Status_DEV_TBT__c = timeInMS;
+                    newWork.Duration_MS_Status_DEV_TBT__c = timeInMS; 
+                    // set field Duration_String_Status_DEV_TBT__c with a string expressing the duration
+                    newWork.Duration_String_Status_DEV_TBT__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'DEV - To Be Deployed in UAT' && newWork.agf__Status__c == 'DEV - To Be Deployed in UAT'){
                     // set field Date_Status_DEV_TBD_UAT_Starts__c	 for the records of agf__ADM_Work__c
@@ -111,6 +119,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_DEV_TBD_UAT__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_DEV_TBD_UAT__c = timeInMS;
+                    // set field Duration_String_Status_DEV_TBD_UAT__c with a string expressing the duration
+                    newWork.Duration_String_Status_DEV_TBD_UAT__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'UAT - To Fix' && newWork.agf__Status__c == 'UAT - To Fix'){
                     // set field Date_Status_UAT_To_Fix_Starts__c for the records of agf__ADM_Work__c
@@ -124,6 +134,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_UAT_To_Fix__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_UAT_To_Fix__c = timeInMS;
+                    // set field Duration_String_Status_UAT_To_Fix__c with a string expressing the duration
+                    newWork.Duration_String_Status_UAT_To_Fix__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'UAT - To Be Deployed in PROD' && newWork.agf__Status__c == 'UAT - To Be Deployed in PROD'){
                     // set field Date_Status_UAT_TBD_PROD_Starts__c for the records of agf__ADM_Work__c
@@ -137,6 +149,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_UAT_TBD_PROD__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_UAT_TBD_PROD__c = timeInMS;
+                    // set field Duration_String_Status_UAT_TBD_PROD__c with a string expressing the duration
+                    newWork.Duration_String_Status_UAT_TBD_PROD__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'PROD - To Fix' && newWork.agf__Status__c == 'PROD - To Fix'){
                     // set field Date_Status_PROD_To_Fix_Starts__c for the records of agf__ADM_Work__c
@@ -150,6 +164,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_PROD_To_Fix__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_PROD_To_Fix__c = timeInMS;
+                    // set field Duration_String_Status_PROD_To_Fix__c with a string expressing the duration
+                    newWork.Duration_String_Status_PROD_To_Fix__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
                 if (oldWork.agf__Status__c != 'Validated - To Be Deployed' && newWork.agf__Status__c == 'Validated - To Be Deployed'){
                     // set field Date_Status_Validated_TBD_Starts__c for the records of agf__ADM_Work__c
@@ -163,6 +179,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // calulate and set field Duration_MS_Status_Validated_TBD__c with a duration in Milliseconds (Decimal)
                     Long timeInMS = duration.calculateDurationInfMS();
                     newWork.Duration_MS_Status_Validated_TBD__c = timeInMS;
+                    // set field Duration_String_Status_Validated_TBD__c with a string expressing the duration
+                    newWork.Duration_String_Status_Validated_TBD__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
 
             }
