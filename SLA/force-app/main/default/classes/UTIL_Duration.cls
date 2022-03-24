@@ -406,7 +406,7 @@ public with sharing class UTIL_Duration {
         Long numberOfYears = timeInMilliseconds / NUMBER_OF_MS_IN_ONE_YEAR;
         return numberOfYears;
     }
-    
+    //------------------------------------------------------BOOLEAN STATIC METHODS ---------------------------------------------
    
     /** 
      * This method will return a boolean.
