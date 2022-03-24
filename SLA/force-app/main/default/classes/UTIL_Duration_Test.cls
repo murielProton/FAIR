@@ -319,10 +319,8 @@ public with sharing class UTIL_Duration_Test {
   public static void testIsStartTimeBeforeNineOClock(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
     DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
-    DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 10, 0, 0);
     Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    boolean testBeforeNine = utilDuration.isDateTimeBeforeNineOClock(startDateTime);
+    boolean testBeforeNine = UTIL_Duration.isDateTimeBeforeNineOClock(startDateTime);
     Test.stopTest();
     System.assertEquals(true, testBeforeNine);
   }
@@ -336,11 +334,9 @@ public with sharing class UTIL_Duration_Test {
   @isTest
   public static void testIsEndTimeBeforeFiveThirty(){
     //DateTime.newInstance(year, month, day, hour, minute, second);
-    DateTime startDateTime = Datetime.newInstance(2022, 3, 14, 8, 0, 0);
     DateTime endDateTime = Datetime.newInstance(2022, 3, 14, 17, 40, 0);
     Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    boolean testAfterFiveThirty = utilDuration.isDateTimeBeforeFiveThirty(endDateTime);
+    boolean testAfterFiveThirty = UTIL_Duration.isDateTimeBeforeFiveThirty(endDateTime);
     Test.stopTest();
     System.assertEquals(false, testAfterFiveThirty);
   }
@@ -429,8 +425,8 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 12, 31, 17, 30, 00);
     List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays(); 
     Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfMS = utilDuration.calculateMSFromNumberOfFullBusinesDays(listOfHolidays);
+    UTIL_Duration utilDurationTest = new UTIL_Duration(startDateTime,endDateTime);
+    Long realNumberOfMS = utilDurationTest.calculateMSFromNumberOfFullBusinesDays(listOfHolidays);
     System.debug('realNumberOfMS in a year = ' + realNumberOfMS);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('7741800000');
@@ -449,8 +445,8 @@ public with sharing class UTIL_Duration_Test {
     DateTime endDateTime = DateTime.newInstance(2022, 9, 30, 17, 30, 00);
     List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays(); 
     Test.startTest();
-    UTIL_Duration utilDuration = new UTIL_Duration(startDateTime, endDateTime);
-    Long realNumberOfMS = utilDuration.calculateMSFromNumberOfFullBusinesDays(listOfHolidays);
+    UTIL_Duration utilDurationTest = new UTIL_Duration(startDateTime,endDateTime);
+    Long realNumberOfMS = utilDurationTest.calculateMSFromNumberOfFullBusinesDays(listOfHolidays);
     System.debug('realNumberOfMS in a year = ' + realNumberOfMS);
     Test.stopTest();
     Long expectedNumberOfMS = long.valueOf('91800000');
