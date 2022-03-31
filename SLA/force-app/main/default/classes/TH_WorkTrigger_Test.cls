@@ -112,8 +112,17 @@ public without sharing class TH_WorkTrigger_Test {
         String dateToSet = dateTimeNow.format('yyyy/MM/dd hh:mm');
         // creating a record on sObject agf__ADM_Work__c Status New
         agf__ADM_Work__c workRecordNewHoney = new agf__ADM_Work__c(
-            RecordTypeId = recordTypeIdUS,
+            RecordTypeId = recordTypeIdBug,
             agf__Subject__c = 'honey',
+            agf__Status__c = 'New',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status New and the record type User Story
+        agf__ADM_Work__c workRecordNewMilain = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'milain',
             agf__Status__c = 'New',
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
@@ -121,7 +130,7 @@ public without sharing class TH_WorkTrigger_Test {
         );
         // creating a record on sObject agf__ADM_Work__c Status Workload DONE
         agf__ADM_Work__c workRecordWorkloadMiel = new agf__ADM_Work__c(
-            RecordTypeId = recordTypeIdBug,
+            RecordTypeId = recordTypeIdUS,
             agf__Subject__c = 'miel',
             agf__Status__c = 'Workload DONE',
             Date_Status_Workload_DONE_Starts__c = dateTimeNow,
@@ -131,7 +140,7 @@ public without sharing class TH_WorkTrigger_Test {
         );
         // creating a record on sObject agf__ADM_Work__c Status OK For DEV
         agf__ADM_Work__c workRecordOKForDevHonig = new agf__ADM_Work__c(
-            RecordTypeId = recordTypeIdBug,
+            RecordTypeId = recordTypeIdUS,
             agf__Subject__c = 'honig',
             agf__Status__c = 'OK For DEV',
             Date_Status_OK_For_DEV_Starts__c = dateTimeNow,
@@ -221,6 +230,7 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workRecordDevInProgressMiere);
         workRecordsList.add(workRecordDevInProgressKkul);
         workRecordsList.add(workRecordDevInProgressTsisNaBitIzh);
+        workRecordsList.add(workRecordNewMilain);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -275,7 +285,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDateStatusWorkloadDoneStartsFilledAfterUpdate() {
-        String nameOfRecording = 'honey';
+        String nameOfRecording = 'milain';
         String statusValue = 'Workload DONE';
         setupTestWhenStatusIs(statusValue, nameOfRecording);
         agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
@@ -322,7 +332,7 @@ public without sharing class TH_WorkTrigger_Test {
      */
     @isTest
     static void checkIfWorkDateStatusDEVIPStartsFilledAfterUpdate() {
-        String nameOfRecording = 'miel';
+        String nameOfRecording = 'honey';
         String statusValue = 'DEV - In Progress';
         setupTestWhenStatusIs(statusValue, nameOfRecording);
         agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
@@ -1037,5 +1047,114 @@ public without sharing class TH_WorkTrigger_Test {
         String realStringDuration = workRecordHoneyAfterUpdate.Duration_String_Status_Validated_TBD__c;
         // check if Duration_String_Status_Validated_TBD__c is a isAlphanumericSpace()
         System.assert(realStringDuration.isAsciiPrintable(),'Duration_String_Status_Validated_TBD__c is not a string.');
+    }
+    //----------------------------------------------------- CHECK the differences between RecordType 'User_Story' and 'Bug' -------------------------------------------------
+    /**
+     * Tests if Date_Status_Workload_DONE_Starts__c is NOT filled when the record type is 'Bug'
+     */
+    @isTest
+    static void checkThatDurationDateStatusWorkloadDoneStartIsNOTFilledWhenRecordTypeIsBug(){
+        String nameOfRecording = 'honey';
+        String statusValue = 'Workload DONE';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_Workload_DONE_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_Workload_DONE_Starts__c, 'Date_Status_Workload_DONE_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_OK_For_DEV_Starts__c is NOT filled when the record type is 'Bug'
+     */
+    @isTest
+    static void checkThatDateStatusOKForDevStartsIsNOTFilledWhenRecordTypeIsBug(){
+        String nameOfRecording = 'honey';
+        String statusValue = 'OK For DEV';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_Workload_DONE_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_OK_For_DEV_Starts__c, 'Date_Status_OK_For_DEV_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_DEV_IP_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusDEVIPStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'milain';
+        String statusValue = 'DEV - In Progress';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_Workload_DONE_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_DEV_IP_Starts__c, 'Date_Status_DEV_IP_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_DEV_TBT_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusDEVTBTStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'DEV - To Be Tested';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_DEV_TBT_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_DEV_TBT_Starts__c, 'Date_Status_DEV_TBT_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_DEV_TBD_UAT_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusDEVTBDUATStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_DEV_TBD_UAT_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_DEV_TBD_UAT_Starts__c, 'Date_Status_DEV_TBD_UAT_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_UAT_To_Fix_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusUATToFixStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'UAT - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_UAT_To_Fix_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_UAT_To_Fix_Starts__c, 'Date_Status_UAT_To_Fix_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_UAT_TBD_PROD_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusUATTBDInProdStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'UAT - To Be Deployed in PROD';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_UAT_TBD_PROD_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_UAT_TBD_PROD_Starts__c, 'Date_Status_UAT_TBD_PROD_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_PROD_To_Fix_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusPRODToFixStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'PROD - To Fix';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_PROD_To_Fix_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_PROD_To_Fix_Starts__c, 'Date_Status_PROD_To_Fix_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    /**
+     * Tests if Date_Status_Validated_TBD_Starts__c is NOT filled when the record type is 'User_Story'
+     */
+    @isTest
+    static void checkThatDateStatusValidatedTBDStartsIsNOTFilledWhenRecordTypeIsUserStory(){
+        String nameOfRecording = 'honig';
+        String statusValue = 'Validated - To Be Deployed';
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        // check if Date_Status_Validated_TBD_Starts__c is null
+        System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_Validated_TBD_Starts__c, 'Date_Status_Validated_TBD_Starts__c has been filled, it shouldn\'t have been.');
     }
 }

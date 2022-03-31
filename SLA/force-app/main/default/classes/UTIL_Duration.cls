@@ -44,7 +44,7 @@ public with sharing class UTIL_Duration {
      * @Returns : List<BusinessHours> 
      */
     public static BusinessHours getBusinessHours(){
-        BusinessHours businessHour = [SELECT Id 
+        BusinessHours businessHour = [ SELECT Id 
                                         FROM BusinessHours 
                                        WHERE IsDefault=true];
         return businessHour;
