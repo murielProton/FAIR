@@ -16,6 +16,7 @@ public without sharing class TH_WorkTrigger_Test {
      * method to call in each test to load a record.
      * TO USE ONLY IN THIS CLASS!
      * This methodes gets every fields with names Date_Status_XX_Starts__c
+     * It is not the same as the one on UTIL_ServiceLevelAgreement_Test as this class tests for other things.
      * Called by :  
      * @Parametters : None
      * @Returns : agf__ADM_Work__c
@@ -218,7 +219,7 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
         );
-        // creating a record on sObject agf__ADM_Work__c Status ???
+        // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
         workRecordsList.add(workRecordWorkloadMiel);
