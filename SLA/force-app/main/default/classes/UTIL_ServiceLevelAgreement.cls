@@ -45,7 +45,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
      */
     //------------------------------------------------------GETER METHODS ---------------------------------------------
     /** 
-     * TODO get Date_Status_New_Starts__c
+     * get Date_Status_New_Starts__c
      * Called by : 
      * @Parametters : 
      * @Returns : DateTime 
@@ -62,18 +62,87 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return workRecord.Date_Status_New_Starts__c;
     }
+    /** 
+     * get Date_Status_Workload_DONE_Ends__c
+     * Called by : 
+     * @Parametters : 
+     * @Returns : DateTime 
+     */
+    public static DateTime getDateStatusWorkloadDONEEnds(String subjectOnWork){
+        agf__ADM_Work__c workRecord =null;
+            try{
+                workRecord =[ SELECT Date_Status_Workload_DONE_Ends__c
+                                   FROM agf__ADM_Work__c
+                                   WHERE agf__Subject__c = :subjectOnWork
+                                   ];
+            } catch(DMLException e){
+                System.debug('You could not get Date_Status_Workload_DONE_Ends__c on the record named : '+subjectOnWork+'.');
+            }
+            return workRecord.Date_Status_Workload_DONE_Ends__c;
+    }
+    /** 
+     * get Date_Status_DEV_IP_Ends__c
+     * Called by : 
+     * @Parametters : 
+     * @Returns : DateTime 
+     */
+    public static DateTime getDateStatusDEVIPEnds(String subjectOnWork){
+        agf__ADM_Work__c workRecord =null;
+            try{
+                workRecord =[ SELECT Date_Status_DEV_IP_Ends__c
+                                   FROM agf__ADM_Work__c
+                                   WHERE agf__Subject__c = :subjectOnWork
+                                   ];
+            } catch(DMLException e){
+                System.debug('You could not get Date_Status_DEV_IP_Ends__c on the record named : '+subjectOnWork+'.');
+            }
+            return workRecord.Date_Status_DEV_IP_Ends__c;
+    }
+    /** 
+     * get Date_Status_Validated_TBD_Ends__c
+     * Called by : 
+     * @Parametters : 
+     * @Returns : DateTime 
+     */
+    public static DateTime getDateStatusValidatedTBDEnds(String subjectOnWork){
+        agf__ADM_Work__c workRecord =null;
+            try{
+                workRecord =[ SELECT Date_Status_Validated_TBD_Ends__c
+                                   FROM agf__ADM_Work__c
+                                   WHERE agf__Subject__c = :subjectOnWork
+                                   ];
+            } catch(DMLException e){
+                System.debug('You could not get Date_Status_Validated_TBD_Ends__c on the record named : '+subjectOnWork+'.');
+            }
+            return workRecord.Date_Status_Validated_TBD_Ends__c;
+    }
     /**
-     * 
-     * TODO get record type
+     * get record type
      * Called by : 
      * @Parametters : 
      * @Returns : String
      */
+    public static String getRecordTypeDeveloperName(String subjectOnWork){
+        agf__ADM_Work__c workRecord =null;
+        try{
+            workRecord =[ SELECT Id,
+                                 RecordTypeId
+                               FROM agf__ADM_Work__c
+                               WHERE agf__Subject__c = :subjectOnWork
+                               ];
+            //System.debug('getRecordTypeDeveloperName sObject AGF Work -> '+workRecord);
+        } catch(DMLException e){
+            System.debug('You could not get Date_Status_Validated_TBD_Ends__c on the record named : '+subjectOnWork+'.');
+        }
+        String recordTypeDeveloperSName = Schema.SObjectType.agf__ADM_Work__c.getRecordTypeInfosById().get(workRecord.recordTypeId).getDeveloperName();
+        //System.debug('getRecordTypeDeveloperName recordTypeDeveloperSName -> '+recordTypeDeveloperSName);
+        return recordTypeDeveloperSName;
+    }
     /** 
-     * TODO get record priority
+     * get record priority
      * Called by : 
      * @Parametters : 
-     * @Returns : Integer
+     * @Returns : String
      */
     /** 
      * TODO get record status

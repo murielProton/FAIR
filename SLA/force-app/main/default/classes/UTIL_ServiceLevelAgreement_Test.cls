@@ -65,16 +65,28 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Id recordTypeIdUS = Schema.SObjectType.agf__ADM_Work__c.getRecordTypeInfosByName().get('User Story').getRecordTypeId();
         // Creating a Date to set starting date of a status on futur records
         // set a DateTime a date (yyyy, m, d, h, min, sec)
-        DateTime dateTimeRandom = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
-        // Make sure the two DatTime are the same
-        // convert DateTime into String in a specified format to ensure they are equal.
-        String dateToSet = dateTimeRandom.format('yyyy/MM/dd hh:mm');
+        DateTime dateTimeCreation = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
+        DateTime dateTimeWorkloadDoneEnds = DateTime.newInstance(2022, 4, 1, 12, 22, 16);
+        DateTime dateTimeInProgressEnds = DateTime.newInstance(2022, 4, 1, 11, 8, 16);
+        DateTime dateTimeValidatedTBDEnds = DateTime.newInstance(2022, 4, 1, 13, 22, 16);
         // creating a record on sObject agf__ADM_Work__c Status New
         agf__ADM_Work__c workRecordNewHoney = new agf__ADM_Work__c(
             RecordTypeId = recordTypeIdBug,
             agf__Subject__c = 'honey',
             agf__Status__c = 'New',
-            Date_Status_New_Starts__c = dateTimeRandom,
+            Date_Status_New_Starts__c = dateTimeCreation,
+            Date_Status_DEV_IP_Ends__c = dateTimeInProgressEnds,
+            Date_Status_Validated_TBD_Ends__c = dateTimeValidatedTBDEnds,
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status New
+        agf__ADM_Work__c workRecordNewMiel = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'miel',
+            agf__Status__c = 'New',
+            Date_Status_Workload_DONE_Ends__c = dateTimeWorkloadDoneEnds,
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
@@ -82,6 +94,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
+        workRecordsList.add(workRecordNewMiel);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -91,23 +104,95 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     }
     /**
      *
-     * Tests if getDateStatusNewStarts(String subjectOnWork) returns the right date 
+     * Tests if getDateStatusNewStarts(String subjectOnWork) returns the right DateTime
      */
     @isTest
     static void testIfGetDateStatusNewStartsReturnsTheRightDate() {
         String nameOfRecording = 'honey';
         // set a DateTime a date (yyyy, m, d, h, min, sec)
-        DateTime dateTimeToFormat = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
-        // convert DateTime into String in a specified format to ensure they are equal.
-        String expectedDateTime = dateTimeToFormat.format('yyyy/MM/dd hh:mm');
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
         Test.startTest();
-        DateTime realTimeToSetToString = UTIL_ServiceLevelAgreement.getDateStatusNewStarts(nameOfRecording);
-        String realTimeToTest = realTimeToSetToString.format('yyyy/MM/dd hh:mm');
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusNewStarts(nameOfRecording);
         Test.stopTest();
         // check if date equals Date_Status__Starts__c
         System.assertEquals(expectedDateTime, 
-                            realTimeToTest, 
+                            realDateTimeToTest, 
                             'On the sObject Work the field Date_Status_New_Starts__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getDateStatusWorkloadDONEEnds(String subjectOnWork) returns the right DateTime
+     */
+    @isTest
+    static void testIfGetDateStatusWorkloadDONEEndsReturnsTheRightDate() {
+        String nameOfRecording = 'miel';
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 12, 22, 16);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusWorkloadDONEEnds(nameOfRecording);
+        Test.stopTest();
+        // check if date equals Date_Status__Starts__c
+        System.assertEquals(expectedDateTime, 
+                            realDateTimeToTest, 
+                            'On the sObject Work the field Date_Status_Workload_DONE_Ends__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getDateStatusDEVIPEnds(String subjectOnWork) returns the right DateTime
+     */
+    @isTest
+    static void testIfGetDateStatusDEVIPEndsReturnsTheRightDate() {
+        String nameOfRecording = 'honey';
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 11, 8, 16);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusDEVIPEnds(nameOfRecording);
+        Test.stopTest();
+        // check if date equals Date_Status__Starts__c
+        System.assertEquals(expectedDateTime, 
+                            realDateTimeToTest, 
+                            'On the sObject Work the field Date_Status_DEV_IP_Ends__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getDateStatusValidatedTBDEnds(String subjectOnWork) returns the right DateTime
+     */
+    @isTest
+    static void testIfGetDateStatusValidatedTBDEndsReturnsTheRightDate() {
+        String nameOfRecording = 'honey';
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 13, 22, 16);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusValidatedTBDEnds(nameOfRecording);
+        Test.stopTest();
+        // check if date equals Date_Status__Starts__c
+        System.assertEquals(expectedDateTime, 
+                            realDateTimeToTest, 
+                            'On the sObject Work the field Date_Status_Validated_TBD_Ends__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getRecordTypeDeveloperName(String subjectOnWork) returns the right String
+     */
+    @isTest
+    static void testIfGetRecordTypeDeveloperNameReturnsTheRightString() {
+        String nameOfRecording = 'honey';
+        String expectedString = 'Bug';
+        Test.startTest();
+        String realString = UTIL_ServiceLevelAgreement.getRecordTypeDeveloperName(nameOfRecording);
+        Test.stopTest();
+        // check if date equals Date_Status__Starts__c
+        System.assertEquals(expectedString, 
+                            realString, 
+                            'On the sObject Work the field record Type developer\'s name could not be retrieved correctly.'
                             );
 
     }
