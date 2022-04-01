@@ -17,7 +17,12 @@ public class TH_WorkTrigger extends I_TriggerHandler {
     public override void beforeInsert() {
         List<agf__ADM_Work__c> workToCreate = new List<agf__ADM_Work__c>();
         for (agf__ADM_Work__c thisWork : (List<agf__ADM_Work__c>)Trigger.new){
-                thisWork.Date_Status_New_Starts__c = Datetime.now();      
+            //  this if is more permissif for Batches and Tests classes
+            if(thisWork.Date_Status_New_Starts__c == null){
+                thisWork.Date_Status_New_Starts__c = Datetime.now();   
+            }else{
+                continue;
+            }   
         }
     }
     /**This method acts before update on sObject agf__ADM_Work__c.
