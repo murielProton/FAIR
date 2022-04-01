@@ -23,9 +23,15 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         agf__ADM_Work__c workRecordHoney =null;
         try{
             workRecordHoney =[ SELECT Id,
+                                      RecordTypeId,
                                       agf__Status__c,
                                       agf__Created_On_Date__c, 
-                                      Date_Status_New_Starts__c
+                                      Date_Status_New_Starts__c,
+                                      Date_Status_Workload_DONE_Ends__c,
+                                      Date_Status_DEV_IP_Ends__c,
+                                      Date_Status_Validated_TBD_Ends__c,
+                                      agf__Priority__c,
+                                      Bypass_For_Corrective_Maintenance_On_Bug__c
                                FROM agf__ADM_Work__c
                                WHERE agf__Subject__c = :subjectOnWork
                             ];
@@ -79,7 +85,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Date_Status_Validated_TBD_Ends__c = dateTimeValidatedTBDEnds,
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P0',
+            Bypass_For_Corrective_Maintenance_On_Bug__c = false
         );
         // creating a record on sObject agf__ADM_Work__c Status New
         agf__ADM_Work__c workRecordNewMiel = new agf__ADM_Work__c(
@@ -109,17 +116,16 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testIfGetDateStatusNewStartsReturnsTheRightDate() {
         String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusNewStarts(workRecord);
+        Test.stopTest();
         // set a DateTime a date (yyyy, m, d, h, min, sec)
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
-        Test.startTest();
-        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusNewStarts(nameOfRecording);
-        Test.stopTest();
-        // check if date equals Date_Status__Starts__c
         System.assertEquals(expectedDateTime, 
                             realDateTimeToTest, 
                             'On the sObject Work the field Date_Status_New_Starts__c could not be retrieved correctly.'
                             );
-
     }
     /**
      *
@@ -128,12 +134,12 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testIfGetDateStatusWorkloadDONEEndsReturnsTheRightDate() {
         String nameOfRecording = 'miel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusWorkloadDONEEnds(workRecord);
+        Test.stopTest();
         // set a DateTime a date (yyyy, m, d, h, min, sec)
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 12, 22, 16);
-        Test.startTest();
-        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusWorkloadDONEEnds(nameOfRecording);
-        Test.stopTest();
-        // check if date equals Date_Status__Starts__c
         System.assertEquals(expectedDateTime, 
                             realDateTimeToTest, 
                             'On the sObject Work the field Date_Status_Workload_DONE_Ends__c could not be retrieved correctly.'
@@ -147,12 +153,12 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testIfGetDateStatusDEVIPEndsReturnsTheRightDate() {
         String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusDEVIPEnds(workRecord);
+        Test.stopTest();
         // set a DateTime a date (yyyy, m, d, h, min, sec)
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 11, 8, 16);
-        Test.startTest();
-        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusDEVIPEnds(nameOfRecording);
-        Test.stopTest();
-        // check if date equals Date_Status__Starts__c
         System.assertEquals(expectedDateTime, 
                             realDateTimeToTest, 
                             'On the sObject Work the field Date_Status_DEV_IP_Ends__c could not be retrieved correctly.'
@@ -166,12 +172,12 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testIfGetDateStatusValidatedTBDEndsReturnsTheRightDate() {
         String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusValidatedTBDEnds(workRecord);
+        Test.stopTest();
         // set a DateTime a date (yyyy, m, d, h, min, sec)
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 1, 13, 22, 16);
-        Test.startTest();
-        DateTime realDateTimeToTest = UTIL_ServiceLevelAgreement.getDateStatusValidatedTBDEnds(nameOfRecording);
-        Test.stopTest();
-        // check if date equals Date_Status__Starts__c
         System.assertEquals(expectedDateTime, 
                             realDateTimeToTest, 
                             'On the sObject Work the field Date_Status_Validated_TBD_Ends__c could not be retrieved correctly.'
@@ -185,14 +191,68 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testIfGetRecordTypeDeveloperNameReturnsTheRightString() {
         String nameOfRecording = 'honey';
-        String expectedString = 'Bug';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
-        String realString = UTIL_ServiceLevelAgreement.getRecordTypeDeveloperName(nameOfRecording);
+        String realString = UTIL_ServiceLevelAgreement.getRecordTypeDeveloperName(workRecord);
         Test.stopTest();
-        // check if date equals Date_Status__Starts__c
+        String expectedString = 'Bug';
         System.assertEquals(expectedString, 
                             realString, 
                             'On the sObject Work the field record Type developer\'s name could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getRecordPriority(String subjectOnWork) returns the right String
+     */
+    @isTest
+    static void testIfGetRecordPriorityReturnsTheRightString() {
+        String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        String realString = UTIL_ServiceLevelAgreement.getRecordPriority(workRecord);
+        Test.stopTest();
+        String expectedString = 'P0';
+        System.assertEquals(expectedString, 
+                            realString, 
+                            'On the sObject Work the field record agf__Priority__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getRecordStatus(agf__ADM_Work__c workRecord) returns the right String
+     */
+    @isTest
+    static void testIfGetRecordStatusReturnsTheRightString() {
+        String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        String realString = UTIL_ServiceLevelAgreement.getRecordStatus(workRecord);
+        Test.stopTest();
+        String expectedString = 'New';
+        System.assertEquals(expectedString, 
+                            realString, 
+                            'On the sObject Work the field record agf__Priority__c could not be retrieved correctly.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if getRecordBypassForCorrectiveMaintenanceOnBugs(agf__ADM_Work__c workRecord) returns the right String
+     */
+    @isTest
+    static void testIfgetRecordBypassForCorrectiveMaintenanceOnBugsReturnsFalse() {
+        String nameOfRecording = 'honey';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        boolean realBoolean = UTIL_ServiceLevelAgreement.getRecordBypassForCorrectiveMaintenanceOnBugs(workRecord);
+        Test.stopTest();
+        boolean expectedBoolean = false;
+        System.assertEquals(expectedBoolean, 
+                            realBoolean, 
+                            'On the sObject Work the field record Bypass_For_Corrective_Maintenance_On_Bug__c could not be retrieved correctly.'
                             );
 
     }

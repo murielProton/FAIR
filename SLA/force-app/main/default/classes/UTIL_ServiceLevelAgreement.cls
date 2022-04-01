@@ -50,16 +50,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : DateTime 
      */
-    public static DateTime getDateStatusNewStarts(String subjectOnWork){
-    agf__ADM_Work__c workRecord =null;
-        try{
-            workRecord =[ SELECT Date_Status_New_Starts__c
-                               FROM agf__ADM_Work__c
-                               WHERE agf__Subject__c = :subjectOnWork
-                               ];
-        } catch(DMLException e){
-            System.debug('You could not get Date_Status_New_Starts__c on the record named : '+subjectOnWork+'.');
-        }
+    public static DateTime getDateStatusNewStarts(agf__ADM_Work__c workRecord){
         return workRecord.Date_Status_New_Starts__c;
     }
     /** 
@@ -68,17 +59,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : DateTime 
      */
-    public static DateTime getDateStatusWorkloadDONEEnds(String subjectOnWork){
-        agf__ADM_Work__c workRecord =null;
-            try{
-                workRecord =[ SELECT Date_Status_Workload_DONE_Ends__c
-                                   FROM agf__ADM_Work__c
-                                   WHERE agf__Subject__c = :subjectOnWork
-                                   ];
-            } catch(DMLException e){
-                System.debug('You could not get Date_Status_Workload_DONE_Ends__c on the record named : '+subjectOnWork+'.');
-            }
-            return workRecord.Date_Status_Workload_DONE_Ends__c;
+    public static DateTime getDateStatusWorkloadDONEEnds(agf__ADM_Work__c workRecord){
+        return workRecord.Date_Status_Workload_DONE_Ends__c;
     }
     /** 
      * get Date_Status_DEV_IP_Ends__c
@@ -86,17 +68,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : DateTime 
      */
-    public static DateTime getDateStatusDEVIPEnds(String subjectOnWork){
-        agf__ADM_Work__c workRecord =null;
-            try{
-                workRecord =[ SELECT Date_Status_DEV_IP_Ends__c
-                                   FROM agf__ADM_Work__c
-                                   WHERE agf__Subject__c = :subjectOnWork
-                                   ];
-            } catch(DMLException e){
-                System.debug('You could not get Date_Status_DEV_IP_Ends__c on the record named : '+subjectOnWork+'.');
-            }
-            return workRecord.Date_Status_DEV_IP_Ends__c;
+    public static DateTime getDateStatusDEVIPEnds(agf__ADM_Work__c workRecord){
+        return workRecord.Date_Status_DEV_IP_Ends__c;
     }
     /** 
      * get Date_Status_Validated_TBD_Ends__c
@@ -104,17 +77,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : DateTime 
      */
-    public static DateTime getDateStatusValidatedTBDEnds(String subjectOnWork){
-        agf__ADM_Work__c workRecord =null;
-            try{
-                workRecord =[ SELECT Date_Status_Validated_TBD_Ends__c
-                                   FROM agf__ADM_Work__c
-                                   WHERE agf__Subject__c = :subjectOnWork
-                                   ];
-            } catch(DMLException e){
-                System.debug('You could not get Date_Status_Validated_TBD_Ends__c on the record named : '+subjectOnWork+'.');
-            }
-            return workRecord.Date_Status_Validated_TBD_Ends__c;
+    public static DateTime getDateStatusValidatedTBDEnds(agf__ADM_Work__c workRecord){
+        return workRecord.Date_Status_Validated_TBD_Ends__c;
     }
     /**
      * get record type
@@ -122,20 +86,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : String
      */
-    public static String getRecordTypeDeveloperName(String subjectOnWork){
-        agf__ADM_Work__c workRecord =null;
-        try{
-            workRecord =[ SELECT Id,
-                                 RecordTypeId
-                               FROM agf__ADM_Work__c
-                               WHERE agf__Subject__c = :subjectOnWork
-                               ];
-            //System.debug('getRecordTypeDeveloperName sObject AGF Work -> '+workRecord);
-        } catch(DMLException e){
-            System.debug('You could not get Date_Status_Validated_TBD_Ends__c on the record named : '+subjectOnWork+'.');
-        }
+    public static String getRecordTypeDeveloperName(agf__ADM_Work__c workRecord){
         String recordTypeDeveloperSName = Schema.SObjectType.agf__ADM_Work__c.getRecordTypeInfosById().get(workRecord.recordTypeId).getDeveloperName();
-        //System.debug('getRecordTypeDeveloperName recordTypeDeveloperSName -> '+recordTypeDeveloperSName);
         return recordTypeDeveloperSName;
     }
     /** 
@@ -144,18 +96,27 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Parametters : 
      * @Returns : String
      */
+    public static String getRecordPriority(agf__ADM_Work__c workRecord){
+        return workRecord.agf__Priority__c;
+    }
     /** 
-     * TODO get record status
+     * get record status
      * Called by : 
      * @Parametters : 
      * @Returns : String
      */
+    public static String getRecordStatus(agf__ADM_Work__c workRecord){
+        return workRecord.agf__Status__c;
+    }
     /** 
-     * TODO get Bypass_For_Corrective_Maintenance_On_Bug__c
+     * get Bypass_For_Corrective_Maintenance_On_Bug__c
      * Called by : 
      * @Parametters : 
      * @Returns : boolean
      */
+    public static boolean getRecordBypassForCorrectiveMaintenanceOnBugs(agf__ADM_Work__c workRecord){
+        return workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
+    }
     //------------------------------------------------------METHODS WITH CONSTRUCTOR ---------------------------------------------
     //------------------------------------------------------STATIC METHODS ---------------------------------------------
     //------------------------------------------------------BOOLEAN STATIC METHODS ---------------------------------------------
