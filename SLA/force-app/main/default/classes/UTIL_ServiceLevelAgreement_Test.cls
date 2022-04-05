@@ -444,4 +444,81 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
                             'The method hasDurationMSStatusDEVTBTBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
                             );
     }
+    /**
+     * Test hasDurationMSStatusDEVTBDUATBeenFilled(agf__ADM_Work__c workRecord)
+     */
+    @isTest
+    static void testHasDurationMSStatusDEVTBDUATBeenFilled(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusDEVTBDUATBeenFilled(workRecord);
+        Test.stopTest();
+        System.assertEquals(true, 
+                            realboolean, 
+                            'The method hasDurationMSStatusDEVTBDUATBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
+                            );
+    }
+    /**
+     * Test hasDurationMSStatusUATToFixBeenFilled(agf__ADM_Work__c workRecord)
+     */
+    @isTest
+    static void testHasDurationMSStatusUATToFixBeenFilled(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusUATToFixBeenFilled(workRecord);
+        Test.stopTest();
+        System.assertEquals(true, 
+                            realboolean, 
+                            'The method hasDurationMSStatusUATToFixBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
+                            );
+    }
+    /**
+     * Test hasDurationMSStatusUATTBDPRODBeenFilled(agf__ADM_Work__c workRecord)
+     */
+    @isTest
+    static void testHasDurationMSStatusUATTBDPRODBeenFilled(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusUATTBDPRODBeenFilled(workRecord);
+        Test.stopTest();
+        System.assertEquals(true, 
+                            realboolean, 
+                            'The method hasDurationMSStatusUATTBDPRODBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
+                            );
+    }
+    /**
+     * Test hasDurationMSStatusPRODToFixBeenFilled(agf__ADM_Work__c workRecord)
+     *
+     */
+    @isTest
+    static void testHasDurationMSStatusPRODToFixBeenFilled(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusPRODToFixBeenFilled(workRecord);
+        Test.stopTest();
+        System.assertEquals(true, 
+                            realboolean, 
+                            'The method hasDurationMSStatusPRODToFixBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
+                            );
+    }
+    /**
+     * Test hasDurationMSStatusValidatedTBDBeenFilled(agf__ADM_Work__c workRecord)
+     *
+     */
+    @isTest
+    static void testHhasDurationMSStatusValidatedTBDBeenFilled(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusValidatedTBDBeenFilled(workRecord);
+        Test.stopTest();
+        System.assertEquals(true, 
+                            realboolean, 
+                            'The method hasDurationMSStatusValidatedTBDBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
+                            );
+    }
 }

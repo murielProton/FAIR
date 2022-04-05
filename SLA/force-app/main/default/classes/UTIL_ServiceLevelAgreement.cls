@@ -303,13 +303,69 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
     }
     /**
-     * TODO returning true if Duration_MS_Status_DEV_TBD_UAT__c has been filled
-     * TODO returning true if Duration_MS_Status_UAT_To_Fix__c has been filled
-     * TODO returning true if Duration_MS_Status_UAT_TBD_PROD__c has been filled
-     * TODO returning true if Duration_MS_Status_PROD_To_Fix__c has been filled
-     * TODO returning true if Duration_MS_Status_Validated_TBD__c has been filled
+     * returning true if Duration_MS_Status_DEV_TBD_UAT__c has been filled
      * Called by : 
      * @Parametters : 
      * @Returns : Boolean
      */
+    public static Boolean hasDurationMSStatusDEVTBDUATBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_DEV_TBD_UAT__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_UAT_To_Fix__c has been filled
+     *  * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusUATToFixBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_UAT_To_Fix__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_UAT_TBD_PROD__c has been filled
+      * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusUATTBDPRODBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_UAT_TBD_PROD__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_PROD_To_Fix__c has been filled
+     * 
+      * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusPRODToFixBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_PROD_To_Fix__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_Validated_TBD__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusValidatedTBDBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_Validated_TBD__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
