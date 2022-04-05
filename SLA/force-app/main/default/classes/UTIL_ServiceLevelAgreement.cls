@@ -175,6 +175,29 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return dateTimeToReturn;
     }
+    
+    /**
+     * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_Bug__c.
+     * It makes sure that this field is filled as soon as Duration_MS_Status_New__c is set.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
+        Long valueToReturn=null;
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c == null){
+            valueToReturn = (Long)workRecord.Duration_MS_Status_New__c;
+            System.debug('Duration_MS_Status_New__c exists -> '+valueToReturn);
+            return valueToReturn;
+        }
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c != null){
+            valueToReturn = addingDurationInMSToRespondToABug(workRecord);
+            System.debug('Duration_MS_Status_DEV_IP__c exists Too -> '+valueToReturn);
+            return valueToReturn;
+        }
+        System.debug('just before return -> '+valueToReturn);
+        return valueToReturn;
+    }
     /**
      * returning a number of MS adding Duration_MS_Status_New__c and Duration_MS_Status_DEV_IP__c.
      * Called by : 
