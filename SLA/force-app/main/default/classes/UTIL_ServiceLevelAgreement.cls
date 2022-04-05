@@ -9,6 +9,33 @@
  * INDEX : GETER METHODS - METHODS WITH CONSTRUCTOR - STATIC METHODS - BOOLEAN STATIC METHODS
  ******************************************************************************* */
 public with sharing class UTIL_ServiceLevelAgreement {
+    //CONSTANT Used in this class or in UTIL_ServiceLevelAgreement
+    // constants for bugs
+    public static final Long NUMBER_HOURS_BUG_P1_RESPONSE_TIME = 2;
+    public static final Long NUMBER_DAYS_BUG_P2_RESPONSE_TIME = 1;
+    public static final Long NUMBER_DAYS_BUG_P3_RESPONSE_TIME = 2;
+    public static final Long NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE = 2;
+    public static final Long NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE = 8;
+    public static final Long NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE = 12;
+    public static final Long NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE_WITH_BYPASS = 4;
+    public static final Long NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE_WITH_BYPASS = 15;
+    public static final Long NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS = 22;
+    public static final Long NUMBER_MS_BUG_P1_RESPONSE_TIME = NUMBER_HOURS_BUG_P1_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_HOUR;
+    public static final Long NUMBER_MS_BUG_P2_RESPONSE_TIME = NUMBER_DAYS_BUG_P2_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P3_RESPONSE_TIME = NUMBER_DAYS_BUG_P3_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P1_CORRECTIVE_MAINTENANCE = NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P2_CORRECTIVE_MAINTENANCE = NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P3_CORRECTIVE_MAINTENANCE = NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P1_CORRECTIVE_MAINTENANCE_WITH_BYPASS = NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE_WITH_BYPASS * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P2_CORRECTIVE_MAINTENANCE_WITH_BYPASS = NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE_WITH_BYPASS * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS = NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    //constantes for user stories
+    public static final Long NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME = 2;
+    public static final Long NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME = 2;
+    public static final Long NUMBER_DAYS_USER_STORY_P3_RESPONSE_TIME = 6;
+    public static final Long NUMBER_MS_USER_STORY_P1_RESPONSE_TIME = NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_USER_STORY_P2_RESPONSE_TIME = NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+    public static final Long NUMBER_MS_USER_STORY_P3_RESPONSE_TIME = NUMBER_DAYS_USER_STORY_P3_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
     public DateTime endDateTime =  Datetime.now();
     public UTIL_ServiceLevelAgreement() {
 
@@ -118,6 +145,171 @@ public with sharing class UTIL_ServiceLevelAgreement {
         return workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
     }
     //------------------------------------------------------METHODS WITH CONSTRUCTOR ---------------------------------------------
-    //------------------------------------------------------STATIC METHODS ---------------------------------------------
-    //------------------------------------------------------BOOLEAN STATIC METHODS ---------------------------------------------
+    //------------------------------------------------------STATIC METHODS -------------------------------------------------------
+    /**
+     * returning a DateTime within Business Hours and taking into account Holidays
+     * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Datetime
+     */
+    public static DateTime getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert){
+        DateTime dateTimeToReturn = dateTimeToConvert;
+        // either it is a holiday, either it is not within Business hours
+        while(UTIL_Duration.isThisDayAHoliday(dateTimeToReturn, listOfHolidays)
+            || !BusinessHours.isWithin(businessHoursId, dateTimeToReturn)
+            ){
+            // Test again if it is a not within business hour
+            if (!BusinessHours.isWithin(businessHoursId, dateTimeToReturn)){
+                // find next day within buisiness hour, WARNING it can be a holiday.
+                dateTimeToReturn = BusinessHours.nextStartDate(businessHoursId, dateTimeToReturn);
+            } else {
+                // if it is indeed a Holiday, then add a day and find next day within Business Hours
+                dateTimeToReturn = DateTime.newInstance(dateTimeToReturn.year(), dateTimeToReturn.month(), dateTimeToReturn.day(), 0, 0, 0)
+                    .addDays(1);
+                dateTimeToReturn = BusinessHours.nextStartDate(businessHoursId, dateTimeToReturn);
+            }
+            System.debug('New date -> '+dateTimeToReturn);
+            System.debug('isWithin Business Hours -> '+BusinessHours.isWithin(businessHoursId, dateTimeToReturn));
+            System.debug('is holiday -> '+UTIL_Duration.isThisDayAHoliday(dateTimeToReturn, listOfHolidays));
+        }
+        return dateTimeToReturn;
+    }
+    /**
+     * returning a number of MS adding Duration_MS_Status_New__c and Duration_MS_Status_DEV_IP__c.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long addingDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
+        Long numberOfMSToRespondToABug = (Long)workRecord.Duration_MS_Status_New__c + (Long)workRecord.Duration_MS_Status_DEV_IP__c;
+        return numberOfMSToRespondToABug;
+    }
+    /**
+     * returning a number of MS adding Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , 
+     * Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c , 
+     * and Duration_MS_Status_Validated_TBD__c.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long addingDurationInMSToCorrectBug(agf__ADM_Work__c workRecord){
+        Long numberOfMSToCorrectABug = (Long)workRecord.Duration_MS_Status_DEV_TBT__c + (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+        (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c + 
+        (Long)workRecord.Duration_MS_Status_PROD_To_Fix__c + (Long)workRecord.Duration_MS_Status_Validated_TBD__c;
+        return numberOfMSToCorrectABug;
+    }
+    /**
+     * returning a number of MS adding Duration_MS_Status_New__c, Duration_MS_Status_OK_For_DEV__c and Duration_MS_Status_Workload_DONE__c.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long addingDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
+        Long numberOfMSToRespondToAUS = (Long)workRecord.Duration_MS_Status_New__c + (Long)workRecord.Duration_MS_Status_OK_For_DEV__c +
+        (Long)workRecord.Duration_MS_Status_Workload_DONE__c;
+        return numberOfMSToRespondToAUS;
+    }
+    /** TODO
+     * Adding MS to a DateTime within Business Hours and taking into account Holidays
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Datetime
+     */
+    /*public static DateTime searchingForDeadline(String businessHoursId, Datetime startDateTime, Long lengthOfTimeToAddInMS, List<Holiday> listOfHolidays){
+        DateTime startDateTimeToTest = startDateTime;
+        DateTime deadlineToTest;
+        //If lengthOfTimeToAddInMS is inferior to a Day (UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY)
+        if(lengthOfTimeToAddInMS < UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY){
+           
+            return startDateTimeToTest;
+        }else if (lengthOfTimeToAddInMS > UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY){
+
+        }else {
+            System.debug('lengthOfTimeToAddInMS was not defined in UTIL_ServiceLevelAgreement.searchingForDeadline.')
+        }
+
+    }*/
+    /** TODO
+     * Adding Days to a DateTime within Business Hours and taking into account Holidays
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Datetime
+     */
+    //------------------------------------------------------BOOLEAN STATIC METHODS -----------------------------------------------
+    /**
+     * returning true if Duration_MS_Status_New__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusNewBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_New__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_Workload_DONE__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusWorkloadDoneBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_Workload_DONE__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_OK_For_DEV__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusOKForDEVBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_OK_For_DEV__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_DEV_IP__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusDEVIPBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_DEV_IP__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * returning true if Duration_MS_Status_DEV_TBT__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
+    public static Boolean hasDurationMSStatusDEVTBTBeenFilled(agf__ADM_Work__c workRecord){
+        if(workRecord.Duration_MS_Status_DEV_TBT__c!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * TODO returning true if Duration_MS_Status_DEV_TBD_UAT__c has been filled
+     * TODO returning true if Duration_MS_Status_UAT_To_Fix__c has been filled
+     * TODO returning true if Duration_MS_Status_UAT_TBD_PROD__c has been filled
+     * TODO returning true if Duration_MS_Status_PROD_To_Fix__c has been filled
+     * TODO returning true if Duration_MS_Status_Validated_TBD__c has been filled
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Boolean
+     */
 }
