@@ -41,7 +41,13 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
                                       Duration_MS_Status_UAT_To_Fix__c,
                                       Duration_MS_Status_UAT_TBD_PROD__c,
                                       Duration_MS_Status_PROD_To_Fix__c,
-                                      Duration_MS_Status_Validated_TBD__c
+                                      Duration_MS_Status_Validated_TBD__c,
+                                      Duration_In_MS_To_Respond_To_A_US__c,
+                                      Duration_In_MS_To_Respond_To_A_Bug__c,
+                                      Duration_In_MS_To_Correct_A_Bug__c,
+                                      Duration_In_String_To_Respond_To_A_US__c,
+                                      Duration_In_String_To_Respond_To_A_Bug__c,
+                                      Duration_In_String_To_Correct_A_Bug__c
                                FROM agf__ADM_Work__c
                                WHERE agf__Subject__c = :subjectOnWork
                             ];
@@ -108,27 +114,40 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
         );
-        // creating a record on sObject agf__ADM_Work__c Status New
-        agf__ADM_Work__c workRecordValidatedTBDTsisNaBitIzh = new agf__ADM_Work__c(
-            RecordTypeId = recordTypeIdBug,
-            agf__Subject__c = 'tsis na bit izh',
-            agf__Status__c = 'Validated - To Be Deployed',
-            Date_Status_Workload_DONE_Ends__c = dateTimeWorkloadDoneEnds,
+        // creating a record on sObject agf__ADM_Work__c Status OK For DEV
+        agf__ADM_Work__c workRecordOKForDEVAsala = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'asala',
+            agf__Status__c = 'OK For DEV',
+            Duration_MS_Status_New__c = 30600000,
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status 'Workload DONE'
+        agf__ADM_Work__c workRecordWorkloadDONEMed = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'med',
+            agf__Status__c = 'Workload DONE',
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             Duration_MS_Status_New__c = 30600000,
-            Duration_MS_Status_Workload_DONE__c = 30600000, 
             Duration_MS_Status_OK_For_DEV__c = 30600000,
-            Duration_MS_Status_DEV_IP__c = 30600000,
-            Duration_MS_Status_DEV_TBT__c = 30600000,
-            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
-            Duration_MS_Status_UAT_To_Fix__c = 30600000,
-            Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
-            Duration_MS_Status_PROD_To_Fix__c = 30600000,
-            Duration_MS_Status_Validated_TBD__c = 30600000,
             agf__Priority__c = 'P0'
         );
-        // creating a record on sObject agf__ADM_Work__c Status New
+        // creating a record on sObject agf__ADM_Work__c Status 'Validated'
+        agf__ADM_Work__c workRecordValidatedHonung = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'honung',
+            agf__Status__c = 'Validated',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_OK_For_DEV__c = 30600000,
+            Duration_MS_Status_Workload_DONE__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status DEV - In Progress
         agf__ADM_Work__c workRecordDevInProgressMilain = new agf__ADM_Work__c(
             RecordTypeId = recordTypeIdBug,
             agf__Subject__c = 'milain',
@@ -139,12 +158,108 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_New__c = 30600000,
             agf__Priority__c = 'P0'
         );
+        // creating a record on sObject agf__ADM_Work__c Status DEV - To Be Deployed in UAT
+        agf__ADM_Work__c workRecordDEVToBeTestedFengMi = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'feng mi',
+            agf__Status__c = 'DEV - To Be Deployed in UAT',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status UAT - To Fix
+        agf__ADM_Work__c workRecordDEVTBDeployedUATHoning = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'honing',
+            agf__Status__c = 'UAT - To Fix',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status UAT - To Be Deployed in PROD
+        agf__ADM_Work__c workRecordUATToFixMel = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'mel',
+            agf__Status__c = 'UAT - To Be Deployed in PROD',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
+            Duration_MS_Status_UAT_To_Fix__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status PROD - To Fix
+        agf__ADM_Work__c workRecordPRODToFixMiere = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'miere',
+            agf__Status__c = 'PROD - To Fix',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
+            Duration_MS_Status_UAT_To_Fix__c = 30600000,
+            Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status 'Validated - To Be Deployed'
+        agf__ADM_Work__c workRecordValidatedToBeDeployedKkul = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'kkul',
+            agf__Status__c = 'Validated - To Be Deployed',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
+            Duration_MS_Status_UAT_To_Fix__c = 30600000,
+            Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
+            Duration_MS_Status_PROD_To_Fix__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
+
+        // creating a record on sObject agf__ADM_Work__c Status Validated - To Be Deployed
+        agf__ADM_Work__c workRecordValidatedTBDTsisNaBitIzh = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'tsis na bit izh',
+            agf__Status__c = 'Validated - To Be Deployed',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Duration_MS_Status_New__c = 30600000,
+            Duration_MS_Status_DEV_IP__c = 30600000,
+            Duration_MS_Status_DEV_TBT__c = 30600000,
+            Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
+            Duration_MS_Status_UAT_To_Fix__c = 30600000,
+            Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
+            Duration_MS_Status_PROD_To_Fix__c = 30600000,
+            Duration_MS_Status_Validated_TBD__c = 30600000,
+            agf__Priority__c = 'P0'
+        );
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
         workRecordsList.add(workRecordNewMiel);
-        workRecordsList.add(workRecordValidatedTBDTsisNaBitIzh);
+        workRecordsList.add(workRecordOKForDEVAsala);
+        workRecordsList.add(workRecordWorkloadDONEMed);
+        workRecordsList.add(workRecordValidatedHonung);
         workRecordsList.add(workRecordDevInProgressMilain);
+        workRecordsList.add(workRecordDEVToBeTestedFengMi);
+        workRecordsList.add(workRecordDEVTBDeployedUATHoning);
+        workRecordsList.add(workRecordUATToFixMel);
+        workRecordsList.add(workRecordPRODToFixMiere);
+        workRecordsList.add(workRecordValidatedToBeDeployedKkul);
+        workRecordsList.add(workRecordValidatedTBDTsisNaBitIzh);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -356,45 +471,123 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The adition of the two fields : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'method addingDurationInMSToCorrectBug - The adition of the 6 fields : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
                             'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c ,'+
                             ' and Duration_MS_Status_Validated_TBD__c, is not correct.'
                             );
     }
     /**
      *
-     * Tests if calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord)
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
      * 
      */
     @isTest
-    static void testCalculateDurationInMSToRespondToAUSWhenBothValueAreFiled(){
-        Long expectedDuration = long.valueOf('61200000');
-        String nameOfRecording = 'tsis na bit izh';
+    static void testCalculateDurationInMSToCorrectBug1ValueFiled(){
+        Long expectedDuration = long.valueOf('30600000');
+        String nameOfRecording = 'feng mi';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
-        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(workRecord);
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToRespondToABug does not calculate correctly.'
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly.'
                             );
     }
         /**
      *
-     * Tests if calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord)
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
      * 
      */
     @isTest
-    static void testCalculateDurationInMSToRespondToAUSWhenOneValueIsFiled(){
-        Long expectedDuration = long.valueOf('30600000');
-        String nameOfRecording = 'milain';
+    static void testCalculateDurationInMSToCorrectBug2ValueFiled(){
+        Long expectedDuration = long.valueOf('61200000');
+        String nameOfRecording = 'honing';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
-        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(workRecord);
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToRespondToABug does not calculate correctly.'
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, adding Duration_MS_Status_DEV_TBT__c'+
+                            ' to Duration_MS_Status_DEV_TBD_UAT__c.'
+                            );
+    }
+    /**
+     *
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testCalculateDurationInMSToCorrectABugWhen3ValuesFilled(){
+        Long expectedDuration = long.valueOf('91800000');
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
+        Test.stopTest();
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 3 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c.'
+                            );
+    }
+    /**
+     *
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testCalculateDurationInMSToCorrectABugWhen4ValuesFilled(){
+        Long expectedDuration = long.valueOf('122400000');
+        String nameOfRecording = 'miere';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
+        Test.stopTest();
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c.'
+                            );
+    }
+    /**
+     *
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testCalculateDurationInMSToCorrectABugWhen5ValuesFilled(){
+        Long expectedDuration = long.valueOf('153000000');
+        String nameOfRecording = 'kkul';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
+        Test.stopTest();
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c, Duration_MS_Status_PROD_To_Fix__c.'
+                            );
+    }
+    /**
+     *
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testCalculateDurationInMSToCorrectABugWhen6ValuesFilled(){
+        Long expectedDuration = long.valueOf('183600000');
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
+        Test.stopTest();
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c, Duration_MS_Status_PROD_To_Fix__c,'+
+                            ' and Duration_MS_Status_Validated_TBD__c.'
                             );
     }
     /**
@@ -404,168 +597,17 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
      */
     @isTest
     static void testAddingDurationInMSToRespondToAUS(){
-        Long expectedDuration = long.valueOf('91800000');
-        String nameOfRecording = 'tsis na bit izh';
+        Long expectedDuration = 91800000;
+        String nameOfRecording = 'honung';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
-        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.addingDurationInMSToRespondToAUS(workRecord);
+        Long realDurationToRespondToAUS = (Long)UTIL_ServiceLevelAgreement.addingDurationInMSToRespondToAUS(workRecord);
         Test.stopTest();
         System.assertEquals(expectedDuration, 
-                            realDurationToRespondToABug, 
+                            realDurationToRespondToAUS, 
                             'The adition of the two fields : Duration_MS_Status_New__c, Duration_MS_Status_OK_For_DEV__c and Duration_MS_Status_Workload_DONE__c.'
                             );
     }
     //------------------------------------------------------TEST BOOLEAN STATIC METHODS -----------------------------------------------
-    /**
-     * Test hasDurationMSStatusNewBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusNewBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusNewBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusNewBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusWorkloadDoneBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusWorkloadDoneBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusWorkloadDoneBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusWorkloadDoneBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * test hasDurationMSStatusOKForDEVBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusOKForDEVBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusOKForDEVBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusOKForDEVBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusDEVIPBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusDEVIPBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusDEVIPBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusDEVIPBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusDEVTBTBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusDEVTBTBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusDEVTBTBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusDEVTBTBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusDEVTBDUATBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusDEVTBDUATBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusDEVTBDUATBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusDEVTBDUATBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusUATToFixBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusUATToFixBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusUATToFixBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusUATToFixBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusUATTBDPRODBeenFilled(agf__ADM_Work__c workRecord)
-     */
-    @isTest
-    static void testHasDurationMSStatusUATTBDPRODBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusUATTBDPRODBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusUATTBDPRODBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusPRODToFixBeenFilled(agf__ADM_Work__c workRecord)
-     *
-     */
-    @isTest
-    static void testHasDurationMSStatusPRODToFixBeenFilled(){
-        String nameOfRecording = 'tsis na bit izh';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusPRODToFixBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(true, 
-                            realboolean, 
-                            'The method hasDurationMSStatusPRODToFixBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
-    /**
-     * Test hasDurationMSStatusValidatedTBDBeenFilled(agf__ADM_Work__c workRecord)
-     *
-     */
-    @isTest
-    static void testHhasDurationMSStatusValidatedTBDBeenFilled(){
-        String nameOfRecording = 'honey';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Boolean realboolean = UTIL_ServiceLevelAgreement.hasDurationMSStatusValidatedTBDBeenFilled(workRecord);
-        Test.stopTest();
-        System.assertEquals(false, 
-                            realboolean, 
-                            'The method hasDurationMSStatusValidatedTBDBeenFilled on UTIL_ServiceLevelAgreement does not answer with the right Boolean.'
-                            );
-    }
+    
 }
