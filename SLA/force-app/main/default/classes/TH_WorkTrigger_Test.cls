@@ -66,7 +66,13 @@ public without sharing class TH_WorkTrigger_Test {
                                         Duration_String_Status_UAT_To_Fix__c,
                                         Duration_String_Status_UAT_TBD_PROD__c,
                                         Duration_String_Status_PROD_To_Fix__c,
-                                        Duration_String_Status_Validated_TBD__c
+                                        Duration_String_Status_Validated_TBD__c,
+                                        Duration_In_MS_To_Respond_To_A_US__c,
+                                        Duration_In_MS_To_Respond_To_A_Bug__c,
+                                        Duration_In_MS_To_Correct_A_Bug__c,
+                                        Duration_In_String_To_Respond_To_A_US__c,
+                                        Duration_In_String_To_Respond_To_A_Bug__c,
+                                        Duration_In_String_To_Correct_A_Bug__c
                                 FROM agf__ADM_Work__c
                                 WHERE agf__Subject__c = :subjectOnWork
                                 ];
@@ -108,6 +114,8 @@ public without sharing class TH_WorkTrigger_Test {
         // Creating a Date to set starting date of a status on futur records
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
+        //DateTime.newInstance(YEAR, Mo, Da, HH, mi, se);
+        DateTime dateTimeRandom = DateTime.newInstance(2022, 4, 6, 9, 39, 3);
         // Make sure the two DatTime are the same
         // convert DateTime into String in a specified format to ensure they are equal.
         String dateToSet = dateTimeNow.format('yyyy/MM/dd hh:mm');
@@ -219,6 +227,24 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
         );
+        // creating a record on sObject agf__ADM_Work__c Status 'Validated - To Be Deployed'
+        agf__ADM_Work__c workRecordDevTBTHachimitsu = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'hachimitsu',
+            agf__Status__c = 'DEV - To Be Tested',
+            Date_Status_New_Starts__c = dateTimeRandom, 
+            Date_Status_New_Ends__c = dateTimeRandom.addHours(1),
+            Duration_MS_Status_New__c = 3600000,  
+            Duration_String_Status_New__c = Util_Duration.generateAStringFromMS(3600000),            
+            Date_Status_DEV_IP_Starts__c = dateTimeRandom.addHours(1),
+            Date_Status_DEV_IP_Ends__c = dateTimeRandom.addHours(2),
+            Duration_MS_Status_DEV_IP__c = 3600000,
+            Duration_String_Status_DEV_IP__c = Util_Duration.generateAStringFromMS(3600000),  
+            Date_Status_DEV_TBT_Starts__c = dateTimeRandom.addHours(3),                         
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P0'
+        );
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
@@ -232,6 +258,7 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workRecordDevInProgressKkul);
         workRecordsList.add(workRecordDevInProgressTsisNaBitIzh);
         workRecordsList.add(workRecordNewMilain);
+        workRecordsList.add(workRecordDevTBTHachimitsu);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -251,9 +278,9 @@ public without sharing class TH_WorkTrigger_Test {
          // Set new value in field agf__Status__c
          workRecordHoney.agf__Status__c = statusValue;
          // update field agf__Status__c on record workRecordHoney
-         Test.startTest();
+        //  Test.startTest();
          update workRecordHoney;
-         Test.stopTest();
+        //  Test.stopTest();
     }
     //----------------------------------------------------- CHECK Date_Status_***_Starts__c-------------------------------------------------
     /**
@@ -1157,5 +1184,50 @@ public without sharing class TH_WorkTrigger_Test {
         agf__ADM_Work__c workRecordHoneyAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         // check if Date_Status_Validated_TBD_Starts__c is null
         System.assertEquals(null, workRecordHoneyAfterUpdate.Date_Status_Validated_TBD_Starts__c, 'Date_Status_Validated_TBD_Starts__c has been filled, it shouldn\'t have been.');
+    }
+    //----------------------------------------------------- CHECK Duration_In_MS_***-------------------------------------------------
+    /**
+     *
+     * Tests if Duration_In_MS_To_Respond_To_A_Bug__c is filled with a Long when the Duration_MS_Status_New__c is filled.
+     */
+    @isTest
+    static void checkIfWorkDurationInMSToRespondToABugIsFilled() {
+        String nameOfRecording = 'hachimitsu';
+        String statusValue = 'DEV - To Be Tested';
+        agf__ADM_Work__c workRecordHatchimitsu = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        Test.stopTest();
+        agf__ADM_Work__c workRecordHatchimitsuAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDurationToRespondToABug = (Long)workRecordHatchimitsuAfterUpdate.Duration_In_MS_To_Respond_To_A_Bug__c;
+        Long expectedDuration = 7200000;
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The field Duration_In_MS_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
+                            );
+    }
+//----------------------------------------------------- CHECK Duration_In_String_***-------------------------------------------------
+    /**
+     *
+     * Tests if Duration_In_String_To_Respond_To_A_Bug__c is filled with a Long when the Duration_In_MS_To_Respond_To_A_Bug__c is filled.
+     */
+    @isTest
+    static void checkIfWorkDurationInStringToRespondBugIsFilled() {
+        String nameOfRecording = 'hachimitsu';
+        String statusValue = 'DEV - To Be Tested';
+        agf__ADM_Work__c workRecordHatchimitsu = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        Test.stopTest();
+        agf__ADM_Work__c workRecordHatchimitsuAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        //WARNING White noises to add +' '
+        String realDurationToRespondToABug = workRecordHatchimitsuAfterUpdate.Duration_In_String_To_Respond_To_A_Bug__c+' ';
+        String expectedDuration = UTIL_Duration.generateAStringFromMS(7200000);
+        System.debug('hachimitsu DurationString generated to respond to a bug ->'+expectedDuration+'<');
+        System.debug('hachimitsu DurationString real to respond to a bug ->'+realDurationToRespondToABug+'<');
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The field Duration_In_String_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
+                            );
     }
 }
