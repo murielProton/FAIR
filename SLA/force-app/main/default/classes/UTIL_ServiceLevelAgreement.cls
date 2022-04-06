@@ -187,14 +187,73 @@ public with sharing class UTIL_ServiceLevelAgreement {
         Long valueToReturn=null;
         if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c == null){
             valueToReturn = (Long)workRecord.Duration_MS_Status_New__c;
-            System.debug('Duration_MS_Status_New__c exists -> '+valueToReturn);
             return valueToReturn;
         }
         if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c != null){
             valueToReturn = addingDurationInMSToRespondToABug(workRecord);
-            System.debug('Duration_MS_Status_DEV_IP__c exists Too -> '+valueToReturn);
             return valueToReturn;
         }
+        return valueToReturn;
+    }
+    /**
+     * returning a number of MS to fill in field Duration_In_MS_To_Correct_A_Bug__c.
+     * It makes sure that this field is filled as soon as Duration_MS_Status_DEV_TBT__c is set.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord){
+        Long valueToReturn=null;
+        //if only Duration_MS_Status_DEV_TBT__c is filled
+        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c == null
+        && workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
+        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c;
+            System.debug('Duration_MS_Status_DEV_TBT__c exists -> '+valueToReturn);
+            return valueToReturn;
+        }
+        //if only Duration_MS_Status_DEV_TBT__c and Duration_MS_Status_DEV_TBD_UAT__c are filled
+        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
+        && workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
+        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+            valueToReturn = workRecord.Duration_MS_Status_DEV_TBT__c +  workRecord.Duration_MS_Status_DEV_TBD_UAT__c;
+            System.debug('if only Duration_MS_Status_DEV_TBT__c and Duration_MS_Status_DEV_TBD_UAT__c are filled -> '+valueToReturn);
+            return valueToReturn;
+        }
+        /* if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c are filled
+        */
+        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
+        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
+        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+            valueToReturn = workRecord.Duration_MS_Status_DEV_TBT__c +  workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+            workRecord.Duration_MS_Status_UAT_To_Fix__c;
+            System.debug('if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c are filled -> '+valueToReturn);
+            return valueToReturn;
+        }
+        /* if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c, Duration_MS_Status_UAT_To_Fix__c
+        * and Duration_MS_Status_UAT_TBD_PROD__c are filled
+        */
+        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
+        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null
+        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+            valueToReturn = workRecord.Duration_MS_Status_DEV_TBT__c +  workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+            workRecord.Duration_MS_Status_UAT_To_Fix__c + workRecord.Duration_MS_Status_UAT_TBD_PROD__c;
+            System.debug('if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c are filled -> '+valueToReturn);
+            return valueToReturn;
+        }
+                /* if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c, Duration_MS_Status_UAT_To_Fix__c
+        * and Duration_MS_Status_UAT_TBD_PROD__c are filled
+        */
+        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
+        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null
+        && workRecord.Duration_MS_Status_PROD_To_Fix__c != null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+            valueToReturn = workRecord.Duration_MS_Status_DEV_TBT__c +  workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+                            workRecord.Duration_MS_Status_UAT_To_Fix__c + workRecord.Duration_MS_Status_UAT_TBD_PROD__c +
+                            workRecord.Duration_MS_Status_PROD_To_Fix__c;
+            System.debug('if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c are filled -> '+valueToReturn);
+            return valueToReturn;
+        }
+        /*else nothting of the above is true */
         System.debug('just before return -> '+valueToReturn);
         return valueToReturn;
     }
@@ -260,135 +319,5 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Returns : Datetime
      */
     //------------------------------------------------------BOOLEAN STATIC METHODS -----------------------------------------------
-    /**
-     * returning true if Duration_MS_Status_New__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusNewBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_New__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_Workload_DONE__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusWorkloadDoneBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_Workload_DONE__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_OK_For_DEV__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusOKForDEVBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_OK_For_DEV__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_DEV_IP__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusDEVIPBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_DEV_IP__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_DEV_TBT__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusDEVTBTBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_DEV_TBT__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_DEV_TBD_UAT__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusDEVTBDUATBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_DEV_TBD_UAT__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_UAT_To_Fix__c has been filled
-     *  * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusUATToFixBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_UAT_To_Fix__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_UAT_TBD_PROD__c has been filled
-      * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusUATTBDPRODBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_UAT_TBD_PROD__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_PROD_To_Fix__c has been filled
-     * 
-      * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusPRODToFixBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_PROD_To_Fix__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    /**
-     * returning true if Duration_MS_Status_Validated_TBD__c has been filled
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Boolean
-     */
-    public static Boolean hasDurationMSStatusValidatedTBDBeenFilled(agf__ADM_Work__c workRecord){
-        if(workRecord.Duration_MS_Status_Validated_TBD__c!=null){
-            return true;
-        }else{
-            return false;
-        }
-    }
+   
 }
