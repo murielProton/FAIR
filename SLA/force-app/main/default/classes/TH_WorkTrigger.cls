@@ -49,6 +49,7 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     // set field Duration_String_Status_New__c with a string expressing the duration
                     newWork.Duration_String_Status_New__c = Util_Duration.generateAStringFromMS(timeInMS);
                 }
+                //Conditions for User Story type of reccord
                 if (newWorkRecordType == 'User_Story'){
                     if (oldWork.agf__Status__c != 'Workload DONE' && 
                         newWork.agf__Status__c == 'Workload DONE'){
@@ -82,6 +83,11 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_OK_For_DEV__c with a string expressing the duration
                         newWork.Duration_String_Status_OK_For_DEV__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
+                    /*if (oldWork.Duration_MS_Status_New__c == null && newWork.Duration_MS_Status_New__c!=null){
+                        Long durationToRespondToUS = (Long)newWork.Duration_In_MS_To_Respond_To_A_US__c;
+                        newWork.Duration_In_String_To_Respond_To_A_US__c = Util_Duration.generateAStringFromMS(durationToRespondToUS);
+                    }*/
+                    //Conditions for Bug Type of records
                 }else if (newWorkRecordType == 'Bug'){
                     if (oldWork.agf__Status__c != 'DEV - In Progress' && newWork.agf__Status__c == 'DEV - In Progress'){
                         // set field Date_Status_DEV_IP_Starts__c for the records of agf__ADM_Work__c
@@ -187,6 +193,16 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         newWork.Duration_MS_Status_Validated_TBD__c = timeInMS;
                         // set field Duration_String_Status_Validated_TBD__c with a string expressing the duration
                         newWork.Duration_String_Status_Validated_TBD__c = Util_Duration.generateAStringFromMS(timeInMS);
+                    }
+                    
+                    if (newWork.Duration_MS_Status_New__c!=null || newWork.Duration_String_Status_DEV_IP__c!=null){
+                        // set field Duration_In_MS_To_Respond_To_A_Bug__c
+                        newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
+                    }
+                    if(oldWork.Duration_In_MS_To_Respond_To_A_Bug__c == null && newWork.Duration_In_MS_To_Respond_To_A_Bug__c != null){
+                        Long durationToRespondToBug = (Long)newWork.Duration_In_MS_To_Respond_To_A_Bug__c;
+                        // set field Duration_In_String_To_Respond_To_A_Bug__c
+                        newWork.Duration_In_String_To_Respond_To_A_Bug__c = UTIL_Duration.generateAStringFromMS(durationToRespondToBug);
                     }
                 }
 
