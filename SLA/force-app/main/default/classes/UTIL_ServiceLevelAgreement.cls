@@ -175,7 +175,36 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return dateTimeToReturn;
     }
-    
+    /**
+     * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_US__c.
+     * It makes sure that this field is filled as soon as Duration_MS_Status_New__c is set.
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Long
+     */
+    public static Long calculateDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
+        Long valueToReturn=null;
+        // if Duration_MS_Status_New__c is filled.
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c == null
+        && workRecord.Duration_MS_Status_Workload_DONE__c == null){
+            valueToReturn = (Long)workRecord.Duration_MS_Status_New__c;
+            return valueToReturn;
+        }
+        // if Duration_MS_Status_New__c + Duration_MS_Status_OK_For_DEV__c are filled.
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c != null
+        && workRecord.Duration_MS_Status_Workload_DONE__c == null){
+            valueToReturn = (Long)workRecord.Duration_MS_Status_New__c +
+                            (Long)workRecord.Duration_MS_Status_OK_For_DEV__c;
+            return valueToReturn;
+        }
+        // if Duration_MS_Status_New__c + Duration_MS_Status_OK_For_DEV__c + Duration_MS_Status_Workload_DONE__c are filled.
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c != null
+        && workRecord.Duration_MS_Status_Workload_DONE__c != null){
+            valueToReturn = addingDurationInMSToRespondToAUS(workRecord);
+            return valueToReturn;
+        }
+        return valueToReturn;
+    }
     /**
      * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_Bug__c.
      * It makes sure that this field is filled as soon as Duration_MS_Status_New__c is set.
