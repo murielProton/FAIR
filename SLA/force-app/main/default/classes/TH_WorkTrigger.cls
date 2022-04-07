@@ -55,6 +55,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         newWork.agf__Status__c == 'Workload DONE'){
                         // set field Date_Status_Workload_DONE_Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_Workload_DONE_Starts__c = Datetime.now();
+                        // stop timer on Duration_In_MS_To_Respond_To_A_US__c
+                        newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
                     }
                     if (oldWork.agf__Status__c == 'Workload DONE' && newWork.agf__Status__c != 'Workload DONE'){
                         // set field newWork.Date_Status_Workload_DONE_Ends__c for the records of agf__ADM_Work__c
@@ -83,15 +85,24 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_OK_For_DEV__c with a string expressing the duration
                         newWork.Duration_String_Status_OK_For_DEV__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
-                    /*if (oldWork.Duration_MS_Status_New__c == null && newWork.Duration_MS_Status_New__c!=null){
-                        Long durationToRespondToUS = (Long)newWork.Duration_In_MS_To_Respond_To_A_US__c;
-                        newWork.Duration_In_String_To_Respond_To_A_US__c = Util_Duration.generateAStringFromMS(durationToRespondToUS);
-                    }*/
+                    if (oldWork.Duration_MS_Status_New__c != null || oldWork.Duration_MS_Status_OK_For_DEV__c != null ||
+                        oldWork.Duration_MS_Status_Workload_DONE__c != null || newWork.Duration_MS_Status_New__c != null ||
+                        newWork.Duration_MS_Status_OK_For_DEV__c != null || newWork.Duration_MS_Status_Workload_DONE__c != null){
+                        // set field Duration_In_MS_To_Respond_To_A_US__c
+                        newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
+                    }
+                    if(oldWork.Duration_In_MS_To_Respond_To_A_US__c == null && newWork.Duration_In_MS_To_Respond_To_A_US__c != null){
+                        Long durationToRespondToBug = (Long)newWork.Duration_In_MS_To_Respond_To_A_US__c;
+                        // set field Duration_In_String_To_Respond_To_A_US__c
+                        newWork.Duration_In_String_To_Respond_To_A_US__c = UTIL_Duration.generateAStringFromMS(durationToRespondToBug);
+                    }
                     //Conditions for Bug Type of records
                 }else if (newWorkRecordType == 'Bug'){
                     if (oldWork.agf__Status__c != 'DEV - In Progress' && newWork.agf__Status__c == 'DEV - In Progress'){
                         // set field Date_Status_DEV_IP_Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_DEV_IP_Starts__c = Datetime.now();
+                        // Stop Timer on Duration_In_MS_To_Respond_To_A_Bug__c
+                        newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
                     }
                     if (oldWork.agf__Status__c == 'DEV - In Progress' && newWork.agf__Status__c != 'DEV - In Progress'){
                         // set field Date_Status_DEV_IP_Ends__c for the records of agf__ADM_Work__c
@@ -182,6 +193,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     if (oldWork.agf__Status__c != 'Validated - To Be Deployed' && newWork.agf__Status__c == 'Validated - To Be Deployed'){
                         // set field Date_Status_Validated_TBD_Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_Validated_TBD_Starts__c = Datetime.now();
+                        // stop timer on Duration_In_MS_To_Correct_A_Bug__c
+                        newWork.Duration_In_MS_To_Correct_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(newWork);
                     }
                     if (oldWork.agf__Status__c == 'Validated - To Be Deployed' && newWork.agf__Status__c != 'Validated - To Be Deployed'){
                         // set field newWork.Date_Status_Validated_TBD_Ends__c for the records of agf__ADM_Work__c
@@ -194,7 +207,6 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_Validated_TBD__c with a string expressing the duration
                         newWork.Duration_String_Status_Validated_TBD__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
-                    
                     if (newWork.Duration_MS_Status_New__c!=null || newWork.Duration_String_Status_DEV_IP__c!=null){
                         // set field Duration_In_MS_To_Respond_To_A_Bug__c
                         newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
