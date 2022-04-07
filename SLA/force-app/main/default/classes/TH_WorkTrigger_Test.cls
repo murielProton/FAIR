@@ -10,7 +10,9 @@
  ******************************************************************************* */
 @IsTest
 public without sharing class TH_WorkTrigger_Test {
-
+    //Variables needed in more than one test
+    //DateTime.newInstance(YEAR, Mo, Da, HH, mi, se);
+    public final static DateTime dateTimeRandom = DateTime.newInstance(2022, 4, 6, 9, 39, 3);
     /**
      * Before each method Test and after the setup we need to find a record to test in Test DataBase.
      * method to call in each test to load a record.
@@ -114,8 +116,6 @@ public without sharing class TH_WorkTrigger_Test {
         // Creating a Date to set starting date of a status on futur records
         // set a DateTime to now.
         DateTime dateTimeNow = DateTime.now();
-        //DateTime.newInstance(YEAR, Mo, Da, HH, mi, se);
-        DateTime dateTimeRandom = DateTime.newInstance(2022, 4, 6, 9, 39, 3);
         // Make sure the two DatTime are the same
         // convert DateTime into String in a specified format to ensure they are equal.
         String dateToSet = dateTimeNow.format('yyyy/MM/dd hh:mm');
@@ -245,6 +245,27 @@ public without sharing class TH_WorkTrigger_Test {
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
         );
+        // creating a record on sObject agf__ADM_Work__c Status Validated - To Be Deployed
+        agf__ADM_Work__c workRecordDEVTBDUATDevach = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'devach',
+            agf__Status__c = 'DEV - To Be Deployed in UAT',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            Date_Status_New_Starts__c = dateTimeRandom, 
+            Date_Status_New_Ends__c = dateTimeRandom.addHours(1),
+            Duration_MS_Status_New__c = 3600000,
+            Duration_String_Status_New__c = Util_Duration.generateAStringFromMS(3600000),            
+            Date_Status_DEV_IP_Starts__c = dateTimeRandom.addHours(1),
+            Date_Status_DEV_IP_Ends__c = dateTimeRandom.addHours(2),
+            Duration_MS_Status_DEV_IP__c = 3600000,
+            Duration_String_Status_DEV_IP__c = Util_Duration.generateAStringFromMS(3600000),  
+            Date_Status_DEV_TBT_Starts__c = dateTimeRandom.addHours(2),
+            Date_Status_DEV_TBT_Ends__c = dateTimeRandom.addHours(3),
+            Duration_MS_Status_DEV_TBT__c = 3600000,
+            Date_Status_DEV_TBD_UAT_Starts__c = dateTimeRandom.addHours(3), 
+            agf__Priority__c = 'P0'
+        );
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
@@ -259,6 +280,7 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workRecordDevInProgressTsisNaBitIzh);
         workRecordsList.add(workRecordNewMilain);
         workRecordsList.add(workRecordDevTBTHachimitsu);
+        workRecordsList.add(workRecordDEVTBDUATDevach);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -1206,10 +1228,30 @@ public without sharing class TH_WorkTrigger_Test {
                             'The field Duration_In_MS_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
                             );
     }
+    /**
+     *
+     * Tests if Duration_In_MS_To_Correct_A_Bug__c is filled with a Long when at least the field Duration_MS_Status_DEV_TBT__c is filled.
+     */
+    @isTest
+    static void checkIfWorkDurationInMSToCorrectABugIsFilled() {
+        String nameOfRecording = 'devach';
+        agf__ADM_Work__c workRecordDevach = getWorkRecordWithSubjectName(nameOfRecording);
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        Test.startTest();
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        Test.stopTest();
+        agf__ADM_Work__c workRecordDevachAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDurationToCorrectABug = (Long)workRecordDevachAfterUpdate.Duration_In_MS_To_Correct_A_Bug__c;
+        Long expectedDuration = 3600000;
+        System.assertEquals(expectedDuration, 
+                            realDurationToCorrectABug, 
+                            'The field Duration_In_MS_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
+                            );
+    }
 //----------------------------------------------------- CHECK Duration_In_String_***-------------------------------------------------
     /**
      *
-     * Tests if Duration_In_String_To_Respond_To_A_Bug__c is filled with a Long when the Duration_In_MS_To_Respond_To_A_Bug__c is filled.
+     * Tests if Duration_In_String_To_Respond_To_A_Bug__c is filled with a String when the Duration_In_MS_To_Respond_To_A_Bug__c is filled.
      */
     @isTest
     static void checkIfWorkDurationInStringToRespondBugIsFilled() {
@@ -1223,11 +1265,33 @@ public without sharing class TH_WorkTrigger_Test {
         //WARNING White noises to add +' '
         String realDurationToRespondToABug = workRecordHatchimitsuAfterUpdate.Duration_In_String_To_Respond_To_A_Bug__c+' ';
         String expectedDuration = UTIL_Duration.generateAStringFromMS(7200000);
-        System.debug('hachimitsu DurationString generated to respond to a bug ->'+expectedDuration+'<');
-        System.debug('hachimitsu DurationString real to respond to a bug ->'+realDurationToRespondToABug+'<');
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
                             'The field Duration_In_String_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if Duration_In_String_To_Correct_A_Bug__c is filled with a String when the Duration_In_MS_To_Correct_A_Bug__c is filled.
+     */
+    @isTest
+    static void checkIfWorkDurationInStringToCorrectBugIsFilled() {
+        String nameOfRecording = 'devach';
+        String statusValue = 'DEV - To Be Deployed in UAT';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        setupTestWhenStatusIs(statusValue, nameOfRecording);
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        //WARNING White noises to add +' '
+        String realDurationToCorrectoABug = workRecordAfterUpdate.Duration_In_String_To_Correct_A_Bug__c+' ';
+        String expectedDuration = UTIL_Duration.generateAStringFromMS(3600000);
+        System.debug('hachimitsu DurationString To correct a bug ->'+workRecordAfterUpdate.Duration_In_MS_To_Correct_A_Bug__c);
+        System.debug('hachimitsu DurationString generated to respond to a bug ->'+expectedDuration+'<');
+        System.debug('hachimitsu DurationString real to respond to a bug ->'+realDurationToCorrectoABug+'<');
+        System.assertEquals(expectedDuration, 
+                            realDurationToCorrectoABug, 
+                            'The field Duration_In_String_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
                             );
     }
 }
