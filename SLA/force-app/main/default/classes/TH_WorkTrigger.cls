@@ -204,6 +204,19 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_In_String_To_Respond_To_A_Bug__c
                         newWork.Duration_In_String_To_Respond_To_A_Bug__c = UTIL_Duration.generateAStringFromMS(durationToRespondToBug);
                     }
+                    if (newWork.Duration_MS_Status_DEV_TBT__c != null || newWork.Duration_String_Status_DEV_TBD_UAT__c != null ||
+                        newWork.Duration_MS_Status_UAT_To_Fix__c != null || newWork.Duration_String_Status_UAT_TBD_PROD__c != null ||
+                        newWork.Duration_String_Status_PROD_To_Fix__c != null|| newWork.Duration_String_Status_Validated_TBD__c != null){
+                        // set field Duration_In_MS_To_Correct_A_Bug__c
+                        System.debug('I AM in condition of filling Duration_In_MS_To_Correct_A_Bug__c');
+                        newWork.Duration_In_MS_To_Correct_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(newWork);
+                    }
+                    if(oldWork.Duration_In_MS_To_Correct_A_Bug__c == null && newWork.Duration_In_MS_To_Correct_A_Bug__c != null){
+                        Long durationToCorrectABug = (Long)newWork.Duration_In_MS_To_Correct_A_Bug__c;
+                        // set field Duration_In_String_To_Correct_A_Bug__c
+                        newWork.Duration_In_String_To_Correct_A_Bug__c = UTIL_Duration.generateAStringFromMS(durationToCorrectABug);
+                        System.debug('I AM in condition of filling Duration_In_String_To_Correct_A_Bug__c');
+                    }
                 }
 
             }
