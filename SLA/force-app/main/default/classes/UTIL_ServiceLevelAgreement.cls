@@ -178,8 +178,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     /**
      * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_US__c.
      * It makes sure that this field is filled as soon as Duration_MS_Status_New__c is set.
-     * Called by : 
-     * @Parametters : 
+     * Called by : TH_WorkTrigger
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long calculateDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
@@ -208,8 +208,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     /**
      * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_Bug__c.
      * It makes sure that this field is filled as soon as Duration_MS_Status_New__c is set.
-     * Called by : 
-     * @Parametters : 
+     * Called by : TH_WorkTrigger
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
@@ -227,8 +227,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     /**
      * returning a number of MS to fill in field Duration_In_MS_To_Correct_A_Bug__c.
      * It makes sure that this field is filled as soon as Duration_MS_Status_DEV_TBT__c is set.
-     * Called by : 
-     * @Parametters : 
+     * Called by : TH_WorkTrigger
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord){
@@ -297,8 +297,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     }
     /**
      * returning a number of MS adding Duration_MS_Status_New__c and Duration_MS_Status_DEV_IP__c.
-     * Called by : 
-     * @Parametters : 
+     * Called by : calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord)
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long addingDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
@@ -309,8 +309,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * returning a number of MS adding Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , 
      * Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c , 
      * and Duration_MS_Status_Validated_TBD__c.
-     * Called by : 
-     * @Parametters : 
+     * Called by : calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long addingDurationInMSToCorrectBug(agf__ADM_Work__c workRecord){
@@ -321,8 +321,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     }
     /**
      * returning a number of MS adding Duration_MS_Status_New__c, Duration_MS_Status_OK_For_DEV__c and Duration_MS_Status_Workload_DONE__c.
-     * Called by : 
-     * @Parametters : 
+     * Called by : calculateDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord)
+     * @Parametters : agf__ADM_Work__c
      * @Returns : Long
      */
     public static Long addingDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
