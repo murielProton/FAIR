@@ -85,9 +85,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_OK_For_DEV__c with a string expressing the duration
                         newWork.Duration_String_Status_OK_For_DEV__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
-                    if (oldWork.Duration_MS_Status_New__c != null || oldWork.Duration_MS_Status_OK_For_DEV__c != null ||
-                        oldWork.Duration_MS_Status_Workload_DONE__c != null || newWork.Duration_MS_Status_New__c != null ||
-                        newWork.Duration_MS_Status_OK_For_DEV__c != null || newWork.Duration_MS_Status_Workload_DONE__c != null){
+                    if ( newWork.Duration_MS_Status_New__c != null || newWork.Duration_MS_Status_OK_For_DEV__c != null || 
+                            newWork.Duration_MS_Status_Workload_DONE__c != null){
                         // set field Duration_In_MS_To_Respond_To_A_US__c
                         newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
                     }
