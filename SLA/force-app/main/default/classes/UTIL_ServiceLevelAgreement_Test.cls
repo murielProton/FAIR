@@ -122,7 +122,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_New__c = 30600000,
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status 'Workload DONE'
         agf__ADM_Work__c workRecordWorkloadDONEMed = new agf__ADM_Work__c(
@@ -133,7 +133,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             agf__Found_in_Build__c = buildRecord.Id,
             Duration_MS_Status_New__c = 30600000,
             Duration_MS_Status_Workload_DONE__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P2'
         );
         // creating a record on sObject agf__ADM_Work__c Status 'Validated'
         agf__ADM_Work__c workRecordValidatedHonung = new agf__ADM_Work__c(
@@ -145,7 +145,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_New__c = 30600000,
             Duration_MS_Status_Workload_DONE__c = 30600000,
             Duration_MS_Status_OK_For_DEV__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P3'
         );
         // creating a record on sObject agf__ADM_Work__c Status DEV - In Progress
         agf__ADM_Work__c workRecordDevInProgressMilain = new agf__ADM_Work__c(
@@ -171,7 +171,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_New__c = 3600000,
             Duration_MS_Status_DEV_IP__c = 3600000,
             Duration_MS_Status_DEV_TBT__c = 3600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1',
+            Bypass_For_Corrective_Maintenance_On_Bug__c = true
         );
         // creating a record on sObject agf__ADM_Work__c Status UAT - To Fix
         agf__ADM_Work__c workRecordDEVTBDeployedUATHoning = new agf__ADM_Work__c(
@@ -184,7 +185,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_DEV_IP__c = 30600000,
             Duration_MS_Status_DEV_TBT__c = 30600000,
             Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P2',
+            Bypass_For_Corrective_Maintenance_On_Bug__c = true
         );
         // creating a record on sObject agf__ADM_Work__c Status UAT - To Be Deployed in PROD
         agf__ADM_Work__c workRecordUATToFixMel = new agf__ADM_Work__c(
@@ -198,7 +200,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_DEV_TBT__c = 30600000,
             Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
             Duration_MS_Status_UAT_To_Fix__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P3',
+            Bypass_For_Corrective_Maintenance_On_Bug__c = true
         );
         // creating a record on sObject agf__ADM_Work__c Status PROD - To Fix
         agf__ADM_Work__c workRecordPRODToFixMiere = new agf__ADM_Work__c(
@@ -213,7 +216,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_DEV_TBD_UAT__c = 30600000,
             Duration_MS_Status_UAT_To_Fix__c = 30600000,
             Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status 'Validated - To Be Deployed'
         agf__ADM_Work__c workRecordValidatedToBeDeployedKkul = new agf__ADM_Work__c(
@@ -229,7 +232,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_UAT_To_Fix__c = 30600000,
             Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
             Duration_MS_Status_PROD_To_Fix__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P2'
         );
 
         // creating a record on sObject agf__ADM_Work__c Status Validated - To Be Deployed
@@ -247,7 +250,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Duration_MS_Status_UAT_TBD_PROD__c = 30600000,
             Duration_MS_Status_PROD_To_Fix__c = 30600000,
             Duration_MS_Status_Validated_TBD__c = 30600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P3'
         );
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
@@ -418,6 +421,220 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
 
     }
 //------------------------------------------------------TEST FOR STATIC METHODS ---------------------------------------------
+    /**
+     *
+     * Tests if howLongTillResponsIsMandatoryForUS(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponseIsMandatoryForUSP0Scenario(){
+        String nameOfRecording = 'miel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForUS(workRecord);
+        Long expectedDuration = null;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponsIsMandatoryForUS(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillResponsIsMandatoryForUS(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForUSP1Scenario(){
+        String nameOfRecording = 'asala';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForUS(workRecord);
+        Long expectedDuration = 61200000;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponsIsMandatoryForUS(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillResponseIsMandatoryForUS(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForUSP2Scenario(){
+        String nameOfRecording = 'med';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForUS(workRecord);
+        Long expectedDuration = 183600000;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponsIsMandatoryForUS(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP1Scenario(){
+        String nameOfRecording = 'feng mi';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForBug(workRecord);
+        Long expectedDuration = 7200000;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP2Scenario(){
+        String nameOfRecording = 'honing';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP3Scenario(){
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForBug(workRecord);
+        Long expectedDuration = 61200000;
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP1ScenarioBypassTrue(){
+        String nameOfRecording = 'feng mi';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*4;
+        
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP2ScenarioBypassTrue(){
+        String nameOfRecording = 'honing';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*15;
+        
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP3ScenarioBypassTrue(){
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*22;
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP1ScenarioBypassFalse(){
+        String nameOfRecording = 'miere';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*2;
+        
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP2ScenarioBypassFalse(){
+        String nameOfRecording = 'kkul';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*8;
+        
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
+    /**
+     *
+     * Tests if howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testHowLongTillResponsIsMandatoryForBugP3ScenarioBypassFalse(){
+        String nameOfRecording = 'tsis na bit izh';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Long realDuration = UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(workRecord);
+        Long expectedDuration = 30600000*12;
+        System.debug('workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c -> '+workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c);
+        System.debug('workRecord.agf__Priority__c -> '+workRecord.agf__Priority__c);
+        System.assertEquals(expectedDuration, 
+                            realDuration, 
+                            'howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord) does not compute correctly.'
+                            );
+    }
     /**
      *
      * Tests if getingNextDateTimeWithinBusinessHoursNOTAHoliday(List<Holiday> listOfHolidays, DateTime dateTimeToConvert)

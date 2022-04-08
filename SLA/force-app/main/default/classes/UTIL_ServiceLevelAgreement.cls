@@ -147,29 +147,73 @@ public with sharing class UTIL_ServiceLevelAgreement {
     //------------------------------------------------------METHODS WITH CONSTRUCTOR ---------------------------------------------
     //------------------------------------------------------STATIC METHODS -------------------------------------------------------
     /**
-     * Returning the deadline for a US
+     * Returning a number in MS that represents the time we have to respond to a User Story
      * Called by : 
-     * @Parametters : 
-     * @Returns : Datetime
+     * @Parametters : agf__ADM_Work__c workRecord
+     * @Returns : Long
      */
-    /*public static DateTime calculateDeadlineForUSResponseTime(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays,){
-        DateTime deadlineToRespondToUS;
-        // check if start Date_Status_New_Starts__c is within buisness hours and is not a holiday. 
-        // if this is not the case set it to the next day within business hours and that is not a holiday 
-        // using getingNextDateTimeWithinBusinessHoursNOTAHoliday
-        DateTime dateTimeOfReference = workRecord.Date_Status_New_Starts__c;
-        DateTime checkedDateTimeOfReference = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, dateTimeOfReference);
-        // if priority is P1
+    public static Long howLongTillResponseIsMandatoryForUS(agf__ADM_Work__c workRecord){
+        Long responsTimeForUS;
         if(workRecord.agf__Priority__c=='P1'){
-            for(Integer i =0 ; i<2 ; i++){
-                Long intervalInMilliseconds = NUMBER_OF_MS_IN_ONE_WORK_DAY * i;
-                deadlineToRespondToUS = BusinessHours.add(businessHoursId, checkedDateTimeOfReference,) ;
+            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
+        }
+        if(workRecord.agf__Priority__c=='P2' ||workRecord.agf__Priority__c=='P3'){
+            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*6;
+        }
+        return responsTimeForUS;
+    }
+    /**
+     * Returning a number in MS that represents the time we have to respond to a Bug
+     * Called by : 
+     * @Parametters : agf__ADM_Work__c workRecord
+     * @Returns : Long
+     */
+    public static Long howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord){
+        Long responsTimeForBug;
+        if(workRecord.agf__Priority__c=='P1'){
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_HOUR*2;
+        }
+        if(workRecord.agf__Priority__c=='P2' ){
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+        }
+        if(workRecord.agf__Priority__c=='P3'){
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
+        }
+        return responsTimeForBug;
+    }
+    /**
+     * Returning a number in MS that represents the time we have to correct a Bug
+     * Called by : 
+     * @Parametters : agf__ADM_Work__c workRecord
+     * @Returns : Long
+     */
+    public static Long howLongTillCorrectionIsMandatoryForBug(agf__ADM_Work__c workRecord){
+        Long responsTimeForBug;
+        Boolean isThereABypass = workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
+        System.debug('isThereABypass-> '+isThereABypass);
+        if(workRecord.agf__Priority__c=='P1'){
+            if(isThereABypass==true){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*4;
+            }else if(isThereABypass==false){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
             }
         }
-        // if priority is P2
-        // if priority is P3
-        return deadlineToRespondToUS;
-    }*/
+        if(workRecord.agf__Priority__c=='P2'){
+            if(isThereABypass==true){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*15;
+            }else if(isThereABypass==false){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*8;
+            } 
+        }
+        if(workRecord.agf__Priority__c=='P3'){
+            if(isThereABypass==true){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*22;
+            }else if(isThereABypass==false){
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*12;
+            } 
+        }
+        return responsTimeForBug;
+    }
     /**
      * returning a DateTime within Business Hours and taking into account Holidays
      * This method adds a one day at a time each day it checks if the 
@@ -259,7 +303,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
             workRecord.Duration_MS_Status_DEV_TBT__c == null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c == null && 
             workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null && 
             workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
-                
+
             valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c;
             System.debug('Duration_MS_Status_DEV_TBT__c exists -> '+valueToReturn);
             return valueToReturn;
