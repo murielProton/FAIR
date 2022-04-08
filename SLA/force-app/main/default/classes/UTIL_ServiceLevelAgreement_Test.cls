@@ -545,7 +545,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
      */
     @isTest
     static void testAddingDurationInMSToCorrectBug(){
-        Long expectedDuration = long.valueOf('183600000');
+        Long expectedDuration = long.valueOf('214200000');
         String nameOfRecording = 'tsis na bit izh';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
@@ -553,7 +553,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'method addingDurationInMSToCorrectBug - The adition of the 6 fields : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'method addingDurationInMSToCorrectBug - The adition of the 7 fields : Duration_MS_Status_DEV_IP__c, Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
                             'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c ,'+
                             ' and Duration_MS_Status_Validated_TBD__c, is not correct.'
                             );
@@ -565,7 +565,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
      */
     @isTest
     static void testCalculateDurationInMSToCorrectBug1ValueFiled(){
-        Long expectedDuration = long.valueOf('3600000');
+        Long expectedDuration = long.valueOf('7200000');
         String nameOfRecording = 'feng mi';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
@@ -583,7 +583,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
      */
     @isTest
     static void testCalculateDurationInMSToCorrectBug2ValueFiled(){
-        Long expectedDuration = long.valueOf('61200000');
+        Long expectedDuration = long.valueOf('91800000');
         String nameOfRecording = 'honing';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
@@ -591,27 +591,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, adding Duration_MS_Status_DEV_TBT__c'+
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, adding Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c'+
                             ' to Duration_MS_Status_DEV_TBD_UAT__c.'
-                            );
-    }
-    /**
-     *
-     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
-     * 
-     */
-    @isTest
-    static void testCalculateDurationInMSToCorrectABugWhen3ValuesFilled(){
-        Long expectedDuration = long.valueOf('91800000');
-        String nameOfRecording = 'mel';
-        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        Test.startTest();
-        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
-        Test.stopTest();
-        System.assertEquals(expectedDuration, 
-                            realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 3 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
-                            'Duration_MS_Status_UAT_To_Fix__c.'
                             );
     }
     /**
@@ -622,15 +603,19 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testCalculateDurationInMSToCorrectABugWhen4ValuesFilled(){
         Long expectedDuration = long.valueOf('122400000');
-        String nameOfRecording = 'miere';
+        String nameOfRecording = 'mel';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
         Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
         Test.stopTest();
+        System.debug('test 4 -> '+workRecord.Duration_MS_Status_DEV_IP__c);
+        System.debug('test 4 -> '+workRecord.Duration_MS_Status_DEV_TBT__c);
+        System.debug('test 4 -> '+workRecord.Duration_MS_Status_DEV_TBD_UAT__c);
+        System.debug('test 4 -> '+workRecord.Duration_MS_Status_UAT_To_Fix__c);
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
-                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c.'
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_IP__c, Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c.'
                             );
     }
     /**
@@ -641,15 +626,15 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testCalculateDurationInMSToCorrectABugWhen5ValuesFilled(){
         Long expectedDuration = long.valueOf('153000000');
-        String nameOfRecording = 'kkul';
+        String nameOfRecording = 'miere';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
         Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
-                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c, Duration_MS_Status_PROD_To_Fix__c.'
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 5 values : Duration_MS_Status_DEV_IP__c, Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c.'
                             );
     }
     /**
@@ -660,6 +645,25 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     @isTest
     static void testCalculateDurationInMSToCorrectABugWhen6ValuesFilled(){
         Long expectedDuration = long.valueOf('183600000');
+        String nameOfRecording = 'kkul';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        Test.startTest();
+        Long realDurationToRespondToABug = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(workRecord);
+        Test.stopTest();
+        System.assertEquals(expectedDuration, 
+                            realDurationToRespondToABug, 
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 6 values : Duration_MS_Status_DEV_IP__c, Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c, Duration_MS_Status_PROD_To_Fix__c.'
+                            );
+    }
+    /**
+     *
+     * Tests if calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord)
+     * 
+     */
+    @isTest
+    static void testCalculateDurationInMSToCorrectABugWhen7ValuesFilled(){
+        Long expectedDuration = long.valueOf('214200000');
         String nameOfRecording = 'tsis na bit izh';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
@@ -667,7 +671,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Test.stopTest();
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
-                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 4 values : Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
+                            'The method calculateDurationInMSToCorrectABug does not calculate correctly, when adding 7 values : Duration_MS_Status_DEV_IP__c, Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , '+
                             'Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c, Duration_MS_Status_PROD_To_Fix__c,'+
                             ' and Duration_MS_Status_Validated_TBD__c.'
                             );

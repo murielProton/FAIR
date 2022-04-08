@@ -254,60 +254,95 @@ public with sharing class UTIL_ServiceLevelAgreement {
      */
     public static Long calculateDurationInMSToCorrectABug(agf__ADM_Work__c workRecord){
         Long valueToReturn=null;
-        //1 if only Duration_MS_Status_DEV_TBT__c is filled
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c == null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+        //1 if only Duration_MS_Status_DEV_IP__c is filled
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c == null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c == null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+                
             valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c;
             System.debug('Duration_MS_Status_DEV_TBT__c exists -> '+valueToReturn);
             return valueToReturn;
         }
-        //2 if only Duration_MS_Status_DEV_TBT__c and Duration_MS_Status_DEV_TBD_UAT__c are filled
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
-            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c;
+        //2 if only Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c are filled
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c == null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_IP__c + 
+                            (Long)workRecord.Duration_MS_Status_DEV_TBT__c;
+            System.debug('if only Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c are filled -> '+valueToReturn);
+            return valueToReturn;
+        }
+        //3 if only Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c and Duration_MS_Status_DEV_TBD_UAT__c are filled
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c == null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_IP__c + 
+                            (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  
+                            (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c;
             System.debug('if only Duration_MS_Status_DEV_TBT__c and Duration_MS_Status_DEV_TBD_UAT__c are filled -> '+valueToReturn);
             return valueToReturn;
         }
-        /* 3 if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c are filled
+        /* 4 if only Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c
+         and Duration_MS_Status_UAT_To_Fix__c are filled
         */
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
-            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
-            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c;
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c == null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_IP__c + 
+                            (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  
+                            (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+                            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c;
             System.debug('if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c are filled -> '+valueToReturn);
             return valueToReturn;
         }
-        /* 4 if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c, Duration_MS_Status_UAT_To_Fix__c
+        /* 5 if only Duration_MS_Status_DEV_IP__c and Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c, 
+        Duration_MS_Status_UAT_To_Fix__c
         * and Duration_MS_Status_UAT_TBD_PROD__c are filled
         */
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
-            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
-            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c;
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c == null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_IP__c + 
+                            (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  
+                            (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+                            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + 
+                            (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c;
             System.debug('if only Duration_MS_Status_DEV_TBT__c, Duration_MS_Status_DEV_TBD_UAT__c and Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c are filled -> '+valueToReturn);
             return valueToReturn;
         }
-        /* 5 if Duration_MS_Status_Validated_TBD__c is the ony null factor
+        /* 6 if Duration_MS_Status_Validated_TBD__c is the ony null factor
         */
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c != null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
-            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
-            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c +
-            (Long)workRecord.Duration_MS_Status_PROD_To_Fix__c;
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c != null && workRecord.Duration_MS_Status_Validated_TBD__c == null){
+
+            valueToReturn = (Long)workRecord.Duration_MS_Status_DEV_IP__c + 
+                            (Long)workRecord.Duration_MS_Status_DEV_TBT__c +  
+                            (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+                            (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + 
+                            (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c +
+                            (Long)workRecord.Duration_MS_Status_PROD_To_Fix__c;
             System.debug('5 if Duration_MS_Status_Validated_TBD__c is the ony null factor -> '+valueToReturn);
             return valueToReturn;
         }
-        /* 6 if no durations are null
+        /* 7 if no durations are null
         * 
         */
-        if(workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null
-        && workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null
-        && workRecord.Duration_MS_Status_PROD_To_Fix__c != null && workRecord.Duration_MS_Status_Validated_TBD__c != null){
+        if( workRecord.Duration_MS_Status_DEV_IP__c != null && 
+            workRecord.Duration_MS_Status_DEV_TBT__c != null && workRecord.Duration_MS_Status_DEV_TBD_UAT__c != null && 
+            workRecord.Duration_MS_Status_UAT_To_Fix__c != null && workRecord.Duration_MS_Status_UAT_TBD_PROD__c != null && 
+            workRecord.Duration_MS_Status_PROD_To_Fix__c != null && workRecord.Duration_MS_Status_Validated_TBD__c != null){
+
             valueToReturn = (Long)addingDurationInMSToCorrectBug(workRecord);
             System.debug('6 if no durations are null -> '+valueToReturn);
             return valueToReturn;
@@ -325,9 +360,13 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Returns : Long
      */
     public static Long addingDurationInMSToCorrectBug(agf__ADM_Work__c workRecord){
-        Long numberOfMSToCorrectABug = (Long)workRecord.Duration_MS_Status_DEV_TBT__c + (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
-        (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c + 
-        (Long)workRecord.Duration_MS_Status_PROD_To_Fix__c + (Long)workRecord.Duration_MS_Status_Validated_TBD__c;
+        Long numberOfMSToCorrectABug =  (Long)workRecord.Duration_MS_Status_DEV_IP__c +
+                                        (Long)workRecord.Duration_MS_Status_DEV_TBT__c + 
+                                        (Long)workRecord.Duration_MS_Status_DEV_TBD_UAT__c +
+                                        (Long)workRecord.Duration_MS_Status_UAT_To_Fix__c + 
+                                        (Long)workRecord.Duration_MS_Status_UAT_TBD_PROD__c + 
+                                        (Long)workRecord.Duration_MS_Status_PROD_To_Fix__c + 
+                                        (Long)workRecord.Duration_MS_Status_Validated_TBD__c;
         return numberOfMSToCorrectABug;
     }
     /**
