@@ -96,6 +96,10 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     }
                     //Conditions for Bug Type of records
                 }else if (newWorkRecordType == 'Bug'){
+                    if (oldWork.agf__Status__c == 'New' && newWork.agf__Status__c != 'New'){
+                        // Stop Timer on Duration_In_MS_To_Respond_To_A_Bug__c
+                        newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
+                    }
                     if (oldWork.agf__Status__c != 'DEV - In Progress' && newWork.agf__Status__c == 'DEV - In Progress'){
                         // set field Date_Status_DEV_IP_Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_DEV_IP_Starts__c = Datetime.now();
@@ -110,8 +114,6 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         newWork.Duration_MS_Status_DEV_IP__c = timeInMS;
                         // set field Duration_String_Status_DEV_IP__c with a string expressing the duration
                         newWork.Duration_String_Status_DEV_IP__c = Util_Duration.generateAStringFromMS(timeInMS);
-                        // Stop Timer on Duration_In_MS_To_Respond_To_A_Bug__c
-                        newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
                     }
                     if (oldWork.agf__Status__c != 'DEV - To Be Tested' && newWork.agf__Status__c == 'DEV - To Be Tested'){
                         // set field Date_Status_DEV_TBT_Starts__c for the records of agf__ADM_Work__c
@@ -205,7 +207,7 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_Validated_TBD__c with a string expressing the duration
                         newWork.Duration_String_Status_Validated_TBD__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
-                    if (newWork.Duration_MS_Status_New__c!=null || newWork.Duration_String_Status_DEV_IP__c!=null){
+                    if (newWork.Duration_MS_Status_New__c!=null){
                         // set field Duration_In_MS_To_Respond_To_A_Bug__c
                         newWork.Duration_In_MS_To_Respond_To_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToABug(newWork);
                     }

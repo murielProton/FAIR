@@ -1293,7 +1293,7 @@ public without sharing class TH_WorkTrigger_Test {
         Test.stopTest();
         agf__ADM_Work__c workRecordHatchimitsuAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         Long realDurationToRespondToABug = (Long)workRecordHatchimitsuAfterUpdate.Duration_In_MS_To_Respond_To_A_Bug__c;
-        Long expectedDuration = 7200000;
+        Long expectedDuration = 3600000;
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
                             'The field Duration_In_MS_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
@@ -1336,7 +1336,7 @@ public without sharing class TH_WorkTrigger_Test {
         agf__ADM_Work__c workRecordHatchimitsuAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         //WARNING White noises to add +' '
         String realDurationToRespondToABug = workRecordHatchimitsuAfterUpdate.Duration_In_String_To_Respond_To_A_Bug__c+' ';
-        String expectedDuration = UTIL_Duration.generateAStringFromMS(7200000);
+        String expectedDuration = UTIL_Duration.generateAStringFromMS(3600000);
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToABug, 
                             'The field Duration_In_String_To_Respond_To_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
