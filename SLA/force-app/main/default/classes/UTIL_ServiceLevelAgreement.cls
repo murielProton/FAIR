@@ -147,6 +147,43 @@ public with sharing class UTIL_ServiceLevelAgreement {
     //------------------------------------------------------METHODS WITH CONSTRUCTOR ---------------------------------------------
     //------------------------------------------------------STATIC METHODS -------------------------------------------------------
     /**
+     * Returning the deadline for a US
+     * Called by : 
+     * @Parametters : 
+     * @Returns : Datetime
+     */
+    /*public static DateTime calculateDeadlineForUSResponseTime(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays,){
+        DateTime deadlineToRespondToUS;
+        // check if start Date_Status_New_Starts__c is within buisness hours and is not a holiday. 
+        // if this is not the case set it to the next day within business hours and that is not a holiday 
+        // using getingNextDateTimeWithinBusinessHoursNOTAHoliday
+        DateTime dateTimeOfReference = workRecord.Date_Status_New_Starts__c;
+        DateTime checkedDateTimeOfReference = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, dateTimeOfReference);
+        // if priority is P1
+        if(workRecord.agf__Priority__c=='P1'){
+            for(Integer i =0 ; i<2 ; i++){
+                Long intervalInMilliseconds = NUMBER_OF_MS_IN_ONE_WORK_DAY * i;
+                deadlineToRespondToUS = BusinessHours.add(businessHoursId, checkedDateTimeOfReference,) ;
+            }
+        }
+        // if priority is P2
+        // if priority is P3
+        return deadlineToRespondToUS;
+    }*/
+    /**
+     * returning a DateTime within Business Hours and taking into account Holidays
+     * This method adds a one day at a time each day it checks if the 
+     * Called by : 
+     * @Parametters : Long numberOfDays, DateTime dateOfReference
+     * @Returns : Datetime
+     */
+    /*public static DateTime addingOneDayAtATimeWithinBusinessHoursNotIncludingHolidays(Long numberOfDays, DateTime dateOfReference){
+        DateTime dateTimeToAddTo = dateOfReference;
+        for(Integer i =0 ; i < numberOfDays ; i++){
+            
+        }
+    }*/
+    /**
      * returning a DateTime within Business Hours and taking into account Holidays
      * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
      * Called by : 
@@ -169,9 +206,6 @@ public with sharing class UTIL_ServiceLevelAgreement {
                     .addDays(1);
                 dateTimeToReturn = BusinessHours.nextStartDate(businessHoursId, dateTimeToReturn);
             }
-            System.debug('New date -> '+dateTimeToReturn);
-            System.debug('isWithin Business Hours -> '+BusinessHours.isWithin(businessHoursId, dateTimeToReturn));
-            System.debug('is holiday -> '+UTIL_Duration.isThisDayAHoliday(dateTimeToReturn, listOfHolidays));
         }
         return dateTimeToReturn;
     }
@@ -185,21 +219,12 @@ public with sharing class UTIL_ServiceLevelAgreement {
     public static Long calculateDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
         Long valueToReturn=null;
         // if Duration_MS_Status_New__c is filled.
-        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c == null
-        && workRecord.Duration_MS_Status_Workload_DONE__c == null){
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_Workload_DONE__c == null){
             valueToReturn = (Long)workRecord.Duration_MS_Status_New__c;
             return valueToReturn;
         }
         // if Duration_MS_Status_New__c + Duration_MS_Status_OK_For_DEV__c are filled.
-        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c != null
-        && workRecord.Duration_MS_Status_Workload_DONE__c == null){
-            valueToReturn = (Long)workRecord.Duration_MS_Status_New__c +
-                            (Long)workRecord.Duration_MS_Status_OK_For_DEV__c;
-            return valueToReturn;
-        }
-        // if Duration_MS_Status_New__c + Duration_MS_Status_OK_For_DEV__c + Duration_MS_Status_Workload_DONE__c are filled.
-        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_OK_For_DEV__c != null
-        && workRecord.Duration_MS_Status_Workload_DONE__c != null){
+        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_Workload_DONE__c != null){
             valueToReturn = addingDurationInMSToRespondToAUS(workRecord);
             return valueToReturn;
         }
@@ -326,8 +351,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * @Returns : Long
      */
     public static Long addingDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord){
-        Long numberOfMSToRespondToAUS = (Long)workRecord.Duration_MS_Status_New__c + (Long)workRecord.Duration_MS_Status_OK_For_DEV__c +
-        (Long)workRecord.Duration_MS_Status_Workload_DONE__c;
+        Long numberOfMSToRespondToAUS = (Long)workRecord.Duration_MS_Status_New__c +
+                                        (Long)workRecord.Duration_MS_Status_Workload_DONE__c;
         return numberOfMSToRespondToAUS;
     }
     /** TODO

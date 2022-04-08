@@ -132,7 +132,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             Duration_MS_Status_New__c = 30600000,
-            Duration_MS_Status_OK_For_DEV__c = 30600000,
+            Duration_MS_Status_Workload_DONE__c = 30600000,
             agf__Priority__c = 'P0'
         );
         // creating a record on sObject agf__ADM_Work__c Status 'Validated'
@@ -143,8 +143,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             Duration_MS_Status_New__c = 30600000,
-            Duration_MS_Status_OK_For_DEV__c = 30600000,
             Duration_MS_Status_Workload_DONE__c = 30600000,
+            Duration_MS_Status_OK_For_DEV__c = 30600000,
             agf__Priority__c = 'P0'
         );
         // creating a record on sObject agf__ADM_Work__c Status DEV - In Progress
@@ -488,20 +488,24 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Test.startTest();
         Long realDurationToRespondToAUS = (Long)UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(workRecord);
         Test.stopTest();
+        System.debug('workRecord.Duration_MS_Status_New__c = ' + workRecord.Duration_MS_Status_New__c);
+        System.debug('workRecord.Duration_MS_Status_Workload_DONE__c = ' + workRecord.Duration_MS_Status_Workload_DONE__c);
+        System.debug('workRecord.Duration_MS_Status_OK_For_DEV__c = ' + workRecord.Duration_MS_Status_OK_For_DEV__c);
+        
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToAUS, 
                             'method calculateDurationInMSToRespondToAUS - The adition of the 3 fields : Duration_MS_Status_New__c + '+
                             'Duration_MS_Status_OK_For_DEV__c + Duration_MS_Status_Workload_DONE__c are filled, does not compute correctly.'
                             );
     }
-        /**
+    /**
      *
      * Tests if calculateDurationInMSToRespondToAUS(agf__ADM_Work__c workRecord)
      * 
      */
     @isTest
     static void testCalculateDurationInMSToRespondToAUSWhen3FieldsAreSet(){
-        Long expectedDuration = long.valueOf('91800000');
+        Long expectedDuration = long.valueOf('61200000');
         String nameOfRecording = 'Honung';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
@@ -654,7 +658,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
      */
     @isTest
     static void testAddingDurationInMSToRespondToAUS(){
-        Long expectedDuration = 91800000;
+        Long expectedDuration = 61200000;
         String nameOfRecording = 'honung';
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
         Test.startTest();
