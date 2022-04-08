@@ -1313,7 +1313,7 @@ public without sharing class TH_WorkTrigger_Test {
         Test.stopTest();
         agf__ADM_Work__c workRecordDevachAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         Long realDurationToCorrectABug = (Long)workRecordDevachAfterUpdate.Duration_In_MS_To_Correct_A_Bug__c;
-        Long expectedDuration = 3600000;
+        Long expectedDuration = 7200000;
         System.assertEquals(expectedDuration, 
                             realDurationToCorrectABug, 
                             'The field Duration_In_MS_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
@@ -1357,10 +1357,10 @@ public without sharing class TH_WorkTrigger_Test {
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         //WARNING White noises to add +' '
         String realDurationToCorrectoABug = workRecordAfterUpdate.Duration_In_String_To_Correct_A_Bug__c+' ';
-        String expectedDuration = UTIL_Duration.generateAStringFromMS(3600000);
-        System.debug('hachimitsu DurationString To correct a bug ->'+workRecordAfterUpdate.Duration_In_MS_To_Correct_A_Bug__c);
-        System.debug('hachimitsu DurationString generated to respond to a bug ->'+expectedDuration+'<');
-        System.debug('hachimitsu DurationString real to respond to a bug ->'+realDurationToCorrectoABug+'<');
+        String expectedDuration = UTIL_Duration.generateAStringFromMS(7200000);
+        System.debug('devach DurationString To correct a bug ->'+workRecordAfterUpdate.Duration_In_MS_To_Correct_A_Bug__c);
+        System.debug('devach DurationString generated to respond to a bug ->'+expectedDuration+'<');
+        System.debug('devach DurationString real to respond to a bug ->'+realDurationToCorrectoABug+'<');
         System.assertEquals(expectedDuration, 
                             realDurationToCorrectoABug, 
                             'The field Duration_In_String_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'

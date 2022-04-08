@@ -193,8 +193,6 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     if (oldWork.agf__Status__c != 'Validated - To Be Deployed' && newWork.agf__Status__c == 'Validated - To Be Deployed'){
                         // set field Date_Status_Validated_TBD_Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_Validated_TBD_Starts__c = Datetime.now();
-                        // stop timer on Duration_In_MS_To_Correct_A_Bug__c
-                        newWork.Duration_In_MS_To_Correct_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(newWork);
                     }
                     if (oldWork.agf__Status__c == 'Validated - To Be Deployed' && newWork.agf__Status__c != 'Validated - To Be Deployed'){
                         // set field newWork.Date_Status_Validated_TBD_Ends__c for the records of agf__ADM_Work__c
@@ -206,6 +204,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         newWork.Duration_MS_Status_Validated_TBD__c = timeInMS;
                         // set field Duration_String_Status_Validated_TBD__c with a string expressing the duration
                         newWork.Duration_String_Status_Validated_TBD__c = Util_Duration.generateAStringFromMS(timeInMS);
+                        // stop timer on Duration_In_MS_To_Correct_A_Bug__c
+                        newWork.Duration_In_MS_To_Correct_A_Bug__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToCorrectABug(newWork);
                     }
                     if (newWork.Duration_MS_Status_New__c!=null){
                         // set field Duration_In_MS_To_Respond_To_A_Bug__c
@@ -216,7 +216,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_In_String_To_Respond_To_A_Bug__c
                         newWork.Duration_In_String_To_Respond_To_A_Bug__c = UTIL_Duration.generateAStringFromMS(durationToRespondToBug);
                     }
-                    if (newWork.Duration_MS_Status_DEV_TBT__c != null || newWork.Duration_String_Status_DEV_TBD_UAT__c != null ||
+                    if (newWork.Duration_MS_Status_DEV_IP__c != null ||
+                        newWork.Duration_MS_Status_DEV_TBT__c != null || newWork.Duration_String_Status_DEV_TBD_UAT__c != null ||
                         newWork.Duration_MS_Status_UAT_To_Fix__c != null || newWork.Duration_String_Status_UAT_TBD_PROD__c != null ||
                         newWork.Duration_String_Status_PROD_To_Fix__c != null|| newWork.Duration_String_Status_Validated_TBD__c != null){
                         // set field Duration_In_MS_To_Correct_A_Bug__c
