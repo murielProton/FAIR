@@ -239,12 +239,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
      */
     public static Long calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
         Long valueToReturn=null;
-        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c == null){
+        if(workRecord.Duration_MS_Status_New__c != null){
             valueToReturn = (Long)workRecord.Duration_MS_Status_New__c;
-            return valueToReturn;
-        }
-        if(workRecord.Duration_MS_Status_New__c != null && workRecord.Duration_MS_Status_DEV_IP__c != null){
-            valueToReturn = addingDurationInMSToRespondToABug(workRecord);
             return valueToReturn;
         }
         return valueToReturn;
@@ -319,16 +315,6 @@ public with sharing class UTIL_ServiceLevelAgreement {
         /*else nothting of the above is true */
         System.debug('just before return -> '+valueToReturn);
         return valueToReturn;
-    }
-    /**
-     * returning a number of MS adding Duration_MS_Status_New__c and Duration_MS_Status_DEV_IP__c.
-     * Called by : calculateDurationInMSToRespondToABug(agf__ADM_Work__c workRecord)
-     * @Parametters : agf__ADM_Work__c
-     * @Returns : Long
-     */
-    public static Long addingDurationInMSToRespondToABug(agf__ADM_Work__c workRecord){
-        Long numberOfMSToRespondToABug = (Long)workRecord.Duration_MS_Status_New__c + (Long)workRecord.Duration_MS_Status_DEV_IP__c;
-        return numberOfMSToRespondToABug;
     }
     /**
      * returning a number of MS adding Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , 
