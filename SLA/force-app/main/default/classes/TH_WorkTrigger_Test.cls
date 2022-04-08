@@ -146,10 +146,7 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_New_Starts__c = dateTimeRandom,
             Date_Status_New_Ends__c = dateTimeRandom.addHours(1),
             Duration_MS_Status_New__c = 3600000,
-            Date_Status_OK_For_DEV_Starts__c = dateTimeRandom.addHours(1),
-            Date_Status_OK_For_DEV_Ends__c = dateTimeRandom.addHours(2),
-            Duration_MS_Status_OK_For_DEV__c = 3600000,
-            Date_Status_Workload_DONE_Starts__c = dateTimeRandom.addHours(2),
+            Date_Status_Workload_DONE_Starts__c = dateTimeRandom.addHours(1),
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
@@ -162,7 +159,10 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_New_Starts__c = dateTimeRandom,
             Date_Status_New_Ends__c = dateTimeRandom.addHours(1),
             Duration_MS_Status_New__c = 3600000,
-            Date_Status_OK_For_DEV_Starts__c = dateTimeRandom.addHours(1),
+            Date_Status_Workload_DONE_Starts__c = dateTimeRandom.addHours(1),
+            Date_Status_Workload_DONE_Ends__c = dateTimeRandom.addHours(2),
+            Duration_MS_Status_Workload_DONE__c = 3600000,
+            Date_Status_OK_For_DEV_Starts__c = dateTimeRandom.addHours(2),
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
             agf__Priority__c = 'P0'
@@ -1231,7 +1231,7 @@ public without sharing class TH_WorkTrigger_Test {
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         Long realDurationToRespondToUS = (Long)workRecordAfterUpdate.Duration_In_MS_To_Respond_To_A_US__c;
-        Long expectedDuration = 3600000;
+        Long expectedDuration = 7200000;
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToUS, 
                             'The field Duration_In_MS_To_Respond_To_A_US__c on agf__ADM_Work__c is not filed correctly.'
@@ -1251,7 +1251,7 @@ public without sharing class TH_WorkTrigger_Test {
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         Long realDurationToRespondToUS = (Long)workRecordAfterUpdate.Duration_In_MS_To_Respond_To_A_US__c;
-        Long expectedDuration = 7200000;
+        Long expectedDuration = 3600000;
         System.assertEquals(expectedDuration, 
                             realDurationToRespondToUS, 
                             'The field Duration_In_MS_To_Respond_To_A_US__c on agf__ADM_Work__c is not filed correctly.'
@@ -1265,17 +1265,17 @@ public without sharing class TH_WorkTrigger_Test {
     @isTest
     static void checkIfWorkDurationInMSToRespondToUSIsFilledWhen3DurationsAreFilled() {
         String nameOfRecording = 'miel';
-        String statusValue = 'Validated - To Be Deployed';
+        String statusValue = 'OK For DEV';
         Test.startTest();
         setupTestWhenStatusIs(statusValue, nameOfRecording);
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         Long realDurationToRespondToUS = (Long)workRecordAfterUpdate.Duration_In_MS_To_Respond_To_A_US__c;
         //  Date_Status_Workload_DONE_Ends__c = is set to today so realDurationToRespondToUS can realy reach a high number as dateTimeRandom is set in 2022
-        Boolean whatToExpect =7200000 < realDurationToRespondToUS;
+        boolean actualResponse = 3600000 < realDurationToRespondToUS;
         System.debug('Realduration 3 filling= '+realDurationToRespondToUS);
         System.assertEquals(true, 
-                            whatToExpect, 
+                            actualResponse, 
                             'The field Duration_In_MS_To_Respond_To_A_US__c on agf__ADM_Work__c is not filed correctly.'
                             );
     }

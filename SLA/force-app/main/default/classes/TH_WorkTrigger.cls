@@ -54,9 +54,7 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     if (oldWork.agf__Status__c != 'Workload DONE' && 
                         newWork.agf__Status__c == 'Workload DONE'){
                         // set field Date_Status_Workload_DONE_Starts__c for the records of agf__ADM_Work__c
-                        newWork.Date_Status_Workload_DONE_Starts__c = Datetime.now();
-                        // stop timer on Duration_In_MS_To_Respond_To_A_US__c
-                        newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
+                        newWork.Date_Status_Workload_DONE_Starts__c = Datetime.now();                        
                     }
                     if (oldWork.agf__Status__c == 'Workload DONE' && newWork.agf__Status__c != 'Workload DONE'){
                         // set field newWork.Date_Status_Workload_DONE_Ends__c for the records of agf__ADM_Work__c
@@ -73,6 +71,8 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                     if (oldWork.agf__Status__c != 'OK For DEV' && newWork.agf__Status__c == 'OK For DEV'){
                         // set field Date_Status__Starts__c for the records of agf__ADM_Work__c
                         newWork.Date_Status_OK_For_DEV_Starts__c = Datetime.now();
+                        // stop timer on Duration_In_MS_To_Respond_To_A_US__c
+                        newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
                     }//FROM THEN ON MY TESTS ARE FAILING ME WHY?
                     if (oldWork.agf__Status__c == 'OK For DEV' && newWork.agf__Status__c != 'OK For DEV'){
                         // set field newWork.Date_Status_OK_For_DEV_Ends__c for the records of agf__ADM_Work__c
@@ -85,8 +85,7 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_String_Status_OK_For_DEV__c with a string expressing the duration
                         newWork.Duration_String_Status_OK_For_DEV__c = Util_Duration.generateAStringFromMS(timeInMS);
                     }
-                    if ( newWork.Duration_MS_Status_New__c != null || newWork.Duration_MS_Status_OK_For_DEV__c != null || 
-                            newWork.Duration_MS_Status_Workload_DONE__c != null){
+                    if ( newWork.Duration_MS_Status_New__c != null  || newWork.Duration_MS_Status_Workload_DONE__c != null){
                         // set field Duration_In_MS_To_Respond_To_A_US__c
                         newWork.Duration_In_MS_To_Respond_To_A_US__c = UTIL_ServiceLevelAgreement.calculateDurationInMSToRespondToAUS(newWork);
                     }
