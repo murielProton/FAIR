@@ -74,7 +74,8 @@ public without sharing class TH_WorkTrigger_Test {
                                         Duration_In_MS_To_Correct_A_Bug__c,
                                         Duration_In_String_To_Respond_To_A_US__c,
                                         Duration_In_String_To_Respond_To_A_Bug__c,
-                                        Duration_In_String_To_Correct_A_Bug__c
+                                        Duration_In_String_To_Correct_A_Bug__c,
+                                        Flag__c
                                 FROM agf__ADM_Work__c
                                 WHERE agf__Subject__c = :subjectOnWork
                                 ];
@@ -136,7 +137,7 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_New_Starts__c = dateTimeRandom,
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status Workload DONE
         agf__ADM_Work__c workRecordWorkloadMiel = new agf__ADM_Work__c(
@@ -149,7 +150,7 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_Workload_DONE_Starts__c = dateTimeRandom.addHours(1),
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P2'
         );
         // creating a record on sObject agf__ADM_Work__c Status OK For DEV
         agf__ADM_Work__c workRecordOKForDevHonig = new agf__ADM_Work__c(
@@ -165,7 +166,25 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_OK_For_DEV_Starts__c = dateTimeRandom.addHours(2),
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P3'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status OK For DEV
+        agf__ADM_Work__c workRecordOKForDevBal = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'bal',
+            agf__Status__c = 'OK For DEV',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P1'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status OK For DEV
+        agf__ADM_Work__c workRecordOKForDevMafuto = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdUS,
+            agf__Subject__c = 'mafuta ma nzoi',
+            agf__Status__c = 'OK For DEV',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status 'DEV - In Progress'
         agf__ADM_Work__c workRecordDevInProgressAsala = new agf__ADM_Work__c(
@@ -253,7 +272,7 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_DEV_TBT_Starts__c = dateTimeRandom.addHours(3),                         
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status Validated - To Be Deployed
         agf__ADM_Work__c workRecordDEVTBDUATDevach = new agf__ADM_Work__c(
@@ -274,13 +293,24 @@ public without sharing class TH_WorkTrigger_Test {
             Date_Status_DEV_TBT_Ends__c = dateTimeRandom.addHours(3),
             Duration_MS_Status_DEV_TBT__c = 3600000,
             Date_Status_DEV_TBD_UAT_Starts__c = dateTimeRandom.addHours(3), 
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P2'
+        );
+        // creating a record on sObject agf__ADM_Work__c Status Validated - To Be Deployed
+        agf__ADM_Work__c workRecordDEVTBDUATAsali = new agf__ADM_Work__c(
+            RecordTypeId = recordTypeIdBug,
+            agf__Subject__c = 'asali',
+            agf__Status__c = 'DEV - To Be Deployed in UAT',
+            agf__Product_Tag__c = productTagRecord.Id,
+            agf__Found_in_Build__c = buildRecord.Id,
+            agf__Priority__c = 'P2'
         );
         // creating a list of records on sObject agf__ADM_Work__c
         List<agf__ADM_Work__c> workRecordsList= new List<agf__ADM_Work__c>();
         workRecordsList.add(workRecordNewHoney);
         workRecordsList.add(workRecordWorkloadMiel);
         workRecordsList.add(workRecordOKForDevHonig);
+        workRecordsList.add(workRecordOKForDevBal);
+        workRecordsList.add(workRecordOKForDevMafuto);
         workRecordsList.add(workRecordDevInProgressAsala);
         workRecordsList.add(workRecordDevInProgressFengMi);
         workRecordsList.add(workRecordDevInProgressMiele);
@@ -291,6 +321,7 @@ public without sharing class TH_WorkTrigger_Test {
         workRecordsList.add(workRecordNewMilain);
         workRecordsList.add(workRecordDevTBTHachimitsu);
         workRecordsList.add(workRecordDEVTBDUATDevach);
+        workRecordsList.add(workRecordDEVTBDUATAsali);
         try{
             //Insert a list of record
             insert workRecordsList;
@@ -1364,6 +1395,140 @@ public without sharing class TH_WorkTrigger_Test {
         System.assertEquals(expectedDuration, 
                             realDurationToCorrectoABug, 
                             'The field Duration_In_String_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
+                            );
+    }
+    //----------------------------------------------------- CHECK Flag__c -------------------------------------------------
+    /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfUserStoryIsFlagedScenarioFalse(){
+        String nameOfRecording = 'bal';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Respond_To_A_US__c = 51200000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(false, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+    /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfUserStoryIsFlagedScenarioTrue(){
+        String nameOfRecording = 'Mafuta ma nzoi';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Respond_To_A_US__c = 71200000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(true, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+    /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfUserStoryResponseIsFlagedScenarioFalse(){
+        String nameOfRecording = 'bal';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Respond_To_A_US__c = 51200000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(false, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+    /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfBugResponseIsFlagedScenarioTrue(){
+        String nameOfRecording = 'asali';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Respond_To_A_Bug__c = 254800000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(true, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+        /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfBugResponseIsFlagedScenarioFalse(){
+        String nameOfRecording = 'asali';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Respond_To_A_Bug__c = 6000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(false, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+    /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfBugCorrectionIsFlagedScenarioTrue(){
+        String nameOfRecording = 'asali';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Correct_A_Bug__c = 344800000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(true, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
+                            );
+    }
+        /**
+     *
+     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     */
+    @isTest
+    static void checkIfBugCorrectionIsFlagedScenarioFalse(){
+        String nameOfRecording = 'asali';
+        Test.startTest();
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Duration_In_MS_To_Correct_A_Bug__c = 600000;
+        update workRecord;
+        Test.stopTest();
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        Boolean realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(false, 
+                            realFlag, 
+                            'Flag__c does not work troperly.'
                             );
     }
 }

@@ -94,6 +94,17 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_In_String_To_Respond_To_A_US__c
                         newWork.Duration_In_String_To_Respond_To_A_US__c = UTIL_Duration.generateAStringFromMS(durationToRespondToBug);
                     }
+                    //Set Flag
+                    if(oldWork.Duration_In_MS_To_Respond_To_A_US__c != newWork.Duration_In_MS_To_Respond_To_A_US__c){
+                        Long millisecondsToRespondToAUS = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForUS(newWork);
+                        Long durationInMSToRespondToAUS = (Long)newWork.Duration_In_MS_To_Respond_To_A_US__c;
+                        if(millisecondsToRespondToAUS < durationInMSToRespondToAUS){
+                            newWork.Flag__c= true;
+                        }
+                        else if(durationInMSToRespondToAUS <= millisecondsToRespondToAUS){
+                            newWork.Flag__c= false;
+                        }
+                    }
                     //Conditions for Bug Type of records
                 }else if (newWorkRecordType == 'Bug'){
                     if (oldWork.agf__Status__c == 'New' && newWork.agf__Status__c != 'New'){
@@ -229,6 +240,28 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         // set field Duration_In_String_To_Correct_A_Bug__c
                         newWork.Duration_In_String_To_Correct_A_Bug__c = UTIL_Duration.generateAStringFromMS(durationToCorrectABug);
                         System.debug('I AM in condition of filling Duration_In_String_To_Correct_A_Bug__c');
+                    }
+                    //Set Flag
+                    if(oldWork.Duration_In_MS_To_Correct_A_Bug__c != newWork.Duration_In_MS_To_Correct_A_Bug__c){
+                        Long millisecondsTillCorrectionForBug = (Long)UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(newWork);
+                        Long durationInMSToCorrectABug = (Long)newWork.Duration_In_MS_To_Correct_A_Bug__c;
+                        if(millisecondsTillCorrectionForBug < durationInMSToCorrectABug){
+                            newWork.Flag__c= true;
+                        }
+                        else if(durationInMSToCorrectABug <= millisecondsTillCorrectionForBug){
+                            newWork.Flag__c= false;
+                        }
+                    }
+                    //Set Flag
+                    if(oldWork.Duration_In_MS_To_Respond_To_A_Bug__c != newWork.Duration_In_MS_To_Respond_To_A_Bug__c){
+                        Long millisecondsToRespondToABug = (Long)UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForBug(newWork);
+                        Long durationInMSToRespondToABug = (Long)newWork.Duration_In_MS_To_Respond_To_A_Bug__c;
+                        if(millisecondsToRespondToABug < durationInMSToRespondToABug){
+                            newWork.Flag__c= true;
+                        }
+                        else if(durationInMSToRespondToABug <= millisecondsToRespondToABug){
+                            newWork.Flag__c= false;
+                        }
                     }
                 }
 
