@@ -7,6 +7,7 @@
  * @Constructor : UTIL_Duration(DateTime, DateTime)
  * @Setup class and inner class : 
  * INDEX : GETER METHODS - METHODS WITH CONSTRUCTOR - STATIC METHODS - BOOLEAN STATIC METHODS
+ * Version : 2022 04 12
  ******************************************************************************* */
 public with sharing class UTIL_Duration {
     //COSNTANT Used in this class or in UTIL_Duration_Test

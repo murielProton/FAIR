@@ -11,6 +11,7 @@
  * @Inner class : LoopCount
  * @Exception class : I_TriggerHandlerException (native interface Exception)
  * Setup for test class : TriggerContext
+ * Version : 2022 04 12
  ******************************************************************************* */
 public abstract class I_TriggerHandler{
 

@@ -6,6 +6,7 @@
  * @Interface : I_TriggerHandler
  * @Constructor : None
  * @Parametters : None
+ * Version : 2022 04 12 
  ******************************************************************************* */
 public class TH_WorkTrigger extends I_TriggerHandler {
     /**This method acts before insert on sObject agf__ADM_Work__c.

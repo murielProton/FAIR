@@ -5,6 +5,7 @@
  * @Setup method :
  * @Setup class and inner class : 
  * THE CONSTANTS OF THIS CLASS are stored in class UTIL_Duration
+ * Version : 2022 04 12
  ******************************************************************************* */
 @isTest
 public with sharing class UTIL_Duration_Test {

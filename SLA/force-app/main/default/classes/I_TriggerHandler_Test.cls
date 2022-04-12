@@ -7,7 +7,7 @@
  * @Interface : I_TriggerHandler
  * @Setup method : from line 14 to 25 
  * @Setup class and inner class : TestHandler
- * 
+ * Version : 2022 04 12
  ******************************************************************************* */
 @isTest
 private class I_TriggerHandler_Test {
