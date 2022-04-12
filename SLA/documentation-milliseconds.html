@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Milliseconds</title>
+<meta charset="utf-8"/>
+</head>
+<body>
+    <h1>Milliseconds</h1>
+    <p>For this project you've got more than one possiblity to count days. The chosen one was to calculate a day as a number of 
+      hours within the Business Hours. At Modis, the day of work starts at 9h and ends at 17h30. This is legal terms. A day of 
+      work is 8,5 hours long ; or 8:30 long ; or 30 600 000 milliseconds long.
+      Business Hours, as Holiday is a native sObjet on your organisation.</p>
+    <p>You could mabe, use the folowing table to create custom meta data for 
+      this project.Use the folowing link : <a href="https://help.salesforce.com/s/articleView?id=sf.custommetadatatypes_overview.htm&type=5">
+      Salesforce</a>. The curent version of this project declare theese values as CONSTANTS in the class : UTIL_Duration.cls.</p>
+      <h2><b>WARNING</b></h2>
+      <p>If you changes these values in UTIL_Duration.cls it will change the way you mesure time.</p>
+      <p>If you change information on the sObject agf__ADM_User_Business_Hours__c, make sure that it matches the info on UTIL_Duration.cls as well.
+        The two are not linked and linking the two would be a great upgrade.</p>
+  
+    <table>
+        <tr>
+            <th>Time unit</th>
+            <th>Number of MS</th>
+            <th>Logic : A day of work begins at 9h and ends at 17h30</th>
+            <th>Number of MS counting Business Hours</th>
+        </tr>
+        <tr>
+            <td>Second</td>
+            <td>1000</td>
+            <td>No changes</td>
+            <td>1000</td>
+        </tr>
+        <tr>
+            <td>Minute</td>
+            <td>60000</td>
+            <td>No changes</td>
+            <td>60000</td>
+        </tr>
+        <tr>
+            <td>Hour</th>
+            <td>3600000</th>
+            <td>No changes</td>
+            <td>3600000</td>
+          </tr>
+          <tr>
+            <td>Day</td>
+            <td>86400000</td>
+            <td>8,5 hours in a day of work, french average x 30 600 000</td>
+            <td>30600000</td>
+          </tr>
+          <tr>
+            <td>Week</td>
+            <td>604800000</td>
+            <td>5 days of work in a week x 30 600 000</td>
+            <td>153000000</td>
+          </tr>
+          <tr>
+            <td>Month</th>
+            <td>2629800000</th>
+            <td>Average of 22 work day in france x 30 600 000</td>
+            <td>673200000</td>
+          </tr>
+          <tr>
+            <td>Year</td>
+            <td>31536000000</td>
+            <td>Average of 253 work day in france x 30 600 000</td>
+            <td>7741800000</td>
+          </tr>
+      </table>
+</body>
