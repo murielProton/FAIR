@@ -7,6 +7,7 @@
  * @Constructor : 
  * @Setup class and inner class : 
  * INDEX : GETER METHODS - METHODS WITH CONSTRUCTOR - STATIC METHODS - BOOLEAN STATIC METHODS
+ * Version : 12 april 2022
  ******************************************************************************* */
 public with sharing class UTIL_ServiceLevelAgreement {
     //CONSTANT Used in this class or in UTIL_ServiceLevelAgreement
@@ -40,6 +41,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     public UTIL_ServiceLevelAgreement() {
 
     }
+    //------------------------------------------------------TODO ---------------------------------------------
+
     /** TODO fill theese 3 DateTime : Deadline_SLA_Response_Time_On_Bug__c,
      *                                Deadline SLA Corrective Maintenance On Bug
      *                                Deadline_SLA_Corrective_Maintenance_On_Bug__c
@@ -70,85 +73,22 @@ public with sharing class UTIL_ServiceLevelAgreement {
      * The date will be within business hours.  The Trigger will fill this DateTime Type. If priority of the record changes this date can change too.
      * Help : This date is set based on the priority and the type of the record. It can be up to 6 days after the creation of the ticket.  
      */
-    //------------------------------------------------------GETER METHODS ---------------------------------------------
-    /** 
-     * get Date_Status_New_Starts__c
-     * Called by : 
-     * @Parametters : 
-     * @Returns : DateTime 
-     */
-    public static DateTime getDateStatusNewStarts(agf__ADM_Work__c workRecord){
-        return workRecord.Date_Status_New_Starts__c;
-    }
-    /** 
-     * get Date_Status_Workload_DONE_Ends__c
-     * Called by : 
-     * @Parametters : 
-     * @Returns : DateTime 
-     */
-    public static DateTime getDateStatusWorkloadDONEEnds(agf__ADM_Work__c workRecord){
-        return workRecord.Date_Status_Workload_DONE_Ends__c;
-    }
-    /** 
-     * get Date_Status_DEV_IP_Ends__c
-     * Called by : 
-     * @Parametters : 
-     * @Returns : DateTime 
-     */
-    public static DateTime getDateStatusDEVIPEnds(agf__ADM_Work__c workRecord){
-        return workRecord.Date_Status_DEV_IP_Ends__c;
-    }
-    /** 
-     * get Date_Status_Validated_TBD_Ends__c
-     * Called by : 
-     * @Parametters : 
-     * @Returns : DateTime 
-     */
-    public static DateTime getDateStatusValidatedTBDEnds(agf__ADM_Work__c workRecord){
-        return workRecord.Date_Status_Validated_TBD_Ends__c;
-    }
     /**
-     * get record type
-     * Called by : 
-     * @Parametters : 
-     * @Returns : String
+     *TODO returning a DateTime within Business Hours and taking into account Holidays
+     * This method adds a one day at a time each day it checks if the date is a holiday or within Business Hours
+     * Called by : TODO call this methode in an other that calculates the deadline for User Story, 
+     *              TODO call this one in an other method that does the same for a Bug response time and correction timing
+     * @Parametters : Long numberOfDays, DateTime dateOfReference, String businessHoursId, List<Holiday> listOfHolidays
+     * @Returns : Datetime
      */
-    public static String getRecordTypeDeveloperName(agf__ADM_Work__c workRecord){
-        String recordTypeDeveloperSName = Schema.SObjectType.agf__ADM_Work__c.getRecordTypeInfosById().get(workRecord.recordTypeId).getDeveloperName();
-        return recordTypeDeveloperSName;
-    }
-    /** 
-     * get record priority
-     * Called by : 
-     * @Parametters : 
-     * @Returns : String
-     */
-    public static String getRecordPriority(agf__ADM_Work__c workRecord){
-        return workRecord.agf__Priority__c;
-    }
-    /** 
-     * get record status
-     * Called by : 
-     * @Parametters : 
-     * @Returns : String
-     */
-    public static String getRecordStatus(agf__ADM_Work__c workRecord){
-        return workRecord.agf__Status__c;
-    }
-    /** 
-     * get Bypass_For_Corrective_Maintenance_On_Bug__c
-     * Called by : 
-     * @Parametters : 
-     * @Returns : boolean
-     */
-    public static boolean getRecordBypassForCorrectiveMaintenanceOnBugs(agf__ADM_Work__c workRecord){
-        return workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
-    }
+    /**
+    //------------------------------------------------------GETER METHODS ---------------------------------------------
     //------------------------------------------------------METHODS WITH CONSTRUCTOR ---------------------------------------------
     //------------------------------------------------------STATIC METHODS -------------------------------------------------------
     /**
      * Returning a number in MS that represents the time we have to respond to a User Story
-     * Called by : 
+     * This time is expressed in Milliseconds
+     * Called by : class TH_WorkTrigger
      * @Parametters : agf__ADM_Work__c workRecord
      * @Returns : Long
      */
@@ -164,7 +104,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     }
     /**
      * Returning a number in MS that represents the time we have to respond to a Bug
-     * Called by : 
+     * This time is expressed in Milliseconds
+     * Called by : class TH_WorkTrigger
      * @Parametters : agf__ADM_Work__c workRecord
      * @Returns : Long
      */
@@ -183,7 +124,8 @@ public with sharing class UTIL_ServiceLevelAgreement {
     }
     /**
      * Returning a number in MS that represents the time we have to correct a Bug
-     * Called by : 
+     * This time is expressed in Milliseconds
+     * Called by : class TH_WorkTrigger
      * @Parametters : agf__ADM_Work__c workRecord
      * @Returns : Long
      */
@@ -214,24 +156,11 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return responsTimeForBug;
     }
-    /**
-     * returning a DateTime within Business Hours and taking into account Holidays
-     * This method adds a one day at a time each day it checks if the 
-     * Called by : 
-     * @Parametters : Long numberOfDays, DateTime dateOfReference
-     * @Returns : Datetime
-     */
-    /*public static DateTime addingOneDayAtATimeWithinBusinessHoursNotIncludingHolidays(Long numberOfDays, DateTime dateOfReference){
-        DateTime dateTimeToAddTo = dateOfReference;
-        for(Integer i =0 ; i < numberOfDays ; i++){
-            
-        }
-    }*/
-    /**
+    /*
      * returning a DateTime within Business Hours and taking into account Holidays
      * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
-     * Called by : 
-     * @Parametters : 
+     * Called by : this methode is not used but could be usefull.
+     * @Parametters : String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert
      * @Returns : Datetime
      */
     public static DateTime getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert){
@@ -424,32 +353,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
                                         (Long)workRecord.Duration_MS_Status_Workload_DONE__c;
         return numberOfMSToRespondToAUS;
     }
-    /** TODO
-     * Adding MS to a DateTime within Business Hours and taking into account Holidays
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Datetime
-     */
-    /*public static DateTime searchingForDeadline(String businessHoursId, Datetime startDateTime, Long lengthOfTimeToAddInMS, List<Holiday> listOfHolidays){
-        DateTime startDateTimeToTest = startDateTime;
-        DateTime deadlineToTest;
-        //If lengthOfTimeToAddInMS is inferior to a Day (UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY)
-        if(lengthOfTimeToAddInMS < UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY){
-           
-            return startDateTimeToTest;
-        }else if (lengthOfTimeToAddInMS > UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY){
 
-        }else {
-            System.debug('lengthOfTimeToAddInMS was not defined in UTIL_ServiceLevelAgreement.searchingForDeadline.')
-        }
-
-    }*/
-    /** TODO
-     * Adding Days to a DateTime within Business Hours and taking into account Holidays
-     * Called by : 
-     * @Parametters : 
-     * @Returns : Datetime
-     */
     //------------------------------------------------------BOOLEAN STATIC METHODS -----------------------------------------------
    
 }
