@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Labels</title>
+<meta charset="utf-8"/>
+</head>
+<body>
+    <section>
+        <h1>List of new labels to create</h1>
+        <div>
+            <h2><b>Field Label : </b>Date Status New Ends</h2>
+            <p><b>API Name : </b>Date_Status_New_Starts__c</p>
+            <p><b>Description : </b>When a new record of Work is created this date is field by a trigger.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status New Ends</h2>
+            <p><b>API Name : </b>Date_Status_New_Ends__c</p>
+            <p><b>Description : </b>When a new record of agf_Work is updated and Status is filled with an other value this date is field by a trigger.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>This field can be seen by System Administrator only. And Read only is applied in Layout.</b></p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status New</h2>
+            <p><b>API Name : </b>Duration_MS_Status_New__c</p>
+            <p><b>Description : </b>If the Status of this recording is changed from New to any thing else, the trigger on sObject Work will update this field with a duration in millisecond. It will then be used by the same trigger to update an other field with the same duration in String.</p>
+            <p><b>Help : </b>stores Long type numbers</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Default Value </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+            <p><b>… </b></p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status OK For DEV Starts</h2>
+            <p><b>API Name : </b>Date_Status_OK_For_DEV_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to 'OK For DEV', this date is set by the trigger on this sObject. It is then used to calculate the field 'Duration MS Status OK For DEV'. This field is only used by User Stories.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>none</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Only Added to User Stories</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV IP Starts</h2>
+            <p><b>API Name : </b>Date_Status_DEV_IP_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Date Status DEV IP Starts, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV IP.</p>
+            <p><b>Help : </b>IP stands for In Progress</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV TBT Starts</h2>
+            <p><b>API Name : </b>Date_Status_DEV_TBT_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Date Status DEV TBT Starts, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV TBT.</p>
+            <p><b>Help : </b>TBT stands for To Be Tested</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV TBD UAT Starts</h2>
+            <p><b>API Name : </b>Date_Status_DEV_TBD_UAT_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Date Status DEV TBD UAT Starts, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV TBD UAT.</p>
+            <p><b>Help : </b>TBD stands for To Be Deployed and UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status UAT To Fix Starts</h2>
+            <p><b>API Name : </b>Date_Status_UAT_To_Fix_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Date Status UAT To Fix Starts, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status UAT To Fix.</p>
+            <p><b>Help : </b>UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status UAT TBD PROD Starts</h2>
+            <p><b>API Name : </b>Date_Status_UAT_TBD_PROD_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Date Status UAT TBD PROD Starts, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status UAT TBD PROD.</p>
+            <p><b>Help : </b>UAT stands for Users Acceptance Testing and TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status PROD To Fix Starts</h2>
+            <p><b>API Name : </b>Date_Status_PROD_To_Fix_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to 'PROD – To Fix', this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status PROD To Fix.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status Validated TBD Starts</h2>
+            <p><b>API Name : </b>Date_Status_Validated_TBD_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to Validated TBD, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status Validated TBD Starts.</p>
+            <p><b>Help : </b>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status Workload DONE Starts</h2>
+            <p><b>API Name : </b>Date_Status_Workload_DONE_Starts__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is set to 'Workload DONE', this date is set by the trigger on this sObject. It is then used to calculate the field 'Duration MS Status Workload DONE'.</p>
+            <p><b>Help : </b>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Only Added to User Stories layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status Workload DONE Ends</h2>
+            <p><b>API Name : </b>Date_Status_Workload_DONE_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'Workload DONE' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field 'Duration MS Status Workload DONE'.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Only Added to User Stories layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV IP Ends</h2>
+            <p><b>API Name : </b>Date_Status_DEV_IP_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'to DEV IP' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV IP.</p>
+            <p><b>Help : </b>IP stands for In Progress</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV TBT Ends</h2>
+            <p><b>API Name : </b>Date_Status_DEV_TBT_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'to DEV TBT' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV TBT.</p>
+            <p><b>Help : </b>TBT stands for To Be Tested</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+            <p><b>… </b></p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status DEV TBD UAT Ends</h2>
+            <p><b>API Name : </b>Date_Status_DEV_TBD_UAT_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'To DEV TBD UAT' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status DEV TBD UAT.</p>
+            <p><b>Help : </b>TBD statnds for To Be Deployed and UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status UAT To Fix Ends</h2>
+            <p><b>API Name : </b>Date_Status_UAT_To_Fix_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'To UAT To Fix' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status UAT To Fix.</p>
+            <p><b>Help : </b>UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status UAT TBD PROD Ends</h2>
+            <p><b>API Name : </b>Date_Status_UAT_TBD_PROD_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed 'to UAT TBD PROD' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status UAT TBD PROD.</p>
+            <p><b>Help : </b>UAT stands for Users Acceptance Testing and TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status Validated TBD Ends</h2>
+            <p><b>API Name : </b>Date_Status_Validated_TBD_Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed 'to Validated TBD' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status Validated TBD Starts.</p>
+            <p><b>Help : </b>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status OK For DEV Ends</h2>
+            <p><b>API Name : </b>Date_Status_OK_For_DEV _Ends__c</p>
+            <p><b>Description : </b>On the sObject agf__ADM_Work__c, if and when a status is changed from 'OK For DEV' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status 'OK For DEV'.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Date Status PROD To Fix Ends</h2>
+            <p><b>API Name : </b>Date_Status_PROD_To_ Fix _Ends__c</p>
+            <p><b>Description : </b> On the sObject agf__ADM_Work__c, if and when a status is changed from 'PROD To Fix' to any other, this date is set by the trigger on this sObject. It is then used to calculate the field Duration MS Status 'PROD To Fix'.</p>
+            <p><b>Help : </b></p>
+            <p><b>Type : </b>Date/Time</p>
+            <p><b>Default Value : </b>NONE</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status OK For DEV</h2>
+            <p><b>API Name : </b>Duration_MS_Status_OK_For_DEV__c</p>
+            <p><b>Description : </b> If the Status of this recording changes from 'OK For DEV' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_OK_For_DEV__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers</p><br>MS stands for millisecond
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status DEV IP</h2>
+            <p><b>API Name : </b>Duration_MS_Status_DEV_IP__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'DEV IP' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_DEV_IP__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers<br>IP stands for In Progress</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status DEV TBT</h2>
+            <p><b>API Name : </b>Duration_MS_Status_DEV_TBT__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'DEV TBT' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_DEV_TBT__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status DEV TBD UAT</h2>
+            <p><b>API Name : </b>Duration_MS_Status_DEV_TBD_UAT__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'DEV TBD UAT' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_DEV_TBD_UAT__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers<br>TBD stands for To Be Deployed and UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status UAT To Fix</h2>
+            <p><b>API Name : </b>Duration_MS_Status_UAT_To_Fix__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'UAT To Fix' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_UAT_To_Fix__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers<br>UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status UAT TBD PROD</h2>
+            <p><b>API Name : </b>Duration_MS_Status_UAT_TBD_PROD__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'UAT TBD PROD' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_UAT_TBD_PROD__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers<br>UAT stands for Users Acceptance Testing</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status Validated TBD</h2>
+            <p><b>API Name : </b>Duration_MS_Status_Validated_TBD__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'Validated TBD' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_Validated_TBD__c and to calculate the time it took to deal with this recording.</p>
+            <p><b>Help : </b>stores Long type numbers<br>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status PROD To Fix</h2>
+            <p><b>API Name : </b>Duration_MS_Status_PROD_To _Fix__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'PROD To Fix' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_PROD_To _Fix__c and to calculate the time it took to deal with this recording. The time is expressed in milliseconds.</p>
+            <p><b>Help : </b>stores Long type numbers<br>MS stands for milliseconds<br>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration MS Status Workload DONE</h2>
+            <p><b>API Name : </b>Duration_MS_Status_Workload_DONE__c</p>
+            <p><b>Description : </b>If the Status of this recording changes from 'Workload DONE' to any other, this duration will be set by a trigger. This field will be used by the same trigger to update Duration_String_Status_Workload_DONE__c and to calculate the time it took to deal with this recording. The time is expressed in milliseconds.</p>
+            <p><b>Help : </b>stores Long type numbers<br>MS stands for milliseconds<br>TBD stands for To Be Deployed</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Length :  </b>18</p>
+            <p><b>Decimal Places :  </b>0</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status New</h2>
+            <p><b>API Name : </b>Duration_String_Status_New__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from New to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status Workload DONE</h2>
+            <p><b>API Name : </b>Duration_String_Status_Workload_DONE__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'Workload DONE’ to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Only Added to all layouts for Record Types User Story</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status OK For DEV</h2>
+            <p><b>API Name : </b>Duration_String_Status_OK_For_DEV__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'OK For DEV' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status DEV IP</h2>
+            <p><b>API Name : </b>Duration_String_Status_DEV_IP__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'DEV in Progress' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status DEV TBT</h2>
+            <p><b>API Name : </b>Duration_String_Status_DEV_TBT__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'DEV To Be Tested' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status DEV TBD UAT</h2>
+            <p><b>API Name : </b>Duration_String_Status_DEV_TBD_UAT__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'DEV To Be Deployed in UAT' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status UAT To Fix</h2>
+            <p><b>API Name : </b>Duration_String_Status_UAT_To_Fix__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'UAT To Fix' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status UAT TBD PROD</h2>
+            <p><b>API Name : </b>Duration_String_Status_UAT_TBD_PROD__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'UAT To Be Deployed in PROD' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status PROD To Fix</h2>
+            <p><b>API Name : </b>Duration_String_Status_PROD_To_Fix__c</p>
+            <p><b>Description : </b>If the Status of this reccording is changed from 'PROD To Fix' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration String Status Validated TBD</h2>
+            <p><b>API Name : </b>Duration_String_Status_Validated_TBD__c</p>
+            <p><b>Description : </b> If the Status of this reccording is changed from 'Validated To Be Deployed' to any thing else, the trigger on sObject Work will update this field with a duration expressed in English.</p>
+            <p><b>Help : </b>stores up to 255 characters</p>
+            <p><b>Type : </b>Text Area</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by All.</p>
+            <p><b>Layouts : </b>Added to all layouts</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In MS To Respond To A Bug</h2>
+            <p><b>API Name : </b>Duration_In_MS_To_Respond_To_A_Bug__c</p>
+            <p><b>Description : </b>This field helps to know if the ticket first response is over due. It will not represent a real time progress on the matter. It is a number of milliseconds. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Help : </b>This field is Duration_MS_Status_New__c. It is a number of miliseconds. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Decimal Places : </b>0</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to Bug layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In MS To Correct A Bug</h2>
+            <p><b>API Name : </b>Duration_In_MS_To_Correct_A_Bug__c</p>
+            <p><b>Description : </b>This field helps to know if the time to correct the bug is over due. It is the addition of 7 fields : Duration_MS_Status_DEV_IP__c., Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c , and Duration_MS_Status_Validated_TBD__c. It is a number of milliseconds. It will not represent a real time progress on the matter. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Help : </b>Addition of Duration_MS_Status_DEV_IP__c., Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c , and Duration_MS_Status_Validated_TBD__c. It is a number of milliseconds.  It is not a real time estimation. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Decimal Places : </b>0</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to Bug layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In MS To Respond To A US</h2>
+            <p><b>API Name : </b>Duration_In_MS_To_Respond_To_A_US__c</p>
+            <p><b>Description : </b>This field helps to know if the time to answer to a User Story is over due. It is the addition of  2 fields : Duration_MS_Status_New__c and Duration_MS_Status_Workload_DONE__c. It is a number of milliseconds. It will not represent a real time progress on the matter. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Help : </b>Addition of 3 fields : Duration_MS_Status_New__c and Duration_MS_Status_Workload_DONE__c. It is a number of millisecond. It is not a real time estimation. It is not a real time estimation. It is filled by TH_WorkTrigger.</p>
+            <p><b>Type : </b>Number</p>
+            <p><b>Decimal Places : </b>0</p>
+            <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to User Story layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In String To Respond To A Bug</h2>
+            <p><b>API Name : </b>Duration_In_String_To_Respond_To_A_Bug__c</p>
+            <p><b>Description : </b>This field helps to know if the ticket first response is over due. It is the equivalent of field : Duration_MS_Status_New__c . It will not represent a real time progress on the matter. It is a length of time expresssed in English.</p>
+            <p><b>Help : </b>This duration is express in English. This field is filled by TH_WorkTrigger. It is not a real time estimation. </p>
+            <p><b>Type : </b>Text Area (long)</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by all. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to Bug layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In String To Correct A Bug</h2>
+            <p><b>API Name : </b>Duration_In_String_To_Correct_A_Bug__c</p>
+            <p><b>Description : </b>This field helps to know if the time to correct the bug is over due. It is the addition of 7 fields : Duration_MS_Status_DEV_IP__c., Duration_MS_Status_DEV_TBT__c , Duration_MS_Status_DEV_TBD_UAT__c , Duration_MS_Status_UAT_To_Fix__c, Duration_MS_Status_UAT_TBD_PROD__c , Duration_MS_Status_PROD_To_Fix__c , and Duration_MS_Status_Validated_TBD__c. It is expressed in English. It will not represent a real time progress on the matter. </p>
+            <p><b>Help : </b>This duration is express in English. This field is filled by TH_WorkTrigger. It is not a real time estimation. </p>
+            <p><b>Type : </b>Text Area (long)</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by all. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to Bug layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Duration In String To Respond To A US</h2>
+            <p><b>API Name : </b>Duration_In_String_To_Respond_To_A_US__c</p>
+            <p><b>Description : </b>This field helps to know if the time to answer to a User Story is over due. It is the addition of 2 fields : Duration_MS_Status_New__c and Duration_MS_Status_Workload_DONE__c. It is a length of time expressed in English. It will not represent a real time progress on the matter. </p>
+            <p><b>Help : </b>This duration is express in English. This field is filled by TH_WorkTrigger. It is not a real time estimation. </p>
+            <p><b>Type : </b>Text Area (long)</p>
+            <p><b>Default Value : </b>No value, no formula</p>
+            <p>This field can be seen by all. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to User Story layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Bypass For Corrective Maintenance On Bugs</h2>
+            <p><b>API Name : </b>Bypass_For_Corrective_Maintenance_On_Bug__c</p>
+            <p><b>Description : </b>When a record type Bug can be circumvented this box is checked. This filed influences the seting of Deadline_SLA_Corrective_Maintenance_On_Bug__c.</p>
+            <p><b>Help : </b>When a record type Bug can be circumvented this box is checked. This filed influences the seting of Deadline_SLA_Corrective_Maintenance_On_Bug__c.</p>
+            <p><b>Type : </b>Checkbox</p>
+            <p><b>Default Value : </b>Unchecked</p>
+            <p>This field can be seen by all. </p>
+            <p><b>Layouts : </b>Added to Bug layouts only</p>
+        </div>
+        <div>
+            <h2><b>Field Label : </b>Flag</h2>
+            <p><b>API Name : </b>Flag__c</p>
+            <p><b>Description : </b>When a record time of response or corrective maintenance exceeds the service level agreements this field will be true.</p>
+            <p><b>Help : </b>This checkbox is automatically checked by the trigger when the timing agreed on the service level agreements is exceeded.</p>
+            <p><b>Type : </b>Checkbox</p>
+            <p><b>Default Value : </b>Unchecked</p>
+            <p>This field can be seen by all. And Read only is applied in Layout.</p>
+            <p><b>Layouts : </b>Added to All layouts</p>
+        </div>
+    </section>
+    <section>
+        <h1>Layouts</h1>
+        <div>
+            <p>1 - On layout : Bug Layout, Bug Layout (Admin), Bug Layout (QA Manager), Bug Template, User Story</p>
+            <ul>
+                <li>Add a section named : Status and Duration</li>
+                <li>Place all the new fields into this section, organise the layout to please the users.</li>
+                <li>Place Status at the top of this section.</li>
+                <li>Add a read only on all the fields but Status.</li>
+            </ul>
+            <a>The order of the fields must folow the patern of the status, as folow :</a>
+            <ol>
+                <li>New</li>
+                <li>Workload DONE</li>
+                <li>OK For DEV</li>
+                <li>DEV – In Progress</li>
+                <li>DEV – To Be Tested</li>
+                <li>DEV – To Be Deployed in UAT</li>
+                <li>UAT – To Fix</li>
+                <li>UAT – To Be Deployed in PROD</li>
+                <li>PROD - To Fix</li>
+                <li>Validated – To Be Deployed</li>
+              </ol>
+            <p>2 - On layout : Bug Layout, Bug Layout (Admin), Bug Layout (QA Manager), Bug Template, User Story</p>
+            <ul>
+                <li>Add a section named : Service Level Agreements</li>
+                <li>Place all the folowing fields into this section :
+                    <li>Duration_In_MS_To_Respond_To_A_US__c</li>
+                    <li>Duration_In_MS_To_Respond_To_A_Bug__c</li>
+                    <li>Duration_In_MS_To_Correct_A_Bug__c</li>
+                    <li>Duration_In_String_To_Respond_To_A_US__c</li>
+                    <li>Duration_In_String_To_Respond_To_A_Bug__c</li>
+                    <li>Duration_In_String_To_Correct_A_Bug__c</li>
+                    <li>Bypass_For_Corrective_Maintenance_On_Bug__c</li>
+                    <li>Flag__c</li>
+                </li>
+                <li>Organise the layout to please the users.</li>
+                <li>Add a read only on all the fields but Flag__c and Bypass_For_Corrective_Maintenance_On_Bug__c.</li>
+            </ul>  
+        </div>
+</body>
+</html>
