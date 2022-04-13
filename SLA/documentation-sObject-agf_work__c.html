@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>agf__ADM_Work__c</title>
+<meta charset="utf-8"/>
+</head>
+<body>
+    <h1>agf__ADM_Work__c</h1>
+    <h2>Intallation</h2>
+    <p>In order for this project to work, you need to install the package "Salesforce Agile Accelerator 1.158".</p>
+    <p>If you succeed you will see this message :</p>
+    <p>Organization: Modis (00D7Q000003RVMX)</p>
+    <p>User: ants organised (0057Q0000021pcw)</p>
+    <p>Package: Salesforce Agile Accelerator (04t3l000000cUqx)</p>
+    <br>
+    <p>Some components, such as custom objects, custom report types, and workflow rules, must be activated using the package deploy process,
+     before they are available to your organization.</p>
+    <p>This popup will only apear if you install this package from a Chrom browther.</p>
+    <h2>Getting started</h2>
+    <p>Add some Team Members in this new application.</p>
+    <h2>Warnings</h2>
+    <p>This is a <b>managed package (paquet managé).</b> While you code in you favorit IDE you will not be able to upload its custom sObject.
+    Visual Studio Code does not alow it. But you can work localy without havig the sObject implementation localy. Basicaly it means you will
+    have to run your tests from de Saleforce Developpers Console.
+    </p>
+    <h2>Major BUG</h2>
+    <p>Imediataly after installing your new app, creating a new record on sObject agf__ADM_Work__c, will be impossible. It is due to an 
+        endless loop in the creation procees of a new reccord on agf__ADM_Work__c. A new record Work needs a 'Product Tag', which needs a Team.
+        And a Team needs at least two Team Membesr to exist.
+    </p>
+    <p>Work &#8592; Product Tag &#8592; Team &#8592;&#8594; 2 Team Members &#8592; Users</p>
+
+    <h3>Step 1</h3>
+    <p>Go to the Setup of this organasation.</p>
+    <p><b> 1- Go to the layouts of agf__ADM_Work__c : </b></p>
+    <p>Make sure the only required fields are the folowing :</p>
+    <ul>
+        <li>Subject</li>
+        <li>Product Tag</li>
+        <li>Priority</li>
+        <li>Status</li>
+        <li>Found in Build</li>
+    </ul>
+    <p><b> 2- Go to the layouts of agf__ADM_Scrum_Team__c : </b></p>
+    <p>Make sure the only required field is the folowing :</p>
+    <ul>
+        <li>Team Name</li>
+    </ul>
+    <p><b> 3- Go to the layouts of agf__ADM_Product_Tag__c : </b></p>
+    <p>Make sure the only required fields are the folowing :</p>
+    <ul>
+        <li>Product Tag Name</li>
+        <li>Team</li>
+    </ul>
+    <p><b> 4- Go to the layouts of agf__ADM_Scrum_Team_Member__c : </b></p>
+    <p>Make sure the only required field is the folowing :</p>
+    <ul>
+        <li>Team</li>
+    </ul>
+    <h3>Step 2</h3>
+    <p>In you organasation create :</p>
+    <ul>
+        <li>2 Teams Members</li>
+        <li>at least one Team</li>
+        <li>at least one Product Tag</li>
+        <li>finaly a record Work</li>
+    </ul>
+    <p>While you create thoese new reccord, you will notice that some fields are required but are not stamped with a red star. Take notes 
+        and go to each layouts and check the boxes 'required' for each 'real' mandatory fields.
+    </p>
+</body>
