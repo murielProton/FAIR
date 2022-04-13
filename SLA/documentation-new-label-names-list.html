@@ -7,6 +7,10 @@
 <body>
     <section>
         <h1>List of new labels to create</h1>
+        <p>The folowing labels need to be created on  the sObjce agf__ADM_Work__c. This is how it was set in this version. You could always 
+            imagin updating this project by creating a sObject Duration__c and a sObjcet SlA__c. But this version does not support such design.
+             All the folowing new fields are set on agf__ADM_Work__c.
+        </p>
         <div>
             <h2><b>Field Label : </b>Date Status New Ends</h2>
             <p><b>API Name : </b>Date_Status_New_Starts__c</p>
@@ -205,7 +209,7 @@
             <p><b>Type : </b>Date/Time</p>
             <p><b>Default Value : </b>NONE</p>
             <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
-            <p><b>Layouts : </b>Added to all layouts</p>
+            <p><b>Layouts : </b>Added to User Story Layout</p>
         </div>
         <div>
             <h2><b>Field Label : </b>Date Status PROD To Fix Ends</h2>
@@ -227,7 +231,7 @@
             <p><b>Decimal Places :  </b>0</p>
             <p><b>Default Value : </b>No value, no formula</p>
             <p>This field can be seen by System Administrator only. And Read only is applied in Layout.</p>
-            <p><b>Layouts : </b>Added to all layouts</p>
+            <p><b>Layouts : </b>Add it to User Story Layout</p>
         </div>
         <div>
             <h2><b>Field Label : </b>Duration MS Status DEV IP</h2>
@@ -353,7 +357,7 @@
             <p><b>Type : </b>Text Area</p>
             <p><b>Default Value : </b>No value, no formula</p>
             <p>This field can be seen by All.</p>
-            <p><b>Layouts : </b>Added to all layouts</p>
+            <p><b>Layouts : </b>Added to Uster Story Layout only</p>
         </div>
         <div>
             <h2><b>Field Label : </b>Duration String Status DEV IP</h2>
@@ -498,12 +502,22 @@
         <div>
             <h2><b>Field Label : </b>Flag</h2>
             <p><b>API Name : </b>Flag__c</p>
-            <p><b>Description : </b>When a record time of response or corrective maintenance exceeds the service level agreements this field will be true.</p>
-            <p><b>Help : </b>This checkbox is automatically checked by the trigger when the timing agreed on the service level agreements is exceeded.</p>
-            <p><b>Type : </b>Checkbox</p>
+            <p><b>Description : </b>When a record time of response or corrective maintenance exceeds the service level agreements 
+                this field will be 'YES', and it's color will change from green to red.</p>
+            <p><b>Help : </b>This picklist is automaticaly set by the trigger when the timing agreed on the service level agreements is exceeded.</p>
+            <p><b>Type : </b>Picklist</p>
+            <p><b>Enter values, with each value separated by a new line : </b><ul><li>no</li><li>YES</li></ul></p>
+            <ul><li>Display values alphabetically, not in the order entered</li>
+                <li>Use first value as default value</li>
+                <li>Restrict picklist to the values defined in the value set</li></ul>
             <p><b>Default Value : </b>Unchecked</p>
             <p>This field can be seen by all. And Read only is applied in Layout.</p>
             <p><b>Layouts : </b>Added to All layouts</p>
+            <p>After you have saved the field, go to the detail page of this field. In the section Values make sure 'No' is the default value.
+                <ul><li>Clic on the button Edit to 'No', to assign dynamically the color green to this value in 'Chart Color'.</li>
+                    <li>Clic on the button Edit to 'YES', to assign dynamically the color red to this value in 'Chart Color'.</li>
+                </ul>
+            </p>
         </div>
     </section>
     <section>

@@ -1411,8 +1411,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(false, 
+        String expectedFlag ='no';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1430,8 +1431,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(true, 
+        String expectedFlag ='YES';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1449,8 +1451,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(false, 
+        String expectedFlag = 'no';
+        String  realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1468,8 +1471,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(true, 
+        String expectedFlag = 'YES';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1487,8 +1491,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(false, 
+        String expectedFlag = 'no';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1506,8 +1511,9 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(true, 
+        String expectedFlag = 'YES';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
@@ -1521,12 +1527,13 @@ public without sharing class TH_WorkTrigger_Test {
         String nameOfRecording = 'asali';
         Test.startTest();
         agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
-        workRecord.Duration_In_MS_To_Correct_A_Bug__c = 600000;
+        workRecord.Duration_In_MS_To_Correct_A_Bug__c = 60000;
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        Boolean realFlag = workRecordAfterUpdate.Flag__c;
-        System.assertEquals(false, 
+        String expectedFlag = 'no';
+        String realFlag = workRecordAfterUpdate.Flag__c;
+        System.assertEquals(expectedFlag, 
                             realFlag, 
                             'Flag__c does not work troperly.'
                             );
