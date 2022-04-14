@@ -1,18 +1,26 @@
-# Salesforce DX Project: Next Steps
+# What was this project for ?
+This project was developped to meet functionnal needs on Service Level Agreements. It highlights the time a ticket takes to pass from one status to an other. It is a Salesforce project based on the sObject agf__ADM_Work__c.
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+## Durations || Length of Time || period
 
-## How Do You Plan to Deploy Your Changes?
+As you probably know, Apex does not have the variable type Duration yet. The project uses long. There you'd think it's a simple minus application. Bud no, because this project also takes into account Business Hours and Holidays !
+Apex permits calculation of a lengths of time within Business Hours. No native method in Apex to calculate durations without Holidays. 
+In this project you'll find several methods to calculate periods of time within Business Hours and exluding Holidays. You'll find this sort of methods within the class  UTIL_Duration. The method calculateDurationInfMS() calculates a lenght of time within Business Hours and without Holidays, using a constructor.
+All calculations are done with milliseconds, using type long.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+## Service Level Agreement || SLA
 
-## Configure Your Salesforce DX Project
+Every structure needs to monitor the lives of tickets. Modis has it's own SLA. The class UTIL_ServiceLevelAgreement deals with this type of data.
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+## Package Salesforce Agile Accelerator 1.158
 
-## Read All About It
+The master beam of this project is the package Agile Accelerator. All the developpement has it's roots on the sObjcet agf__ADM_Work__c, which is a component of this package. You'll find informations on how to install this projects int the documentation-sObject-agf_work__c.html file.
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+## Business Hours and Holidays
+
+Business Hours and Holidays are special native Salesforce sObjects. 
+You can learn more on Business Hours : https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_classes_businesshours.htm.
+If you are interested in the sObject Holidays : https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_holiday.htm.
+This project has helping informations on both matters :
+- documentation-business_hours.html
+- documentation-holidays.html
