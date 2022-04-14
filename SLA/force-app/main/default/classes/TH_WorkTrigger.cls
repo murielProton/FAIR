@@ -100,10 +100,10 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         Long millisecondsToRespondToAUS = UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForUS(newWork);
                         Long durationInMSToRespondToAUS = (Long)newWork.Duration_In_MS_To_Respond_To_A_US__c;
                         if(millisecondsToRespondToAUS < durationInMSToRespondToAUS){
-                           newWork.Flag__c= 'YES';
+                           newWork.Flags_Halyard__c= true;
                         }
                         else if(durationInMSToRespondToAUS <= millisecondsToRespondToAUS){
-                           newWork.Flag__c= 'no';
+                           newWork.Flags_Halyard__c= false;
                         }
                     }
                     //Conditions for Bug Type of records
@@ -247,10 +247,10 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         Long millisecondsTillCorrectionForBug = (Long)UTIL_ServiceLevelAgreement.howLongTillCorrectionIsMandatoryForBug(newWork);
                         Long durationInMSToCorrectABug = (Long)newWork.Duration_In_MS_To_Correct_A_Bug__c;
                         if(millisecondsTillCorrectionForBug < durationInMSToCorrectABug){
-                           newWork.Flag__c= 'YES';
+                           newWork.Flags_Halyard__c= true;
                         }
                         else if(durationInMSToCorrectABug <= millisecondsTillCorrectionForBug){
-                            newWork.Flag__c= 'no';
+                            newWork.Flags_Halyard__c= false;
                         }
                     }
                     //Set Flag
@@ -258,10 +258,10 @@ public class TH_WorkTrigger extends I_TriggerHandler {
                         Long millisecondsToRespondToABug = (Long)UTIL_ServiceLevelAgreement.howLongTillResponseIsMandatoryForBug(newWork);
                         Long durationInMSToRespondToABug = (Long)newWork.Duration_In_MS_To_Respond_To_A_Bug__c;
                         if(millisecondsToRespondToABug < durationInMSToRespondToABug){
-                           newWork.Flag__c= 'YES';
+                           newWork.Flags_Halyard__c= true;
                         }
                         else if(durationInMSToRespondToABug <= millisecondsToRespondToABug){
-                           newWork.Flag__c= 'no';
+                           newWork.Flags_Halyard__c= false;
                         }
                     }
                 }

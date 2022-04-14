@@ -500,24 +500,31 @@
             <p><b>Layouts : </b>Added to Bug layouts only</p>
         </div>
         <div>
+            <h2><b>Field Label : </b>Flags Halyard</h2>
+            <p><b>API Name : </b>Flags_Halyard__c</p>
+            <p><b>Description : </b>When a record time of response or corrective maintenance exceeds the service level agreements 
+                this field will be set to true. It will the be used by Flag__c to. This field is set by WorkTrigger.</p>
+            <p><b>Help : </b>This picklist is automaticaly set WorkTrigger when the timing agreed on the service level 
+                agreements is exceeded.
+            </p>
+            <p><b>Default Value : </b>Unchecked</p>
+            <p><b>Visibility : </b>This field can be seen by System Administrator only.</p>
+            <p><b>Layouts : </b>Added to All layouts</p>
+        </div>
+        <div>
             <h2><b>Field Label : </b>Flag</h2>
             <p><b>API Name : </b>Flag__c</p>
             <p><b>Description : </b>When a record time of response or corrective maintenance exceeds the service level agreements 
-                this field will be 'YES', and it's color will change from green to red.</p>
-            <p><b>Help : </b>This picklist is automaticaly set by the trigger when the timing agreed on the service level agreements is exceeded.</p>
-            <p><b>Type : </b>Picklist</p>
-            <p><b>Enter values, with each value separated by a new line : </b><ul><li>no</li><li>YES</li></ul></p>
-            <ul><li>Display values alphabetically, not in the order entered</li>
-                <li>Use first value as default value</li>
-                <li>Restrict picklist to the values defined in the value set</li></ul>
-            <p><b>Default Value : </b>'no'</p>
+                this field will display a red flag other wise a green one. It is linked with Flags_Halyard__c.</p>
+            <p><b>Help : </b>If Flags_Halyard__c is checked this field will display a  red flag.</p>
+            <p><b>Type : </b>Formula</p>
+            <p><b>Advanced Formula : </b>IF(Flags_Halyard__c = TRUE ,<br>
+                IMAGE("/img/samples/flag_red.gif", "Red Flag"),<br> 
+                IMAGE("/img/samples/flag_green.gif","Green Flag"))</p>
+            <p><b>Default Value : </b></p>
             <p>This field can be seen by all. And Read only is applied in Layout.</p>
+            <p><b>Treat blank fields as blanks : </b>checked</p>
             <p><b>Layouts : </b>Added to All layouts</p>
-            <p>After you have saved the field, go to the detail page of this field. In the section Values make sure 'No' is the default value.
-                <ul><li>Clic on the button Edit to 'No', to assign dynamically the color green to this value in 'Chart Color'.</li>
-                    <li>Clic on the button Edit to 'YES', to assign dynamically the color red to this value in 'Chart Color'.</li>
-                </ul>
-            </p>
         </div>
     </section>
     <section>

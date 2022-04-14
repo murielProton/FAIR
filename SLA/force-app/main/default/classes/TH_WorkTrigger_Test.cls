@@ -75,7 +75,7 @@ public without sharing class TH_WorkTrigger_Test {
                                         Duration_In_String_To_Respond_To_A_US__c,
                                         Duration_In_String_To_Respond_To_A_Bug__c,
                                         Duration_In_String_To_Correct_A_Bug__c,
-                                        Flag__c
+                                        Flags_Halyard__c
                                 FROM agf__ADM_Work__c
                                 WHERE agf__Subject__c = :subjectOnWork
                                 ];
@@ -1397,10 +1397,10 @@ public without sharing class TH_WorkTrigger_Test {
                             'The field Duration_In_String_To_Correct_A_Bug__c on agf__ADM_Work__c is not filed correctly.'
                             );
     }
-    //----------------------------------------------------- CHECK Flag__c -------------------------------------------------
+    //----------------------------------------------------- CHECK Flags_Halyard__c -------------------------------------------------
     /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfUserStoryIsFlagedScenarioFalse(){
@@ -1411,16 +1411,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag ='no';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag =false;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
     /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfUserStoryIsFlagedScenarioTrue(){
@@ -1431,16 +1431,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag ='YES';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag =true;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
     /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfUserStoryResponseIsFlagedScenarioFalse(){
@@ -1451,16 +1451,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag = 'no';
-        String  realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag = false;
+        boolean  realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
     /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfBugResponseIsFlagedScenarioTrue(){
@@ -1471,16 +1471,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag = 'YES';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag = true;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
         /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfBugResponseIsFlagedScenarioFalse(){
@@ -1491,16 +1491,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag = 'no';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag = false;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
     /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfBugCorrectionIsFlagedScenarioTrue(){
@@ -1511,16 +1511,16 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag = 'YES';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag = true;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
         /**
      *
-     * Tests if Flag__c is filled with a true or false depending on the record type, and on the priority.
+     * Tests if Flags_Halyard__c is filled with a true or false depending on the record type, and on the priority.
      */
     @isTest
     static void checkIfBugCorrectionIsFlagedScenarioFalse(){
@@ -1531,11 +1531,11 @@ public without sharing class TH_WorkTrigger_Test {
         update workRecord;
         Test.stopTest();
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
-        String expectedFlag = 'no';
-        String realFlag = workRecordAfterUpdate.Flag__c;
+        boolean expectedFlag = false;
+        boolean realFlag = workRecordAfterUpdate.Flags_Halyard__c;
         System.assertEquals(expectedFlag, 
                             realFlag, 
-                            'Flag__c does not work troperly.'
+                            'Flags_Halyard__c does not work troperly.'
                             );
     }
 }
