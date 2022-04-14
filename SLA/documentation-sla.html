@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Service Level Agreements</title>
+<meta charset="utf-8"/>
+</head>
+<body>
+    <h1>Service Level Agreement</h1>
+    <p>The Service Level Agreement is a legal agreement we have with our clients. When a ticket comes in, it is timed according to it's 
+        type, it's priority and wether or not it has a bypass.
+    </p>
+    <p>There are two records types : Bug and User Story.</p>
+
+    <h2>Bug</h2>
+    <p>Bugs are timed from the moment we receive them to the moment we respond to them. They are also time from the moment we start to 
+        correct them to the moment they are corrected.
+    </p>
+    <h3>Length of time to respond to a Bug</h3>
+    <p>The length of time calculated from the moment we receive a ticket to the moment we respond to it, concerns two fields on 
+        agf__ADM_Work__c : Duration_In_MS_To_Respond_To_A_Bug__c and Duration_In_String_To_Respond_To_A_Bug__c.</p>
+    <table>
+        <tr>
+            <th>Status for Bugs</th>
+            <th>Label Duration</th>
+            <th>Label of Timer</th>
+            <th>Priority 'P1'</th>
+            <th>Priority 'P2'</th>
+            <th>Priority 'P3'</th>
+        </tr>
+        <tr>
+            <td>New</td>
+            <td>Duration_MS_Status_New__c</td>
+            <td>Duration_In_MS_To_Respond_To_A_Bug__c</td>
+            <td>120000</td>
+            <td>30600000</td>
+            <td>61200000</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Duration_String_Status_New__c</td>
+            <td>Duration_In_String_To_Respond_To_A_Bug__c</td>
+            <td>2 hour(s)</td>
+            <td>1 day(s)</td>
+            <td>2 day(s)</td>
+        </tr>
+    </table>
+    <h3>Length of time to correct a Bug</h3>
+    <p>The length of time calculated from the moment we statuate a ticket to 'Developpement in Progress', to the moment the status is set to
+        'Validated To Be Deployed'. The time available to find a correction depends on if we have a bypass or not. The priority influence
+     also greatly the timing.
+    </p>
+    <p>The bypass is the checkbox : Bypass_For_Corrective_Maintenance_On_Bug__c.</p>
+    <h4>Table when there is no Bypass</h4>
+    <table>
+        <tr>
+            <th>Status for Bugs</th>
+            <th>Labels of Timer</th>
+            <th>Priority 'P1'</th>
+            <th>Priority 'P2'</th>
+            <th>Priority 'P3'</th>
+        </tr>
+        <tr>
+            <td>DEV – In Progress</td>
+            <td>Duration_In_MS_To_Correct_A_Bug__c</td>
+            <td>61200000</td>
+            <td>244800000</td>
+            <td>367200000</td>
+        </tr>
+        <tr>
+            <td>DEV – To Be Tested</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>DEV – To Be Deployed in UAT</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>UAT – To Fix</td>
+            <td>Duration_In_String_To_Correct_A_Bug__c</td>
+            <td>2 day(s)</td>
+            <td>8 day(s)</td>
+            <td>12 day(s)</td>
+        </tr>
+        <tr>
+            <td>UAT – To Be Deployed in PROD</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>PROD - To Fix</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Validated – To Be Deployed</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <h4>Table when a Bypass exists</h4>
+    <table>
+        <tr>
+            <th>Status for Bugs</th>
+            <th>Labels of Timer</th>
+            <th>Priority 'P1'</th>
+            <th>Priority 'P2'</th>
+            <th>Priority 'P3'</th>
+        </tr>
+        <tr>
+            <td>DEV – In Progress</td>
+            <td>Duration_In_MS_To_Correct_A_Bug__c</td>
+            <td>122400000</td>
+            <td>459000000</td>
+            <td>673200000</td>
+        </tr>
+        <tr>
+            <td>DEV – To Be Tested</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>DEV – To Be Deployed in UAT</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>UAT – To Fix</td>
+            <td>Duration_In_String_To_Correct_A_Bug__c</td>
+            <td>4 day(s)</td>
+            <td>15 day(s)</td>
+            <td>22 day(s)</td>
+        </tr>
+        <tr>
+            <td>UAT – To Be Deployed in PROD</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>PROD - To Fix</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Validated – To Be Deployed</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <h2>Uer Story</h2>
+    <p>User Stories are timed from the moment we receive them to the moment we respond to them. And then an there it stops. It concerns only 
+        the durations fields : Duration_MS_Status_New__c and Duration_MS_Status_Workload_DONE__c. At the exact moment the status is set to
+        'OK For DEV' the timer stops.
+    </p>
+    <h3>Length of time to respond to a User Story</h3>
+    <p>This is the one and only timer on type of record Ueser Story.</p>
+    <table>
+        <tr>
+            <th>Status for User Stories</th>
+            <th>Label Duration</th>
+            <th>Priority 'P1'</th>
+            <th>Priority 'P2'</th>
+            <th>Priority 'P3'</th>
+        </tr>
+        <tr>
+            <td>New</td>
+            <td>Duration_In_MS_To_Respond_To_A_US__c</td>
+            <td>61200000</td>
+            <td>183600000</td>
+            <td>183600000</td>
+        </tr>
+        <tr>
+            <td>Workload DONE</td>
+            <td>Duration_In_String_To_Respond_To_A_US__c</td>
+            <td>2 day(s)</td>
+            <td>6 day(s)</td>
+            <td>6 day(s)</td>
+        </tr>
+    </table>
+</body>
