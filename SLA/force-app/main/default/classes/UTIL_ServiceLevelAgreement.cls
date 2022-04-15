@@ -134,30 +134,87 @@ public with sharing class UTIL_ServiceLevelAgreement {
         Boolean isThereABypass = workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
         if(workRecord.agf__Priority__c=='P1'){
             if(isThereABypass==true){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*4;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE_WITH_BYPASS;
             }else if(isThereABypass==false){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE;
             }
         }
         if(workRecord.agf__Priority__c=='P2'){
             if(isThereABypass==true){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*15;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE_WITH_BYPASS;
             }else if(isThereABypass==false){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*8;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE;
             } 
         }
         if(workRecord.agf__Priority__c=='P3'){
             if(isThereABypass==true){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*22;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS;
             }else if(isThereABypass==false){
-                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*12;
+                responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE;
             } 
         }
         return responsTimeForBug;
     }
+    /**
+     * Returning a DateTime, that is the deadline to correct this bug for this specific ticket.
+     * Warning the call on this method must make sure workRecord.Date_Status_New_Ends__c has a value
+     * Called by : 
+     * @Parametters : agf__ADM_Work__c workRecord
+     * @Returns : DateTime deadline
+     */
+    public static DateTime calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays){
+        DateTime deadline = null;
+        Boolean isThereABypass = workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c;
+        DateTime initialDateTime = workRecord.Date_Status_New_Ends__c;
+        if(isThereABypass!= null){
+            if(workRecord.agf__Priority__c=='P1'){
+                if(isThereABypass==true){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE_WITH_BYPASS, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                }else if(isThereABypass==false){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P1_CORRECTIVE_MAINTENANCE, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                }
+            }
+            if(workRecord.agf__Priority__c=='P2'){
+                if(isThereABypass==true){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE_WITH_BYPASS, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                }else if(isThereABypass==false){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P2_CORRECTIVE_MAINTENANCE, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                } 
+            }
+            if(workRecord.agf__Priority__c=='P3'){
+                if(isThereABypass==true){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                }else if(isThereABypass==false){
+                    deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE, 
+                                                                            businessHoursId, 
+                                                                            listOfHolidays, 
+                                                                            initialDateTime);
+                } 
+            }
+            return deadline;
+        }else if(isThereABypass == null ){
+            return deadline;
+        }
+        return deadline;
+    }
     /**This method returns a DateTime within Business Hours and tacking into account Holidays. It adds one day at a time.
      * It has got the number of day you want to add  as parametters.
-     * Called by : 
+     * Called by : calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord)
      * @Parametters : Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial
      * @Return : DateTime aDateTimeInTheFutur
      */
@@ -167,6 +224,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
         for(Integer i = 0 ; i < numberOfDays; i++){
             aDateTimeInTheFutur = BusinessHours.add(businessHoursId, aDateTimeInTheFutur, numberOfMSInWorkday);
             aDateTimeInTheFutur = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, aDateTimeInTheFutur);
+            System.debug('calculateADateTimeWithinBHNotHolidayAdding iteration '+i+' - '+aDateTimeInTheFutur);
         }
         return aDateTimeInTheFutur;
     }

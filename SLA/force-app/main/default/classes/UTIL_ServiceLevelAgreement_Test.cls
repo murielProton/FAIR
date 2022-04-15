@@ -9,6 +9,7 @@
  ******************************************************************************* */
 @IsTest
 public with sharing class UTIL_ServiceLevelAgreement_Test {
+    public static DateTime dateTimeCreation = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
     /**
      * Before each method Test and after the setup we need to find a record to test in Test DataBase.
      * method to call in each test to load a record.
@@ -27,6 +28,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
                                       agf__Status__c,
                                       agf__Created_On_Date__c, 
                                       Date_Status_New_Starts__c,
+                                      Date_Status_New_Ends__c,
                                       Date_Status_Workload_DONE_Ends__c,
                                       Date_Status_DEV_IP_Ends__c,
                                       Date_Status_Validated_TBD_Ends__c,
@@ -87,7 +89,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         Id recordTypeIdUS = Schema.SObjectType.agf__ADM_Work__c.getRecordTypeInfosByName().get('User Story').getRecordTypeId();
         // Creating a Date to set starting date of a status on futur records
         // set a DateTime a date (yyyy, m, d, h, min, sec)
-        DateTime dateTimeCreation = DateTime.newInstance(2022, 4, 1, 10, 8, 16);
+        
         DateTime dateTimeWorkloadDoneEnds = DateTime.newInstance(2022, 4, 1, 12, 22, 16);
         DateTime dateTimeInProgressEnds = DateTime.newInstance(2022, 4, 1, 11, 8, 16);
         DateTime dateTimeValidatedTBDEnds = DateTime.newInstance(2022, 4, 1, 13, 22, 16);
@@ -157,7 +159,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             Date_Status_New_Starts__c = dateTimeCreation,
             Date_Status_New_Ends__c = dateTimeCreation.addHours(1),
             Duration_MS_Status_New__c = 3600000,
-            agf__Priority__c = 'P0'
+            agf__Priority__c = 'P1'
         );
         // creating a record on sObject agf__ADM_Work__c Status DEV - To Be Deployed in UAT
         agf__ADM_Work__c workRecordDEVToBeTestedFengMi = new agf__ADM_Work__c(
@@ -181,6 +183,8 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
             agf__Status__c = 'UAT - To Fix',
             agf__Product_Tag__c = productTagRecord.Id,
             agf__Found_in_Build__c = buildRecord.Id,
+            Date_Status_New_Starts__c = dateTimeCreation,
+            Date_Status_New_Ends__c = dateTimeCreation.addDays(1),
             Duration_MS_Status_New__c = 30600000,
             Duration_MS_Status_DEV_IP__c = 30600000,
             Duration_MS_Status_DEV_TBT__c = 30600000,
@@ -492,7 +496,142 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     }
     /**
      *
-     * Tests if calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP1(){
+        String nameOfRecording = 'milain';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecord, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 5, 11, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P1 with no bypass.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP1WithABipass(){
+        String nameOfRecording = 'milain';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c = true;
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 7, 11, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P1 with a bypass.'
+                            );
+    }
+     /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP2(){
+        String nameOfRecording = 'honing';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c = false;
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 14, 9, 0, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P2 with no bypass.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP2WithABypass(){
+        String nameOfRecording = 'honing';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c = true;
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 26, 9, 0, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P2 with a bypass.'
+                            );
+    }
+     /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP3(){
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        workRecord.Date_Status_New_Ends__c = dateTimeCreation;
+        workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c = false;
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 20, 9, 0, 0);
+        System.debug('workRecord - '+workRecord);
+        System.debug('workRecordAfterUpdate - '+workRecordAfterUpdate);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P3 with no bypass.'
+                            );
+    }
+         /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfCorrectionP3WithABypass(){
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        workRecord.Date_Status_New_Ends__c = dateTimeCreation;
+        workRecord.Bypass_For_Corrective_Maintenance_On_Bug__c = true;
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 5, 4, 9, 0, 0);
+        System.debug('workRecord - '+workRecord);
+        System.debug('workRecordAfterUpdate - '+workRecordAfterUpdate);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfCorrection does not return the right DateTime for a P3 with a bypass.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
      * 
      */
     @isTest
