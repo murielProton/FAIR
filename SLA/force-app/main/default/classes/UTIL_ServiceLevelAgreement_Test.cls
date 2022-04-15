@@ -492,7 +492,50 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     }
     /**
      *
-     * Tests if getingNextDateTimeWithinBusinessHoursNOTAHoliday(List<Holiday> listOfHolidays, DateTime dateTimeToConvert)
+     * Tests if calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
+     * 
+     */
+    @isTest
+    static void testCalculateDateTimeWithinBusinessHoursNOTAHolidayAddingFromHoliday() {
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime dateTimeInitial = DateTime.newInstance(2022, 4, 18, 8, 21, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 6, 1, 9, 0, 0);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        Long numberOfDays = 30;
+        Test.startTest();
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateADateTimeWithinBHNotHolidayAdding(numberOfDays, businessHoursId, listOfHolidays, dateTimeInitial );
+        Test.stopTest();
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateADateTimeWithinBHNotHolidayAdding does not return the right date after adding 30 days.'
+                            );
+
+    }
+    /**
+     *
+     * Tests if calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
+     * 
+     */
+    @isTest
+    static void testCalculateDateTimeWithinBusinessHoursNOTAHolidayAddingFromNormalDay() {
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime dateTimeInitial = DateTime.newInstance(2022, 4, 4, 9, 21, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 6, 9, 21, 0);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        Long numberOfDays = 2;
+        Test.startTest();
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateADateTimeWithinBHNotHolidayAdding(numberOfDays, businessHoursId, listOfHolidays, dateTimeInitial );
+        Test.stopTest();
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateADateTimeWithinBHNotHolidayAdding does not return the right date after adding 30 days.'
+                            );
+    }
+    /**getingNextDateTimeWithinBusinessHoursNOTAHoliday
+     *
+     * Tests if getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
      * 
      */
     @isTest

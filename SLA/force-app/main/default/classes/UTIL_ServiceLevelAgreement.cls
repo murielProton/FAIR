@@ -155,10 +155,26 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return responsTimeForBug;
     }
-    /*
+    /**This method returns a DateTime within Business Hours and tacking into account Holidays. It adds one day at a time.
+     * It has got the number of day you want to add  as parametters.
+     * Called by : 
+     * @Parametters : Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial
+     * @Return : DateTime aDateTimeInTheFutur
+     */
+    public static DateTime calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial ){
+        DateTime aDateTimeInTheFutur = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, dateTimeInitial);
+        Long numberOfMSInWorkday = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+        for(Integer i = 0 ; i < numberOfDays; i++){
+            aDateTimeInTheFutur = BusinessHours.add(businessHoursId, aDateTimeInTheFutur, numberOfMSInWorkday);
+            aDateTimeInTheFutur = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, aDateTimeInTheFutur);
+        }
+        return aDateTimeInTheFutur;
+    }
+
+    /** 
      * returning a DateTime within Business Hours and taking into account Holidays
      * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
-     * Called by : this methode is not used but could be usefull.
+     * Called by : calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial )
      * @Parametters : String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert
      * @Returns : Datetime
      */
