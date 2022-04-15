@@ -496,6 +496,72 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     }
     /**
      *
+     * Tests calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfAResponsP1(){
+        String nameOfRecording = 'milain';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 5, 11, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P1.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfAResponsP2(){
+        String nameOfRecording = 'honing';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 6, 9, 8, 0);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P1.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForABugInNeedOfAResponsP3(){
+        String nameOfRecording = 'mel';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 7, 9, 8, 0);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P1.'
+                            );
+    }
+    /**
+     *
      * Tests calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
      * 
      */

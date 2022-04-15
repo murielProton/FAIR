@@ -112,13 +112,13 @@ public with sharing class UTIL_ServiceLevelAgreement {
     public static Long howLongTillResponseIsMandatoryForBug(agf__ADM_Work__c workRecord){
         Long responsTimeForBug;
         if(workRecord.agf__Priority__c=='P1'){
-            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_HOUR*2;
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_HOUR*NUMBER_HOURS_BUG_P1_RESPONSE_TIME;
         }
         if(workRecord.agf__Priority__c=='P2' ){
-            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P2_RESPONSE_TIME;
         }
         if(workRecord.agf__Priority__c=='P3'){
-            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
+            responsTimeForBug = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_BUG_P3_RESPONSE_TIME;
         }
         return responsTimeForBug;
     }
@@ -154,6 +154,33 @@ public with sharing class UTIL_ServiceLevelAgreement {
             } 
         }
         return responsTimeForBug;
+    }
+    /**
+     * Returning a DateTime, that is the deadline to respond to this bug for this specific ticket.
+     * Called by : 
+     * @Parametters : agf__ADM_Work__c workRecord
+     * @Returns : DateTime deadline
+     */
+    public static DateTime calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays){
+        DateTime deadline = null;
+        DateTime initialDateTime = workRecord.Date_Status_New_Starts__c;
+        if(workRecord.agf__Priority__c=='P1'){
+            Long intervalMilliseconds = UTIL_Duration.NUMBER_OF_MS_IN_ONE_HOUR*NUMBER_HOURS_BUG_P1_RESPONSE_TIME;
+            deadline = BusinessHours.add(businessHoursId, workRecord.Date_Status_New_Starts__c, intervalMilliseconds);
+        }
+        if(workRecord.agf__Priority__c=='P2' ){
+            deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P2_RESPONSE_TIME,
+                                                                    businessHoursId, 
+                                                                    listOfHolidays, 
+                                                                    initialDateTime);
+        }
+        if(workRecord.agf__Priority__c=='P3'){
+            deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_BUG_P3_RESPONSE_TIME,
+                                                                    businessHoursId, 
+                                                                    listOfHolidays, 
+                                                                    initialDateTime);
+        }
+        return deadline;
     }
     /**
      * Returning a DateTime, that is the deadline to correct this bug for this specific ticket.
