@@ -267,46 +267,85 @@ public with sharing class UTIL_ServiceLevelAgreement {
     }
     /**This method returns a DateTime within Business Hours and tacking into account Holidays. It adds one day at a time.
      * It has got the number of day you want to add  as parametters.
-     * Called by : calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord)
+     * Called by : calculateDeadlineForAUserStoryInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     *              calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     *              calculateDeadlineForABugInNeedOfCorrection(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
      * @Parametters : Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial
      * @Return : DateTime aDateTimeInTheFutur
      */
     public static DateTime calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial ){
-        DateTime aDateTimeInTheFutur = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, dateTimeInitial);
+        DateTime aDateTimeInTheFutur = forFirstDayHolidayOrNotWithinBHFindNextDateTime(businessHoursId, listOfHolidays, dateTimeInitial);
         Long numberOfMSInWorkday = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
         for(Integer i = 0 ; i < numberOfDays; i++){
             aDateTimeInTheFutur = BusinessHours.add(businessHoursId, aDateTimeInTheFutur, numberOfMSInWorkday);
-            aDateTimeInTheFutur = getingNextDateTimeWithinBusinessHoursNOTAHoliday(businessHoursId, listOfHolidays, aDateTimeInTheFutur);
+            aDateTimeInTheFutur = getingNextDayIfHolidayOrNotWithinBH(businessHoursId, listOfHolidays, aDateTimeInTheFutur);
             System.debug('calculateADateTimeWithinBHNotHolidayAdding iteration '+i+' - '+aDateTimeInTheFutur);
         }
         return aDateTimeInTheFutur;
     }
-
     /** 
      * returning a DateTime within Business Hours and taking into account Holidays
      * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
+     * To use only if the date is a starting date of a duration, or of a calculation.
      * Called by : calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial )
      * @Parametters : String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert
      * @Returns : Datetime
      */
-    public static DateTime getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert){
-        DateTime dateTimeToReturn = dateTimeToConvert;
-        // either it is a holiday, either it is not within Business hours
-        while(UTIL_Duration.isThisDayAHoliday(dateTimeToReturn, listOfHolidays)
-            || !BusinessHours.isWithin(businessHoursId, dateTimeToReturn)
-            ){
-            // Test again if it is a not within business hour
-            if (!BusinessHours.isWithin(businessHoursId, dateTimeToReturn)){
-                // find next day within buisiness hour, WARNING it can be a holiday.
-                dateTimeToReturn = BusinessHours.nextStartDate(businessHoursId, dateTimeToReturn);
-            } else {
-                // if it is indeed a Holiday, then add a day and find next day within Business Hours
-                dateTimeToReturn = DateTime.newInstance(dateTimeToReturn.year(), dateTimeToReturn.month(), dateTimeToReturn.day(), 0, 0, 0)
-                    .addDays(1);
-                dateTimeToReturn = BusinessHours.nextStartDate(businessHoursId, dateTimeToReturn);
+    public static DateTime forFirstDayHolidayOrNotWithinBHFindNextDateTime(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime){
+        DateTime dateTimeToTest = startingDateTime;
+        DateTime newDateTime;
+        while(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays) || 
+                    !BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+
+            if(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays) && 
+            !BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+                //is not within business hours and it is a holiday
+                newDateTime = BusinessHours.nextStartDate(businessHoursId, dateTimeToTest);
+                dateTimeToTest = newDateTime.addDays(1);
+            }else if(!BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+                //it is not within business hours
+                dateTimeToTest = BusinessHours.nextStartDate(businessHoursId, dateTimeToTest);
+            }else if(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays)){
+                // it is a holiday
+                newDateTime = DateTime.newInstance(dateTimeToTest.year(), dateTimeToTest.month(), dateTimeToTest.day(), 9, 0, 0);
+                dateTimeToTest = newDateTime.addDays(1);
             }
+        
         }
-        return dateTimeToReturn;
+        return dateTimeToTest;
+    }
+    /** 
+     * returning a DateTime within Business Hours and taking into account Holidays
+     * This methode test one day at a time. It makes sure the day you test is a day within Business Hours and not a Holiday.
+     * To use only if the date is NOT a starting date of a duration, or of a calculation.
+     * Called by : calculateADateTimeWithinBHNotHolidayAdding(Long numberOfDays,String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial )
+     * @Parametters : String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeToConvert
+     * @Returns : Datetime
+     */
+    public static DateTime getingNextDayIfHolidayOrNotWithinBH(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime){
+        DateTime dateTimeToTest = startingDateTime;
+        DateTime newDateTime;
+        while(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays) || 
+                    !BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+
+            if(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays) && 
+            !BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+                //is not within business hours and it is a holiday should not occure
+                newDateTime = DateTime.newInstance(dateTimeToTest.year(), dateTimeToTest.month(), dateTimeToTest.day(), 9, 0, 0);
+                dateTimeToTest = newDateTime.addDays(1);
+                System.debug('getingNextDayIfHolidayOrNotWithinBH should never occure.');
+            }else if(!BusinessHours.isWithin(businessHoursId, dateTimeToTest)){
+                //it is not within business hours should not occure
+                dateTimeToTest = BusinessHours.nextStartDate(businessHoursId, dateTimeToTest);
+                System.debug('getingNextDayIfHolidayOrNotWithinBH should never occure.');
+            }else if(UTIL_Duration.isThisDayAHoliday(dateTimeToTest, listOfHolidays)){
+                // it is a holiday
+                newDateTime = DateTime.newInstance(dateTimeToTest.year(), dateTimeToTest.month(), dateTimeToTest.day(), dateTimeToTest.hour(), dateTimeToTest.minute(), dateTimeToTest.second());
+                dateTimeToTest = newDateTime.addDays(1);
+            }
+        
+        }
+        return dateTimeToTest;
     }
     /**
      * returning a number of MS to fill in field Duration_In_MS_To_Respond_To_A_US__c.

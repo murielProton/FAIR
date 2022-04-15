@@ -728,7 +728,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
         // set a DateTime a date (yyyy, m, d, h, min, sec)
-        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 20, 9, 0, 0);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 20, 10, 8, 0);
         System.debug('workRecord - '+workRecord);
         System.debug('workRecordAfterUpdate - '+workRecordAfterUpdate);
         System.assertEquals(expectedDateTime, 
@@ -753,7 +753,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
         DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForABugInNeedOfCorrection(workRecordAfterUpdate, businessHoursId, listOfHolidays);
         // set a DateTime a date (yyyy, m, d, h, min, sec)
-        DateTime expectedDateTime = DateTime.newInstance(2022, 5, 4, 9, 0, 0);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 5, 4, 10, 8, 0);
         System.debug('workRecord - '+workRecord);
         System.debug('workRecordAfterUpdate - '+workRecordAfterUpdate);
         System.assertEquals(expectedDateTime, 
@@ -804,9 +804,153 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
                             'calculateADateTimeWithinBHNotHolidayAdding does not return the right date after adding 30 days.'
                             );
     }
-    /**getingNextDateTimeWithinBusinessHoursNOTAHoliday
+    /**
      *
-     * Tests if getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
+     * Tests forFirstDayHolidayOrNotWithinBHFindNextDateTime(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     * */
+    @isTest
+    static void testforFirstDayHolidayOrNotWithinBHFindNextDateTime1(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 4, 15, 17, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 19, 9, 0, 0);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.forFirstDayHolidayOrNotWithinBHFindNextDateTime(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 1 forFirstDayHolidayOrNotWithinBHFindNextDateTime does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests forFirstDayHolidayOrNotWithinBHFindNextDateTime(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     * */
+    @isTest
+    static void testforFirstDayHolidayOrNotWithinBHFindNextDateTime2(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 4, 19, 9, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 19, 9, 32, 16);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.forFirstDayHolidayOrNotWithinBHFindNextDateTime(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 2 forFirstDayHolidayOrNotWithinBHFindNextDateTime does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests forFirstDayHolidayOrNotWithinBHFindNextDateTime(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     * */
+    @isTest
+    static void testforFirstDayHolidayOrNotWithinBHFindNextDateTime3(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 4, 19, 6, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 19, 9, 00, 00);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.forFirstDayHolidayOrNotWithinBHFindNextDateTime(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 3 forFirstDayHolidayOrNotWithinBHFindNextDateTime does not return the right DateTime.'
+                                    );
+    }
+     /**
+     *
+     * Tests forFirstDayHolidayOrNotWithinBHFindNextDateTime(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     * */
+    @isTest
+    static void testforFirstDayHolidayOrNotWithinBHFindNextDateTime4(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 4, 19, 17, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 20, 9, 00, 00);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.forFirstDayHolidayOrNotWithinBHFindNextDateTime(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 4 forFirstDayHolidayOrNotWithinBHFindNextDateTime does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests getingNextDayIfHolidayOrNotWithinBH(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     */
+    @isTest
+    static void testGetingNextDayIfHolidayOrNotWithinBH1(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 5, 8, 17, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 5, 9, 9, 00, 00);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.getingNextDayIfHolidayOrNotWithinBH(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 1 getingNextDayIfHolidayOrNotWithinBH does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests getingNextDayIfHolidayOrNotWithinBH(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     */
+    @isTest
+    static void testGetingNextDayIfHolidayOrNotWithinBH2(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 3, 14, 17, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 3, 15, 9, 00, 00);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.getingNextDayIfHolidayOrNotWithinBH(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 2 getingNextDayIfHolidayOrNotWithinBH does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests getingNextDayIfHolidayOrNotWithinBH(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     */
+    @isTest
+    static void testGetingNextDayIfHolidayOrNotWithinBH3(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 3, 14, 7, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 3, 14, 9, 00, 00);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.getingNextDayIfHolidayOrNotWithinBH(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 3 getingNextDayIfHolidayOrNotWithinBH does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests getingNextDayIfHolidayOrNotWithinBH(String businessHoursId, List<Holiday> listOfHolidays, DateTime startingDateTime)
+     * 
+     */
+    @isTest
+    static void testGetingNextDayIfHolidayOrNotWithinBH4(){
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime startingDateTime = DateTime.newInstance(2022, 4, 18, 10, 32, 16);
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 19, 10, 32, 16);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.getingNextDayIfHolidayOrNotWithinBH(businessHoursId, listOfHolidays, startingDateTime);
+                System.assertEquals(expectedDateTime, 
+                                    realDateTime, 
+                                    'Test 4 getingNextDayIfHolidayOrNotWithinBH does not return the right DateTime.'
+                                    );
+    }
+    /**
+     *
+     * Tests getingNextDateTimeWithinBusinessHoursNOTAHoliday(String businessHoursId, List<Holiday> listOfHolidays, DateTime dateTimeInitial)
      * 
      */
     @isTest
