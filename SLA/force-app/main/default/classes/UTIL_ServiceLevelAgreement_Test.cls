@@ -496,6 +496,72 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
     }
     /**
      *
+     * Tests calculateDeadlineForAUserStoryInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForAUserStoryInNeedOfAResponsP1(){
+        String nameOfRecording = 'asala';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForAUserStoryInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 7, 9, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForAUserStoryInNeedOfARespons does not return the right DateTime for a P1.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForAUserStoryInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForAUserStoryInNeedOfAResponsP2(){
+        String nameOfRecording = 'med';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForAUserStoryInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 13, 9, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForAUserStoryInNeedOfARespons does not return the right DateTime for a P2.'
+                            );
+    }
+    /**
+     *
+     * Tests calculateDeadlineForAUserStoryInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
+     * 
+     */
+    @isTest
+    static void testCalculateDeadlineForAUserStoryInNeedOfAResponsP3(){
+        String nameOfRecording = 'honung';
+        agf__ADM_Work__c workRecord = getWorkRecordWithSubjectName(nameOfRecording);
+        workRecord.Date_Status_New_Starts__c = DateTime.newInstance(2022, 4, 5, 9, 8, 13);
+        update workRecord;
+        agf__ADM_Work__c workRecordAfterUpdate = getWorkRecordWithSubjectName(nameOfRecording);
+        List<Holiday> listOfHolidays = UTIL_Duration.getListOfHolidays();
+        String businessHoursId = UTIL_Duration.getBusinessHours().Id;
+        DateTime realDateTime = UTIL_ServiceLevelAgreement.calculateDeadlineForAUserStoryInNeedOfARespons(workRecordAfterUpdate, businessHoursId, listOfHolidays);
+        // set a DateTime a date (yyyy, m, d, h, min, sec)
+        DateTime expectedDateTime = DateTime.newInstance(2022, 4, 13, 9, 8, 00);
+        System.assertEquals(expectedDateTime, 
+                            realDateTime, 
+                            'calculateDeadlineForAUserStoryInNeedOfARespons does not return the right DateTime for a P3.'
+                            );
+    }
+    /**
+     *
      * Tests calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays)
      * 
      */
@@ -535,7 +601,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 6, 9, 8, 0);
         System.assertEquals(expectedDateTime, 
                             realDateTime, 
-                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P1.'
+                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P2.'
                             );
     }
     /**
@@ -557,7 +623,7 @@ public with sharing class UTIL_ServiceLevelAgreement_Test {
         DateTime expectedDateTime = DateTime.newInstance(2022, 4, 7, 9, 8, 0);
         System.assertEquals(expectedDateTime, 
                             realDateTime, 
-                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P1.'
+                            'calculateDeadlineForABugInNeedOfARespons does not return the right DateTime for a P3.'
                             );
     }
     /**

@@ -32,7 +32,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
     public static final Long NUMBER_MS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS = NUMBER_DAYS_BUG_P3_CORRECTIVE_MAINTENANCE_WITH_BYPASS * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
     //constantes for user stories
     public static final Long NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME = 2;
-    public static final Long NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME = 2;
+    public static final Long NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME = 6;
     public static final Long NUMBER_DAYS_USER_STORY_P3_RESPONSE_TIME = 6;
     public static final Long NUMBER_MS_USER_STORY_P1_RESPONSE_TIME = NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
     public static final Long NUMBER_MS_USER_STORY_P2_RESPONSE_TIME = NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME * UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY;
@@ -95,10 +95,10 @@ public with sharing class UTIL_ServiceLevelAgreement {
     public static Long howLongTillResponseIsMandatoryForUS(agf__ADM_Work__c workRecord){
         Long responsTimeForUS;
         if(workRecord.agf__Priority__c=='P1'){
-            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*2;
+            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME;
         }
         if(workRecord.agf__Priority__c=='P2' ||workRecord.agf__Priority__c=='P3'){
-            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*6;
+            responsTimeForUS = UTIL_Duration.NUMBER_OF_MS_IN_ONE_WORK_DAY*NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME;
         }
         return responsTimeForUS;
     }
@@ -155,10 +155,35 @@ public with sharing class UTIL_ServiceLevelAgreement {
         }
         return responsTimeForBug;
     }
+        /**
+     * Returning a DateTime, that is the deadline to respond to this User Story for this specific ticket.
+     * To use only on a record type User Story
+     * Called by : 
+     * @Parametters : agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays
+     * @Returns : DateTime deadline
+     */
+    public static  DateTime calculateDeadlineForAUserStoryInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays){
+        DateTime deadline = null;
+        DateTime initialDateTime = workRecord.Date_Status_New_Starts__c;
+        if(workRecord.agf__Priority__c=='P1'){
+            deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_USER_STORY_P1_RESPONSE_TIME,
+                                                                    businessHoursId, 
+                                                                    listOfHolidays, 
+                                                                    initialDateTime);
+        }
+        if(workRecord.agf__Priority__c=='P2' ||workRecord.agf__Priority__c=='P3'){
+            deadline = calculateADateTimeWithinBHNotHolidayAdding(NUMBER_DAYS_USER_STORY_P2_RESPONSE_TIME,
+                                                                    businessHoursId, 
+                                                                    listOfHolidays, 
+                                                                    initialDateTime);
+        }
+        return deadline;
+    }
     /**
      * Returning a DateTime, that is the deadline to respond to this bug for this specific ticket.
+     * To use only on a record type Bug
      * Called by : 
-     * @Parametters : agf__ADM_Work__c workRecord
+     * @Parametters : agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays
      * @Returns : DateTime deadline
      */
     public static DateTime calculateDeadlineForABugInNeedOfARespons(agf__ADM_Work__c workRecord, String businessHoursId, List<Holiday> listOfHolidays){
@@ -185,6 +210,7 @@ public with sharing class UTIL_ServiceLevelAgreement {
     /**
      * Returning a DateTime, that is the deadline to correct this bug for this specific ticket.
      * Warning the call on this method must make sure workRecord.Date_Status_New_Ends__c has a value
+     * To use only on a record type Bug
      * Called by : 
      * @Parametters : agf__ADM_Work__c workRecord
      * @Returns : DateTime deadline
