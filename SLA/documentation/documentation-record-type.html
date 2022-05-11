@@ -7,6 +7,8 @@
 <body>
     <h1>Record Type list to modify</h1>
     <p>Go to the Record Type of the sObject agf__ADM_Work__c.</p>
+    <p>Setup > Object Manager > agf__ADM_Work__c</p>
+    <p>On the left side of your screen go to 'Record Types', underneath Details.</p>
     <p>The folowing types will be present :</p>
     <ul>
         <li>Bug</li>
@@ -15,5 +17,148 @@
         <li>ToDo</li>
         <li>User Story</li>
     </ul>
-    <p>Only Bug and User Story are necessary.</p>
+    <p>Only Bug and User Story are necessary. Edit all other record type, and uncheck the 'Active' checkbox. You'll have to do it for the folowing list :</p>
+    <ul>
+        <li>Investigation</li>
+        <li>Template</li>
+        <li>ToDo</li>
+    </ul>
+    <h2>Devide the 'Status' List in three categories : available by all, available by Bugs only, available by User Stories only</h2>
+    <h3>available by all</h3>
+    <p>If you follow the steps I will describe this list will be set by default.</p>
+    <h3>available by Bugs only</h3>
+    <p>Click on 'Bug'. In section 'Picklists Available for Editing', find 'Status'. Click on 'Edit'.</p>
+    <p>In the section 'Picklist Values', you'll find two lists : 'Available Values' and 'Selected Values'. Devide the 'Status' as folow.</p>
+    <table>
+        <tr>
+            <th>Available Values</th>
+            <th>Selected Values</th>
+        </tr>
+        <tr>
+            <td>Workload DONE</td>
+            <td>New</td>
+        </tr>
+        <tr>
+            <td>OK For DEV</td>
+            <td>To Be Detailed</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Waiting</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - In Progress</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - To Be Deployed in UAT</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Fix</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Be Deployed in PROD</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>PROD - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>PROD - To Fix</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Validated - To Be Deployed</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Validated</th>
+        </tr>
+    </table>
+    <h3>available by User Stories only</h3>
+    <p>Click on 'User Stories'. In section 'Picklists Available for Editing', find 'Status'. Click on 'Edit'.</p>
+    <p>In the section 'Picklist Values', you'll find two lists : 'Available Values' and 'Selected Values'. Devide the 'Status' as folow.</p>
+    <table>
+        <tr>
+            <th>Available Values</th>
+            <th>Selected Values</th>
+        </tr>
+        <tr>
+            <td>--NONE--</td>
+            <td>New</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>To Be Detailed</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Waiting</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Workload DONE</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>OK For DEV</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - In Progress</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>DEV - To Be Deployed in UAT</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Fix</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>UAT - To Be Deployed in PROD</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>PROD - To Be Tested</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>PROD - To Fix</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Validated - To Be Deployed</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Validated</th>
+        </tr>
+    </table>
+    <h2>Set the default value of any picklist</h2>
+    <p>Now that your list of active Record Type is down to Bug and User Story, click on the first one. In 'Picklists Available for Editing', look for 'Priority' and 'Status'.
+        Edit both of them. In section 'Picklist Values', at the buttom, above save buttun, you'll find a picklist named 'Default'. Set it to 'P1' or 'New'.
+    </p>
 </body>
