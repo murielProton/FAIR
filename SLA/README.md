@@ -3,7 +3,7 @@ This project was developped to meet functionnal needs on Service Level Agreement
 
 ## Durations || Length of Time || period
 
-As you probably know, Apex does not have the variable type Duration yet. The project uses long. There you'd think it's a simple minus application. Bud no, because this project also takes into account Business Hours and Holidays !
+As you probably know, Apex does not have the variable type Duration yet. The project uses long. There you'd think it's a simple minus application. But no, because this project also takes into account Business Hours and Holidays !
 Apex permits calculation of a lengths of time within Business Hours. No native method in Apex to calculate durations without Holidays. 
 In this project you'll find several methods to calculate periods of time within Business Hours and exluding Holidays. You'll find this sort of methods within the class  UTIL_Duration. The method calculateDurationInfMS() calculates a lenght of time within Business Hours and without Holidays, using a constructor.
 All calculations are done with milliseconds, using type long.
